@@ -16,6 +16,7 @@ LIBMLX := $(LIBMLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 #TODO: add libft versioning and cloning rules
 # Libft library
 LIB_DIR:= lib/libft
+LIB_URL := https://github.com/mikhailbish/libft.git
 LIBFT_A := $(LIB_DIR)/libft.a
 
 HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
@@ -31,14 +32,14 @@ all: clone $(NAME)
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
 # to tell if the target is latest or not. So the execute 'make' command at the second
 # time, it will show "make: nothing to be done for 'all'"
-clone: .clone_done
+clone: lib/MLX42 lib/libft # .clone_mlx_done .clone_lib_done
 
 # "! -d" means if the directory doesn't exist.
-.clone_done:
-	@if [ ! -d "$(LIBMLX_DIR)" ]; then \
-		git clone $(LIBMLX_URL) $(LIBMLX_DIR); \
-		touch .clone_done; \
-	fi
+lib/MLX42:
+	git clone $(LIBMLX_URL) $(LIBMLX_DIR); 
+	
+lib/libft:
+	git clone $(LIB_URL) $(LIB_DIR); 
 
 $(NAME): $(OBJS)
 	@cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
@@ -52,12 +53,11 @@ $(NAME): $(OBJS)
 clean:
 	@make clean -C $(LIB_DIR)
 	@$(RM) $(OBJS)
-	@$(RM) $(LIBMLX_DIR)/build
-	@$(RM) .clone_done
-	@echo "$(GREEN)so_long objects have been cleaned.$(DEFAULT)"
+	@$(RM) $(LIBMLX_DIR)
 
 fclean: clean
 	@make fclean -C $(LIB_DIR)
+	@rm -rf lib/libft
 	@$(RM) $(NAME)
 	@echo "$(GREEN)so_long executable file has been cleaned.$(DEFAULT)"
 
