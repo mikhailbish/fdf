@@ -13,6 +13,7 @@ LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBMLX_DIR := ./lib/MLX42
 LIBMLX := $(LIBMLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
+#TODO: add libft versioning and cloning rules
 # Libft library
 LIB_DIR:= lib/libft
 LIBFT_A := $(LIB_DIR)/libft.a
