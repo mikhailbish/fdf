@@ -75,7 +75,7 @@ void put_line()
 	while(x < (image->width) && y < (image->height))
 	{
 		y = get_straight_line_y(x, 1, 0);
-		mlx_put_pixel(image, x, y, color);
+		mlx_put_pixel(image, x, image->height - y, color);
 		x++;
 	}
 }
