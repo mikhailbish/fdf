@@ -8,8 +8,11 @@
 #include <stdbool.h>
 #include "fdf.h"
 
-#define WIDTH 512
-#define HEIGHT 512
+//#define WIDTH 512
+//#define HEIGHT 512
+
+#define WIDTH 2048
+#define HEIGHT 2048
 
 static mlx_image_t* image;
 
@@ -61,11 +64,18 @@ t_point get_k_b_from_points(t_point a, t_point b)
 
 }
 */
+/*
+int get_straight_line_y(int x, double k, int b)
+{
+	return (x * k + b);
+}
+*/
 
 int get_straight_line_y(int x, int k, int b)
 {
 	return (x * k + b);
 }
+
 
 void put_line()
 {
@@ -74,7 +84,8 @@ void put_line()
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
 	while(x < (image->width) && y < (image->height))
 	{
-		y = get_straight_line_y(x, 1, 0);
+		y = get_straight_line_y(x, 0, 0);
+		ft_printf("%d\n", y);
 		mlx_put_pixel(image, x, image->height - y, color);
 		x++;
 	}
@@ -90,7 +101,8 @@ int32_t main(void)
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	if (!(image = mlx_new_image(mlx, 1024, 1024)))
+//	if (!(image = mlx_new_image(mlx, 1024, 1024)))
+	if (!(image = mlx_new_image(mlx, WIDTH+300, HEIGHT +300)))
 	{
 		mlx_close_window(mlx);
 		puts(mlx_strerror(mlx_errno));
@@ -106,7 +118,6 @@ int32_t main(void)
 //	mlx_loop_hook(mlx, ft_randomize, mlx);
 	mlx_loop_hook(mlx, put_line, mlx);
 	mlx_loop_hook(mlx, ft_hook, mlx);
-
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
