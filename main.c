@@ -8,13 +8,16 @@
 #include <stdbool.h>
 #include "fdf.h"
 
-//#define WIDTH 512
-//#define HEIGHT 512
+#define WIDTH 512
+#define HEIGHT 512
 
-#define WIDTH 2048
-#define HEIGHT 2048
+//#define WIDTH 2048
+//#define HEIGHT 2048
 
 static mlx_image_t* image;
+static int someA;
+static int someB;
+static int someC;
 
 // -----------------------------------------------------------------------------
 
@@ -71,30 +74,67 @@ int get_straight_line_y(int x, double k, int b)
 }
 */
 
-int get_straight_line_y(int x, int k, int b)
+
+// y = kx + b
+// x = y-b   / k
+int get_straight_line_y(int x, int m, int n, int b)
 {
-	return (x * k + b);
+	if (m == 0 || n == 0)
+		return (b);
+	return ((x * m) / n + b);
 }
 
+int get_straight_line_x(int y, int m, int n, int b)
+{
+	if (m == 0 || n == 0)
+		return (0);
+	return (((y - b) * n) / m);
+}
 
 void put_line()
 {
-	unsigned int x = 0;
-	unsigned int y = 0;
+	uint32_t x = 0;
+	uint32_t y = 0;
+	uint32_t m = someA;
+	uint32_t n = someB;
+	uint32_t b = someC;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
-	while(x < (image->width) && y < (image->height))
+	if (m == 0 || m < n)
 	{
-		y = get_straight_line_y(x, 0, 0);
-		ft_printf("%d\n", y);
-		mlx_put_pixel(image, x, image->height - y, color);
-		x++;
+		while((x < image->width) && (y < image->height))
+		{
+			y = get_straight_line_y(x, m, n, b);
+	//		ft_printf("%d %d\n", y, x);
+			if (y < image->height)
+				mlx_put_pixel(image, x, image->height - y, color);
+			x++;
+		}
+	}
+	else
+	{
+		while((x < image->width) && (y < image->height))
+		{
+			x = get_straight_line_x(y, m, n, b);
+	//		ft_printf("%d %d\n", y, x);
+			if (y < image->height)
+				mlx_put_pixel(image, x, image->height - y, color);
+			y++;
+		}
+
 	}
 }
 
-int32_t main(void)
+int32_t main(int argc, char **argv)
 {
+	if (argc != 4)
+		return (EXIT_FAILURE);
 	mlx_t* mlx;
-
+	++argv;
+	someA = ft_atoi(*argv);
+	++argv;
+	someB = ft_atoi(*argv);
+	++argv;
+	someC = ft_atoi(*argv);
 	// Gotta error check this stuff
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{
@@ -102,7 +142,7 @@ int32_t main(void)
 		return(EXIT_FAILURE);
 	}
 //	if (!(image = mlx_new_image(mlx, 1024, 1024)))
-	if (!(image = mlx_new_image(mlx, WIDTH+300, HEIGHT +300)))
+	if (!(image = mlx_new_image(mlx, WIDTH, HEIGHT)))
 	{
 		mlx_close_window(mlx);
 		puts(mlx_strerror(mlx_errno));
