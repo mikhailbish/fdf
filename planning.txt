@@ -1,0 +1,6 @@
+validate file contents - make sure that the grid is rectangular, consider the comma separated values in maps like pyramide.fdf, what should they mean
+
+parse coordinates from file (into a 2d matrix in a correct projection, use the proximity of points along the XY-axis to identify which pairs should be connected)
+
+
+
