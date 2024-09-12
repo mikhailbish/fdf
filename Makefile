@@ -46,7 +46,7 @@ $(NAME): $(OBJS)
 	@cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
 	@make -C $(LIB_DIR)
 	@$(CC) $^ $(LIBMLX) $(LIBFT_A) -o $@
-	@echo "$(GREEN)so_long has been generated successfully!$(DEFAULT)"
+	@echo "$(GREEN)$(NAME) has been generated successfully!$(DEFAULT)"
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(HEADERS) $< -c -o $@ && printf "Compiling: $(notdir $<)"
@@ -55,10 +55,10 @@ clean:
 	@make clean -C $(LIB_DIR)
 	@$(RM) $(OBJS)
 	@$(RM) $(LIBMLX_DIR)
+	@rm -rf lib/libft
 
 fclean: clean
 	@make fclean -C $(LIB_DIR)
-	@rm -rf lib/libft
 	@$(RM) $(NAME)
 	@echo "$(GREEN)so_long executable file has been cleaned.$(DEFAULT)"
 

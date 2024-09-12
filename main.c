@@ -81,7 +81,7 @@ int get_straight_line_y(int x, int m, int n, int b)
 {
 	if (m == 0 || n == 0)
 		return (b);
-	return ((x * m) / n + b);
+	return (((x * m) / n) + b);
 }
 
 int get_straight_line_x(int y, int m, int n, int b)
@@ -93,31 +93,34 @@ int get_straight_line_x(int y, int m, int n, int b)
 
 void put_line()
 {
-	uint32_t x = 0;
-	uint32_t y = 0;
-	uint32_t m = someA;
-	uint32_t n = someB;
-	uint32_t b = someC;
+	int x = 0;
+	int y = 0;
+	int m = someA;
+	int n = someB;
+	int b = someC;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
-	if (m == 0 || m < n)
+	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n > m))
 	{
-		while((x < image->width) && (y < image->height))
+		while((x <  (int)image->width) && (y < (int)image->height))
 		{
 			y = get_straight_line_y(x, m, n, b);
-	//		ft_printf("%d %d\n", y, x);
-			if (y < image->height)
-				mlx_put_pixel(image, x, image->height - y, color);
+			ft_printf("if m: %d, n: %d, b: %d\n", m , n, b);
+	//		ft_printf("if %u %u\n", y, x);
+			if (y < (int)image->height)
+				mlx_put_pixel(image, x, (int)image->height - y, color);
 			x++;
 		}
 	}
 	else
 	{
-		while((x < image->width) && (y < image->height))
+		while((x < (int)image->width) && (y < (int)image->height))
 		{
 			x = get_straight_line_x(y, m, n, b);
+			ft_printf("else m: %d, n: %d, b: %d\n", m , n, b);
+//			ft_printf("else %u %u\n", y, x);
 	//		ft_printf("%d %d\n", y, x);
-			if (y < image->height)
-				mlx_put_pixel(image, x, image->height - y, color);
+			if (y < (int)image->height)
+				mlx_put_pixel(image, x, (int)image->height - y, color);
 			y++;
 		}
 
