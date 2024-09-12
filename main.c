@@ -8,11 +8,11 @@
 #include <stdbool.h>
 #include "fdf.h"
 
-#define WIDTH 512
-#define HEIGHT 512
+//#define WIDTH 512
+//#define HEIGHT 512
 
-//#define WIDTH 2048
-//#define HEIGHT 2048
+#define WIDTH 2048
+#define HEIGHT 2048
 
 static mlx_image_t* image;
 static int someA;
@@ -99,14 +99,14 @@ void put_line()
 	int n = someB;
 	int b = someC;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
-	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n > m))
+	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
 	{
 		while((x <  (int)image->width) && (y < (int)image->height))
 		{
 			y = get_straight_line_y(x, m, n, b);
-			ft_printf("if m: %d, n: %d, b: %d\n", m , n, b);
+			ft_printf("if x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
 	//		ft_printf("if %u %u\n", y, x);
-			if (y < (int)image->height)
+			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
 				mlx_put_pixel(image, x, (int)image->height - y, color);
 			x++;
 		}
@@ -116,17 +116,17 @@ void put_line()
 		while((x < (int)image->width) && (y < (int)image->height))
 		{
 			x = get_straight_line_x(y, m, n, b);
-			ft_printf("else m: %d, n: %d, b: %d\n", m , n, b);
+			ft_printf("else x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
 //			ft_printf("else %u %u\n", y, x);
 	//		ft_printf("%d %d\n", y, x);
-			if (y < (int)image->height)
+			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
 				mlx_put_pixel(image, x, (int)image->height - y, color);
 			y++;
 		}
 
 	}
 }
-
+/*
 int32_t main(int argc, char **argv)
 {
 	if (argc != 4)
@@ -165,7 +165,7 @@ int32_t main(int argc, char **argv)
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
-
+*/
 
 /*
 
@@ -184,3 +184,45 @@ int main()
 	mlx_terminate(ptr);
 }
 */
+// TODO: check what happens if you change space to tab
+int main(int argc, char **argv)
+{
+	char *line;
+	char **line_split;
+	char **tmp_line_split;
+	if (argc != 2)
+		return (1);
+	++argv;
+	if (check_name(*argv))
+		ft_printf("good name");
+	else
+		return (1);
+	int fd = open(*argv, O_RDONLY);
+	if (!(fd > 0))
+	{
+		perror("Cannot find file");
+		return (1);
+	}
+	line = get_next_line(fd);
+	ft_printf("line: %s \nafter gnl", line);
+	free(line);
+	//include smth for errno and check it after each use of gnl?
+
+	while(line)
+	{
+		line_split = ft_split(line, ' ');
+		tmp_line_split = line_split;
+		if (!line_split)
+		{
+			//some error handling
+		}
+		while (*tmp_line_split)
+		{
+			printf("%s\n", *tmp_line_split);
+			tmp_line_split++;
+		}
+		line = get_next_line(fd);
+	}
+	
+	return (0);
+}

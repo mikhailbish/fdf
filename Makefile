@@ -22,7 +22,7 @@ LIBFT_A := $(LIB_DIR)/libft.a
 HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
 
 # mandatory srcs
-SRCS = main.c
+SRCS = main.c parser.c
 
 OBJS = $(SRCS:.c=.o)
 
