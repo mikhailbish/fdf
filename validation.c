@@ -6,11 +6,11 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/09/13 19:11:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/09/13 22:08:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "fdf.h"
 
 static int	is_legal_number(char *num)
 {
@@ -30,24 +30,62 @@ push_swap "" error
 push_swap
 
 */
+
+static int	validate_line(char *line)
+{
+	char	**line_split;
+	char	**tmp_line_split;
+	int	column_count;
+
+	column_count = 0;
+	line_split = ft_split(line, ' ');
+	tmp_line_split = line_split;
+	if (!line_split)
+	{
+		//some error handling
+		return (-1);
+	}
+	while (*tmp_line_split)
+	{
+		ft_printf("column\n");
+		// add to coordinate matrix
+		if (is_legal_number(*tmp_line_split))
+			column_count++;
+		else
+		{
+			ft_printf("illegal num\n");
+			column_count = -1;
+			break;
+		}
+		tmp_line_split++;
+	}
+	free_split(line_split);
+	return (column_count);
+}
+
 t_dimensions validate_file(int fd)
 {
 	int 	column_count;
+	int	line_count;
 	char	*line;
-	char	**line_split;
-	char	**tmp_line_split;
 	t_dimensions dim;
 
+	dim.length = 0;
+	dim.width = 0;
+
+	line_count = 0;
 	column_count = 0;
 	line = get_next_line(fd);
 	while(line)
 	{
+		ft_printf("\nline\n");
 		column_count = validate_line(line);
 		if (!dim.width)
 			dim.width = column_count;
 		if (column_count == -1)
 		{
 //			alloc fail in validate line
+//			or illegal values
 		}
 		if (dim.width != column_count)
 		{
@@ -60,33 +98,4 @@ t_dimensions validate_file(int fd)
 	dim.length = line_count;
 	return (dim);
 	
-}
-
-int	validate_line(char *line)
-{
-	char	**args;
-	int		validation_result;
-
-	if (argc == 1)
-		return (-1);
-	if (argc == 2)
-	{
-		if (argv[1][0] == 0)
-			return (0);
-		args = ft_split(argv[1], ' ');
-		if (!args)
-			return (0);
-		if (argv[1][0] != 0 && *args == 0)
-		{
-			free(args);
-			return (0);
-		}
-/*		if (*args == 0)
-			return (-1);*/
-		validation_result = validate_args(args, count_split(args));
-		free_split(args);
-		return (validation_result);
-	}
-	args = ++argv;
-	return (validate_args(args, --argc));
 }
