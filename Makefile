@@ -3,7 +3,7 @@ NAME := fdf
 GREEN = \033[1;92m
 DEFAULT = \033[1;39m
 
-CC = cc
+CC = cc 
 CFLAGS := -Wall -Wextra -Werror
 #-Wunreachable-code -Ofast
 RM := rm -rf
@@ -22,7 +22,7 @@ LIBFT_A := $(LIB_DIR)/libft.a
 HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
 
 # mandatory srcs
-SRCS = main.c parser.c
+SRCS = main.c parser.c utils.c 
 
 OBJS = $(SRCS:.c=.o)
 
@@ -58,7 +58,7 @@ clean:
 	@rm -rf lib/libft
 
 fclean: clean
-	@make fclean -C $(LIB_DIR)
+	@$(RM) lib
 	@$(RM) $(NAME)
 	@echo "$(GREEN)so_long executable file has been cleaned.$(DEFAULT)"
 
