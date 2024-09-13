@@ -104,7 +104,7 @@ void put_line()
 		while((x <  (int)image->width) && (y < (int)image->height))
 		{
 			y = get_straight_line_y(x, m, n, b);
-			ft_printf("if x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
+		//	ft_printf("if x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
 	//		ft_printf("if %u %u\n", y, x);
 			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
 				mlx_put_pixel(image, x, (int)image->height - y, color);
@@ -116,7 +116,7 @@ void put_line()
 		while((x < (int)image->width) && (y < (int)image->height))
 		{
 			x = get_straight_line_x(y, m, n, b);
-			ft_printf("else x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
+		//	ft_printf("else x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
 //			ft_printf("else %u %u\n", y, x);
 	//		ft_printf("%d %d\n", y, x);
 			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
@@ -205,9 +205,12 @@ int main(int argc, char **argv)
 	}
 	line = get_next_line(fd);
 	ft_printf("line: %s \nafter gnl", line);
-	free(line);
 	//include smth for errno and check it after each use of gnl?
+	int line_count = 0;
+	int column_count = 0;
+	int prev_count = -1;
 
+	
 	while(line)
 	{
 		line_split = ft_split(line, ' ');
@@ -218,11 +221,22 @@ int main(int argc, char **argv)
 		}
 		while (*tmp_line_split)
 		{
-			printf("%s\n", *tmp_line_split);
+			printf("going through line split: %s\n", *tmp_line_split);
+			column_count++;
 			tmp_line_split++;
 		}
+		if (prev_count == -1)
+			prev_count = column_count;
+		if (column_count != prev_count)
+		{
+			// handle
+			return (1);
+		}
+		column_count = 0;
 		line = get_next_line(fd);
+		line_count++;
 	}
+	free(line);
 	
 	return (0);
 }
