@@ -185,10 +185,12 @@ int main()
 }
 */
 // TODO: check what happens if you change space to tab
-int main(int argc, char **argv)
+//int main(int argc, char **argv)
+int main(void)
 {
+
 	char *line;
-	char **line_split;
+/*	char **line_split;
 	char **tmp_line_split;
 	if (argc != 2)
 		return (1);
@@ -202,9 +204,12 @@ int main(int argc, char **argv)
 	{
 		perror("Cannot find file");
 		return (1);
-	}
+	}*/
+	int fd = open("42.fdf", O_RDONLY);
 	line = get_next_line(fd);
 	ft_printf("line: %s \nafter gnl", line);
+	free(line);
+/*	ft_printf("line: %s \nafter gnl", line);
 	//include smth for errno and check it after each use of gnl?
 	int line_count = 0;
 	int column_count = 0;
@@ -237,6 +242,6 @@ int main(int argc, char **argv)
 		line_count++;
 	}
 	free(line);
-	
+*/	
 	return (0);
 }

@@ -3,7 +3,7 @@ NAME := fdf
 GREEN = \033[1;92m
 DEFAULT = \033[1;39m
 
-CC = gcc
+CC = cc
 CFLAGS := -Wall -Wextra -Werror
 #-Wunreachable-code -Ofast
 RM := rm -rf
