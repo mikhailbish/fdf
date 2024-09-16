@@ -189,10 +189,11 @@ int main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (1);
+	argv++;
 	int fd = open(*argv, O_RDONLY);
 	t_dimensions asd;
 
-	if (!(fd > 0))
+	if (fd < 0)
 	{
 		perror("Cannot find file");
 		return (1);
@@ -260,7 +261,21 @@ int main(int argc, char **argv)
 	}
 	free(line);
 	*/
-	asd = validate_file(fd);
+	
+//	asd = validate_file(fd);
+//	close(fd);
+	t_list *file_lines = get_file_lines(fd);
+	
+	t_list *tmp = file_lines;
+//	asd = parse_file(fd);
+	asd = validate_lines(file_lines);
 	ft_printf("%d %d\n", asd.width, asd.length);
+/*	while(file_lines)
+	{
+		ft_printf("%s\n", (char *)file_lines->content);
+		file_lines = file_lines->next;
+
+	}*/
+	ft_lstclear(&tmp, delete_content);
 	return (0);
 }

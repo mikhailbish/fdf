@@ -22,7 +22,7 @@ LIBFT_A := $(LIB_DIR)/libft.a
 HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
 
 # mandatory srcs
-SRCS = main.c parser.c utils.c validation.c
+SRCS = main.c utils.c validation.c parsing.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -44,7 +44,7 @@ lib/libft:
 
 $(NAME): $(OBJS)
 	@cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
-	@make -C $(LIB_DIR)
+	@make -C $(LIB_DIR) bonus
 	@$(CC) $^ $(LIBMLX) $(LIBFT_A) -o $@
 	@echo "$(GREEN)$(NAME) has been generated successfully!$(DEFAULT)"
 

@@ -1,57 +1,120 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 20:05:20 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/08/20 21:25:57 by mbutuzov         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "fdf.h"
 
-#include "push_swap.h"
-
-static void init_stacks(t_env *en, int argc)
+int check_name(char *name)
 {
-	en->stacks[0] = init_stack(argc);
-	if (en->stacks->length == -1)
-	{
-		(en->stacks + 1)->length = -1;
-		return ;
-	}
-	en->stacks[1] = init_stack(argc);
-	if (en->stacks->length == -1)
-	{
-		free(en->stacks[0].content);
-		return ;
-	}
+	size_t	length;
+	int	cmp_res;
+
+	cmp_res = 0;
+	length = ft_strlen(name);
+	if (length < 4)
+		return (0);
+	cmp_res = ft_strncmp(name + length - 4, ".fdf", 4);
+	if (cmp_res == 0)
+		return (1);
+	return (0);
 }
 
-t_env ft_parse_input(int argc, char **argv)
+void	delete_content(void *content)
 {
-	char	**args;
-	t_env	en;
+	free((char *)content);	
+}
 
-	if (argc == 2)
+t_list	*get_file_lines(int fd)
+{
+	char	*line;
+	t_list	*head;
+	t_list	*tmp;
+	
+	line = get_next_line(fd);
+	if (!line)
 	{
-		args = ft_split(argv[1], ' ');
-		if (!args)
+		//error in gnl
+		return(0);	
+	}
+	head = ft_lstnew((void *)line);
+	if (!head)
+	{
+		// error in lst new
+		return(0);	
+	}
+	while (line)
+	{
+		line = get_next_line(fd);
+		if (!line && errno == ENOMEM)
 		{
-			en.stacks[1].length = -1;
-			return (en);
+			//error in gnl
+			return(0);	
+		} else if (!line)
+			break ;
+		tmp = ft_lstnew(line);
+		if (!tmp)
+		{
+			// error in lst new
+			return(0);	
 		}
-		init_stacks(&en, count_split(args));
-		if (en.stacks[1].length == -1)
-			return (en);
-		fill_stack(en.stacks, args, count_split(args));
-		free_split(args);
-		return (en);
+		ft_lstadd_back(&head, tmp);
 	}
-	init_stacks(&en, --argc);
-	if (en.stacks[1].length == -1)
-		return (en);
-	args = ++argv;
-	fill_stack(en.stacks, args, argc);
-	return (en); 
+	return (head);
 }
+	
+/*
+	char	*line;
+	t_list	*head;
+	t_list	*tmp;
+
+	line = (char *)-1;
+
+	while (line)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break;
+		tmp = ft_lstnew((void *)line);
+		if (!tmp)
+			break;
+			//malloc list error
+			//free list?
+			//break??
+			//no errno check
+			// adjust errno?
+		ft_lstadd_back(&head, tmp);
+	}
+	// gnl till the end
+	if (!tmp)
+		while(line)
+		{
+			free(line);
+			line = get_next_line(fd)
+		}
+	if (errno == ENOMEM)
+	{
+		//error in gnl
+	}
+*/
+/*
+	line = get_next_line(fd);
+	if (line)
+		head->content = (void *)line;
+	tmp = head;
+	while(line)
+	{
+		tmp->next = *ft_lstnew(line);
+		if (!tmp->next)
+			ft_lstclear(head, delete_content);
+		tmp = tmp->next;
+		line = get_next_line(fd);
+	}
+	if (errno == ENOMEM)
+	{
+		//error in gnl
+	}
+*/	
+
+/*
+t_dimensions get_map_dimensions()
+{
+
+}
+*/
+

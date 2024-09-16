@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/09/13 22:08:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/09/16 22:28:27 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	is_legal_number(char *num)
 	long	result;
 
 	result = ft_strtol(num, &endptr, 10);
-	if (*endptr != '\0')
+	if (!(*endptr == '\0' || *endptr == '\n'))
 		return (0);
 	return (!(result < INT_MIN || result > INT_MAX));
 }
@@ -38,6 +38,7 @@ static int	validate_line(char *line)
 	int	column_count;
 
 	column_count = 0;
+//	ft_printf("line: %s\n", line);
 	line_split = ft_split(line, ' ');
 	tmp_line_split = line_split;
 	if (!line_split)
@@ -47,13 +48,13 @@ static int	validate_line(char *line)
 	}
 	while (*tmp_line_split)
 	{
-		ft_printf("column\n");
+//		ft_printf("column\n");
 		// add to coordinate matrix
 		if (is_legal_number(*tmp_line_split))
 			column_count++;
 		else
 		{
-			ft_printf("illegal num\n");
+//			ft_printf("illegal num: %s\n", *tmp_line_split);
 			column_count = -1;
 			break;
 		}
@@ -62,7 +63,7 @@ static int	validate_line(char *line)
 	free_split(line_split);
 	return (column_count);
 }
-
+/*
 t_dimensions validate_file(int fd)
 {
 	int 	column_count;
@@ -78,7 +79,7 @@ t_dimensions validate_file(int fd)
 	line = get_next_line(fd);
 	while(line)
 	{
-		ft_printf("\nline\n");
+		ft_printf("\nline from file: %s\n", line);
 		column_count = validate_line(line);
 		if (!dim.width)
 			dim.width = column_count;
@@ -94,6 +95,37 @@ t_dimensions validate_file(int fd)
 		free(line);
 		line = get_next_line(fd);
 		line_count++;
+	}
+	dim.length = line_count;
+	return (dim);
+	
+}*/
+
+t_dimensions validate_lines(t_list *lines)
+{
+	int 	column_count;
+	int	line_count;
+	//char	*line;
+	t_dimensions dim;
+
+	dim.length = 0;
+	dim.width = 0;
+	line_count = ft_lstsize(lines);
+	while(lines)
+	{
+		column_count = validate_line((char *)lines->content);
+		if (!dim.width)
+			dim.width = column_count;
+		if (column_count == -1)
+		{
+//			alloc fail in validate line
+//			or illegal values
+		}
+		if (dim.width != column_count)
+		{
+//			wrong number of columns in a line
+		}
+		lines = lines->next;
 	}
 	dim.length = line_count;
 	return (dim);
