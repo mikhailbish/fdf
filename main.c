@@ -11,15 +11,13 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 2048
-#define HEIGHT 2048
+#define WIDTH 512
+#define HEIGHT 512
 
 static mlx_image_t* image;
 static int someA;
 static int someB;
 static int someC;
-static int FD;
-static char FILENAME[50];
 
 // -----------------------------------------------------------------------------
 
@@ -200,7 +198,7 @@ void put_line(int m, int n, int b, int top, int bot, int left, int right)
 	}
 }
 */
-/*
+
 int32_t main(int argc, char **argv)
 {
 	if (argc != 4)
@@ -239,7 +237,7 @@ int32_t main(int argc, char **argv)
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
-*/
+
 
 /*
 
@@ -258,20 +256,22 @@ int main()
 	mlx_terminate(ptr);
 }
 */
-void put_42()
+/*
+void put_42(void *param)
 {
-	FD = open(FILENAME, O_RDONLY);
+	int fd;
+	fd = open(((t_name_holder *)param)->file_name, O_RDONLY);
 	t_dimensions dim;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
 
-	if (FD < 0)
+	if (fd < 0)
 	{
 		perror("Cannot find file");
 //		return (1);
 	}
 
-	t_list *file_lines = get_file_lines(FD);
-	close(FD);
+	t_list *file_lines = get_file_lines(fd);
+	close(fd);
 	t_list *tmp = file_lines;
 
 	dim = validate_lines(file_lines);
@@ -301,7 +301,7 @@ void put_42()
 	}
 	ft_lstclear(&tmp, delete_content);
 }
-
+*/
 // TODO: check what happens if you change space to tab
 /*int main(int argc, char **argv)
 {
@@ -347,20 +347,21 @@ void put_42()
 	ft_lstclear(&tmp, delete_content);
 	return (0);
 }*/
+/*
 int32_t main(int argc, char **argv)
 {
-//	if (argc != 4)
-//		return (EXIT_FAILURE);
-	FILENAME = argv[1];
-/*	mlx_t* mlx;
-	++argv;
+	if (argc != 2)
+		return (EXIT_FAILURE);
+	mlx_t* mlx;
+	t_name_holder some;*/
+/*	++argv;
 	someA = ft_atoi(*argv);
 	++argv;
 	someB = ft_atoi(*argv);
 	++argv;
 	someC = ft_atoi(*argv);*/
 	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+/*	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
@@ -378,13 +379,14 @@ int32_t main(int argc, char **argv)
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	
+	some.mlx = mlx;
+	some.image = image;
+	some.file_name = *(++argv);
 //	mlx_loop_hook(mlx, ft_randomize, mlx);
 //	mlx_loop_hook(mlx, put_line, mlx);
-	mlx_loop_hook(mlx, put_42, mlx);
-	write(1, "here!\n", 6);
+	mlx_loop_hook(mlx, put_42, &some);
 	mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
-}
+}*/

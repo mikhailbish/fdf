@@ -32,7 +32,11 @@ typedef struct s_dimensions {
 	int width;
 }	t_dimensions;
 
-
+typedef struct s_name_holder {
+	mlx_t	*mlx;
+	char	*file_name;
+	mlx_image_t	*image;
+}	t_name_holder;
 
 int	check_name(char *name);
 int	count_split(char **texts);
