@@ -23,12 +23,13 @@ HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
 
 # mandatory srcs
 SRCS = main.c utils.c validation.c parsing.c
+#SRCS = test.c
 
 OBJS = $(SRCS:.c=.o)
 
 
 all: clone $(NAME)
-	./$(NAME)
+#	./$(NAME)
 
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
 # to tell if the target is latest or not. So the execute 'make' command at the second

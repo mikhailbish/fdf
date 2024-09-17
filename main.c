@@ -18,6 +18,8 @@ static mlx_image_t* image;
 static int someA;
 static int someB;
 static int someC;
+static int FD;
+static char FILENAME[50];
 
 // -----------------------------------------------------------------------------
 
@@ -127,6 +129,78 @@ void put_line()
 	}
 }
 /*
+t_ft_point get_mnb(t_ft_point start, t_ft_point end)
+{
+	return ();
+}*/
+/*
+void put_line(t_ft_point start, t_ft_point end)
+{
+	int x = 0;
+	int y = 0;
+
+	//get_mnb(start, end);
+
+	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
+	{
+		while((x <  (int)image->width) && (y < (int)image->height))
+		{
+			y = get_straight_line_y(x, m, n, b);
+			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
+				mlx_put_pixel(image, x, (int)image->height - y, color);
+			x++;
+		}
+	}
+	else
+	{
+		while((x < (int)image->width) && (y < (int)image->height))
+		{
+			x = get_straight_line_x(y, m, n, b);
+			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
+				mlx_put_pixel(image, x, (int)image->height - y, color);
+			y++;
+		}
+	}
+}
+*/
+/*
+void put_line(int m, int n, int b, int top, int bot, int left, int right)
+{
+	int x = 0;
+	int y = 0;
+	int m = someA;
+	int n = someB;
+	int b = someC;
+	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
+	{
+		while((x <  (int)image->width) && (y < (int)image->height))
+		{
+			y = get_straight_line_y(x, m, n, b);
+		//	ft_printf("if x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
+	//		ft_printf("if %u %u\n", y, x);
+			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
+				mlx_put_pixel(image, x, (int)image->height - y, color);
+			x++;
+		}
+	}
+	else
+	{
+		while((x < (int)image->width) && (y < (int)image->height))
+		{
+			x = get_straight_line_x(y, m, n, b);
+		//	ft_printf("else x %d, y %d, m: %d, n: %d, b: %d\n", x, y, m , n, b);
+//			ft_printf("else %u %u\n", y, x);
+	//		ft_printf("%d %d\n", y, x);
+			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
+				mlx_put_pixel(image, x, (int)image->height - y, color);
+			y++;
+		}
+
+	}
+}
+*/
+/*
 int32_t main(int argc, char **argv)
 {
 	if (argc != 4)
@@ -184,98 +258,133 @@ int main()
 	mlx_terminate(ptr);
 }
 */
+void put_42()
+{
+	FD = open(FILENAME, O_RDONLY);
+	t_dimensions dim;
+	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+
+	if (FD < 0)
+	{
+		perror("Cannot find file");
+//		return (1);
+	}
+
+	t_list *file_lines = get_file_lines(FD);
+	close(FD);
+	t_list *tmp = file_lines;
+
+	dim = validate_lines(file_lines);
+	t_ft_point	**coords = alloc_data_space(dim);
+
+	fill_with_data(dim, coords, file_lines);
+	//ft_printf("%d %d\n", asd.width, asd.length);
+	int x = 0;
+	int y = 0;
+
+	
+	while(y < dim.length)
+	{
+		while (x < dim.width)
+		{
+//			coords[x][y]
+			translate_angles(&coords[y][x]);
+			//ft_printf("%d ",coords[y][x].x);
+			if (coords[x][y].z == 10)
+				mlx_put_pixel(image, x, (int)image->height - y, color);
+			//file_lines = file_lines->next;
+			x++;
+		}
+		ft_printf("\n");
+		x = 0;
+		y++;
+	}
+	ft_lstclear(&tmp, delete_content);
+}
+
 // TODO: check what happens if you change space to tab
-int main(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (1);
 	argv++;
 	int fd = open(*argv, O_RDONLY);
-	t_dimensions asd;
+	t_dimensions dim;
 
 	if (fd < 0)
 	{
 		perror("Cannot find file");
 		return (1);
 	}
-/*
-	char *line;
-	char **line_split;
-	char **tmp_line_split;
-	if (argc != 2)
-		return (1);
-	++argv;
-	if (check_name(*argv))
-		ft_printf("good name");
-	else
-		return (1);
-	int fd = open(*argv, O_RDONLY);
-	if (!(fd > 0))
-	{
-		perror("Cannot find file");
-		return (1);
-	}
-	line = get_next_line(fd);
-	ft_printf("line: %s \nafter gnl", line);
-	//include smth for errno and check it after each use of gnl?
-	int line_count = 0;
-	int column_count = 0;
-	int prev_count = -1;
 
-//	t_ft_point *matrix_line = ft_calloc(sizeof(t_ft_point) * (columns + 1));
-//	t_ft_point **coordinate_matrix = ft_calloc(sizeof(t_ft_point *) * (rows + 1))
-	while(line)
-	{
-		line_split = ft_split(line, ' ');
-		tmp_line_split = line_split;
-		if (!line_split)
-		{
-			//some error handling
-		}
-		while (*tmp_line_split)
-		{
-			ft_printf("going through line split: %s\n", *tmp_line_split);
-			// add to coordinate matrix
-			char *tmp_ptr;
-			int num;
-			num = (int)ft_strtol(*tmp_line_split, &tmp_ptr, 10);
-			if (*tmp_ptr != 0)
-			{
-				// handle error
-				return (1);
-			}
-			coordinate_matrix[column_count][line_count]= num
-			column_count++;
-			tmp_line_split++;
-		}
-		if (prev_count == -1)
-			prev_count = column_count;
-		if (column_count != prev_count)
-		{
-			// handle
-			return (1);
-		}
-		column_count = 0;
-		line = get_next_line(fd);
-		line_count++;
-	}
-	free(line);
-	*/
-	
-//	asd = validate_file(fd);
-//	close(fd);
 	t_list *file_lines = get_file_lines(fd);
-	
+	close(fd);
 	t_list *tmp = file_lines;
-//	asd = parse_file(fd);
-	asd = validate_lines(file_lines);
-	ft_printf("%d %d\n", asd.width, asd.length);
-/*	while(file_lines)
-	{
-		ft_printf("%s\n", (char *)file_lines->content);
-		file_lines = file_lines->next;
 
-	}*/
+	dim = validate_lines(file_lines);
+	t_ft_point	**coords = alloc_data_space(dim);
+
+	fill_with_data(dim, coords, file_lines);
+	//ft_printf("%d %d\n", asd.width, asd.length);
+	int x = 0;
+	int y = 0;
+
+	
+	while(y < dim.length)
+	{
+		while (x < dim.width)
+		{
+//			coords[x][y]
+			translate_angles(&coords[y][x]);
+			ft_printf("%d ",coords[y][x].x);
+			//file_lines = file_lines->next;
+			x++;
+		}
+		ft_printf("\n");
+		x = 0;
+		y++;
+	}
 	ft_lstclear(&tmp, delete_content);
 	return (0);
+}*/
+int32_t main(int argc, char **argv)
+{
+//	if (argc != 4)
+//		return (EXIT_FAILURE);
+	FILENAME = argv[1];
+/*	mlx_t* mlx;
+	++argv;
+	someA = ft_atoi(*argv);
+	++argv;
+	someB = ft_atoi(*argv);
+	++argv;
+	someC = ft_atoi(*argv);*/
+	// Gotta error check this stuff
+	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	{
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+//	if (!(image = mlx_new_image(mlx, 1024, 1024)))
+	if (!(image = mlx_new_image(mlx, WIDTH, HEIGHT)))
+	{
+		mlx_close_window(mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+	{
+		mlx_close_window(mlx);
+		puts(mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+	
+//	mlx_loop_hook(mlx, ft_randomize, mlx);
+//	mlx_loop_hook(mlx, put_line, mlx);
+	mlx_loop_hook(mlx, put_42, mlx);
+	write(1, "here!\n", 6);
+	mlx_loop_hook(mlx, ft_hook, mlx);
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
+	return (EXIT_SUCCESS);
 }
