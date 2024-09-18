@@ -26,7 +26,7 @@ double get_radians(int angle)
 }
 
 //wip
-void extend_lines(t_ft_point *point)
+void extend_lines(t_ft_point *point, int num)
 {
 	double	vector[3];
 	double	matrix[3][3];
@@ -34,21 +34,21 @@ void extend_lines(t_ft_point *point)
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
-	matrix[0][0] = 10;
+	matrix[0][0] = num;
 	matrix[0][1] = 0;
 	matrix[0][2] = 0;
 	matrix[1][0] = 0;
-	matrix[1][1] = 10;
+	matrix[1][1] = num;
 	matrix[1][2] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = 10;
+	matrix[2][2] = num;
 //	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
 //	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
 	mutate_3d_vector(vector, matrix);
-	point->x = ceil(vector[0]);
-	point->y = ceil(vector[1]);
-	point->z = ceil(vector[2]);
+	point->x = round(vector[0]);
+	point->y = round(vector[1]);
+	point->z = round(vector[2]);
 }
 void translate_angles(t_ft_point *point)
 {
@@ -61,8 +61,8 @@ void translate_angles(t_ft_point *point)
 	matrix[0][0] = cos(120);
 	matrix[0][1] = -sin(120);
 	matrix[0][2] = 0;
-	matrix[1][0] = sin(150);
-	matrix[1][1] = cos(150);
+	matrix[1][0] = sin(120);
+	matrix[1][1] = cos(120);
 	matrix[1][2] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
@@ -75,6 +75,62 @@ void translate_angles(t_ft_point *point)
 	point->z = ceil(vector[2]);
 }
 //wip
+void shift_x(t_dimensions dim, t_ft_point **coords, double offset)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < dim.length)
+	{
+		x = 0;
+		while(x < dim.width)
+		{
+			coords[y][x].x += offset;
+			x++;	
+		}
+		y++;
+	}
+}
+
+void shift_y(t_dimensions dim, t_ft_point **coords, double offset)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < dim.length)
+	{
+		x = 0;
+		while(x < dim.width)
+		{
+			coords[y][x].y += offset;
+			x++;	
+		}
+		y++;
+	}
+}
+
+void shift_z(t_dimensions dim, t_ft_point **coords, double offset)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < dim.length)
+	{
+		x = 0;
+		while(x < dim.width)
+		{
+			coords[y][x].z += offset;
+			x++;	
+		}
+		y++;
+	}
+}
 void make_positive(t_dimensions dim, t_ft_point **coords)
 {
 	// go through all coordinates
@@ -109,17 +165,44 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 	}
 	if (smallest_x < 0)
 	{
-	//	shift x
+		shift_x(dim, coords, -smallest_x);
+	//	shift xs
 	}
 	if (smallest_y < 0)
 	{
-	//	shift y
+		shift_y(dim, coords, -smallest_y);
+	//	shift ys
 	}
-	if (smallest_z < 0)
+/*	if (smallest_z < 0)
 	{
-	//	shift z
+		ft_printf("neg z?");
+		shift_z(dim, coords, -smallest_z);
+	//	shift zs
+	}
+*/
+}
+
+/*
+universalize?
+void shift_some(t_dimensions dim, t_ft_point **coords, double offset )
+{
+	int x;
+	int y;
+
+	while (y < dim.length)
+	{
+		x = 0;
+		while(x < dim.width)
+		{
+			coords[y][x].x += offset;
+			x++;	
+		}
+		y++;
 	}
 }
+*/
+
+
 /*
 void translate_angles(t_ft_point *point)
 {

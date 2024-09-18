@@ -289,8 +289,8 @@ void put_42(void *param)
 		while (x < dim.width)
 		{
 //			coords[x][y]
-			extend_lines(&coords[y][x]);
-			translate_angles(&coords[y][x]);
+			extend_lines(&coords[y][x], 10);
+			translate_Y _angles(&coords[y][x]);
 			//ft_printf("%d ",coords[y][x].x);
 //			if (coords[y][x].z == 100)
 //			{
@@ -302,14 +302,13 @@ void put_42(void *param)
 			//file_lines = file_lines->next;
 			x++;
 		}
-		ft_printf("\n");
+//		ft_printf("\n");
 		x = 0;
 		y++;
 	}
 	x = 0;
 	y = 0;
 
-	
 	make_positive(dim, coords);
 	while(y < dim.length)
 	{
@@ -317,11 +316,12 @@ void put_42(void *param)
 		{
 //			coords[x][y]
 			//ft_printf("%d ",coords[y][x].x);
-			if (coords[y][x].z == 100)
+			if (coords[y][x].z == 250)
 			{
+				ft_printf("yo!");
 				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
 //				ft_printf("about to put pixel\n");
-				mlx_put_pixel(image, coords[y][x].x, coords[y][x].y, color);
+				mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)coords[y][x].y, color);
 //				ft_printf("after putting pixel\n");
 			}
 			//file_lines = file_lines->next;
