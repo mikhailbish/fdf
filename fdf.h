@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/09/17 20:41:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:37:40 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines);
 t_ft_point	**alloc_data_space(t_dimensions dim);
 double get_radians(int angle);
 void translate_angles(t_ft_point *point);
-
+void mutate_3d_vector(double vector[3], double matrix[3][3]);
+void extend_lines(t_ft_point *point);
+void make_positive(t_dimensions dim, t_ft_point **coords);
 
 
 #endif

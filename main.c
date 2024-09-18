@@ -11,8 +11,8 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 512
-#define HEIGHT 512
+#define WIDTH 512 
+#define HEIGHT 512 
 
 static mlx_image_t* image;
 static int someA;
@@ -198,7 +198,7 @@ void put_line(int m, int n, int b, int top, int bot, int left, int right)
 	}
 }
 */
-
+/*
 int32_t main(int argc, char **argv)
 {
 	if (argc != 4)
@@ -237,7 +237,7 @@ int32_t main(int argc, char **argv)
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
-
+*/
 
 /*
 
@@ -256,7 +256,7 @@ int main()
 	mlx_terminate(ptr);
 }
 */
-/*
+
 void put_42(void *param)
 {
 	int fd;
@@ -278,6 +278,7 @@ void put_42(void *param)
 	t_ft_point	**coords = alloc_data_space(dim);
 
 	fill_with_data(dim, coords, file_lines);
+	ft_lstclear(&tmp, delete_content);
 	//ft_printf("%d %d\n", asd.width, asd.length);
 	int x = 0;
 	int y = 0;
@@ -288,10 +289,16 @@ void put_42(void *param)
 		while (x < dim.width)
 		{
 //			coords[x][y]
+			extend_lines(&coords[y][x]);
 			translate_angles(&coords[y][x]);
 			//ft_printf("%d ",coords[y][x].x);
-			if (coords[x][y].z == 10)
-				mlx_put_pixel(image, x, (int)image->height - y, color);
+//			if (coords[y][x].z == 100)
+//			{
+//				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
+//				ft_printf("about to put pixel\n");
+//				mlx_put_pixel(image, coords[y][x].x, coords[y][x].y, color);
+//				ft_printf("after putting pixel\n");
+//			}
 			//file_lines = file_lines->next;
 			x++;
 		}
@@ -299,9 +306,34 @@ void put_42(void *param)
 		x = 0;
 		y++;
 	}
-	ft_lstclear(&tmp, delete_content);
+	x = 0;
+	y = 0;
+
+	
+	make_positive(dim, coords);
+	while(y < dim.length)
+	{
+		while (x < dim.width)
+		{
+//			coords[x][y]
+			//ft_printf("%d ",coords[y][x].x);
+			if (coords[y][x].z == 100)
+			{
+				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
+//				ft_printf("about to put pixel\n");
+				mlx_put_pixel(image, coords[y][x].x, coords[y][x].y, color);
+//				ft_printf("after putting pixel\n");
+			}
+			//file_lines = file_lines->next;
+			x++;
+		}
+		ft_printf("\n");
+		x = 0;
+		y++;
+	}
+	// TODO: free coords
 }
-*/
+
 // TODO: check what happens if you change space to tab
 /*int main(int argc, char **argv)
 {
@@ -347,13 +379,13 @@ void put_42(void *param)
 	ft_lstclear(&tmp, delete_content);
 	return (0);
 }*/
-/*
+
 int32_t main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	mlx_t* mlx;
-	t_name_holder some;*/
+	t_name_holder some;
 /*	++argv;
 	someA = ft_atoi(*argv);
 	++argv;
@@ -361,7 +393,7 @@ int32_t main(int argc, char **argv)
 	++argv;
 	someC = ft_atoi(*argv);*/
 	// Gotta error check this stuff
-/*	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
@@ -389,4 +421,4 @@ int32_t main(int argc, char **argv)
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
-}*/
+}

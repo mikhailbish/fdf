@@ -25,16 +25,117 @@ double get_radians(int angle)
 	return ((double)angle * M_PI / 180);
 }
 
+//wip
+void extend_lines(t_ft_point *point)
+{
+	double	vector[3];
+	double	matrix[3][3];
+
+	vector[0] = (double)point->x;
+	vector[1] = (double)point->y;
+	vector[2] = (double)point->z;
+	matrix[0][0] = 10;
+	matrix[0][1] = 0;
+	matrix[0][2] = 0;
+	matrix[1][0] = 0;
+	matrix[1][1] = 10;
+	matrix[1][2] = 0;
+	matrix[2][0] = 0;
+	matrix[2][1] = 0;
+	matrix[2][2] = 10;
+//	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
+//	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
+	mutate_3d_vector(vector, matrix);
+	point->x = ceil(vector[0]);
+	point->y = ceil(vector[1]);
+	point->z = ceil(vector[2]);
+}
+void translate_angles(t_ft_point *point)
+{
+	double	vector[3];
+	double	matrix[3][3];
+
+	vector[0] = (double)point->x;
+	vector[1] = (double)point->y;
+	vector[2] = (double)point->z;
+	matrix[0][0] = cos(120);
+	matrix[0][1] = -sin(120);
+	matrix[0][2] = 0;
+	matrix[1][0] = sin(150);
+	matrix[1][1] = cos(150);
+	matrix[1][2] = 0;
+	matrix[2][0] = 0;
+	matrix[2][1] = 0;
+	matrix[2][2] = 1;
+//	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
+//	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
+	mutate_3d_vector(vector, matrix);
+	point->x = ceil(vector[0]);
+	point->y = ceil(vector[1]);
+	point->z = ceil(vector[2]);
+}
+//wip
+void make_positive(t_dimensions dim, t_ft_point **coords)
+{
+	// go through all coordinates
+	// find smallest x y and z
+	// shift all coordinates by the abs of negative
+	int x;
+	int y;
+	double smallest_x;
+	double smallest_y;
+	double smallest_z;
+	
+
+//	x = 0;
+	y = 0;
+	smallest_x = coords[0][0].x;
+	smallest_y = coords[0][0].y;
+	smallest_z = coords[0][0].z;
+	while (y < dim.length)
+	{
+		x = 0;
+		while(x < dim.width)
+		{
+			if (smallest_x > coords[y][x].x)
+				smallest_x = coords[y][x].x;
+			if (smallest_y > coords[y][x].y)
+				smallest_y = coords[y][x].y;
+			if (smallest_z > coords[y][x].z)
+				smallest_z = coords[y][x].z;
+			x++;	
+		}
+		y++;
+	}
+	if (smallest_x < 0)
+	{
+	//	shift x
+	}
+	if (smallest_y < 0)
+	{
+	//	shift y
+	}
+	if (smallest_z < 0)
+	{
+	//	shift z
+	}
+}
+/*
 void translate_angles(t_ft_point *point)
 {
 	int	original_x;
 	int	original_y;
 
+
 	original_x = point->x;
 	original_y = point->y;
+
 	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
 	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
+
 }
+*/
+
 
 t_list	*get_file_lines(int fd)
 {
