@@ -85,6 +85,7 @@ void translate_angles(t_ft_point *point)
 	original_x = point->x;
 	original_y = point->y;
 	point->x = round((-cos(get_radians(30))) * (double)original_x + cos(get_radians(30) * (double)original_y));
+// wrong coefficient at z
 	point->y = round(((double)point->z - (sin(get_radians(30)) * (double)original_x) - (sin(get_radians(30)) * (double)original_y)));
 }
 
@@ -305,6 +306,8 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 
 	x = 0;
 	y = 0;
+//	y = dim.length - 1;
+//	while (y > -1)
 	while (y < dim.length)
 	{
 		split_res = ft_split((char *)lines->content, ' ');
@@ -319,6 +322,7 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 		free_split(split_res);
 		x = 0;
 		lines = lines->next;
+//		y--;
 		y++;
 	}
 }

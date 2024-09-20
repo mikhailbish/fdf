@@ -261,7 +261,7 @@ void put_42(void *param)
 {
 	int fd;
 	fd = open(((t_name_holder *)param)->file_name, O_RDONLY);
-//	t_dimensions image_size = ((t_name_holder *)param)->image_size;
+	t_dimensions image_size = ((t_name_holder *)param)->image_size;
 	t_dimensions dim;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
 
@@ -308,20 +308,21 @@ void put_42(void *param)
 		{
 //			coords[x][y]
 			//ft_printf("%d ",coords[y][x].x);
-			if (coords[y][x].z == (10 * ext_coef))
-			{
+	//		if (coords[y][x].z == (10 * ext_coef))
+	//		{
 				ft_printf("yo!");
 				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
 //				ft_printf("about to put pixel\n");
-//				if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length)
-					mlx_put_pixel(image, 1024 - (uint32_t)coords[y][x].x, 1024 -(uint32_t)coords[y][x].y, color);
-//				else
-//				{
-//					perror("image too small");
-//					exit(1);
-//				}
+// TODO: come up with a correct translation of coordinates onto image
+				if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length)
+					mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)coords[y][x].y, color);
+				else
+				{
+					perror("image too small");
+					exit(1);
+				}
 //				ft_printf("after putting pixel\n");
-			}
+	//		}
 			//file_lines = file_lines->next;
 			x++;
 		}
