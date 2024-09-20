@@ -50,6 +50,7 @@ void extend_lines(t_ft_point *point, int num)
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
 }
+/*
 void translate_angles(t_ft_point *point)
 {
 	double	vector[3];
@@ -74,6 +75,19 @@ void translate_angles(t_ft_point *point)
 	point->y = ceil(vector[1]);
 	point->z = ceil(vector[2]);
 }
+*/
+
+void translate_angles(t_ft_point *point)
+{
+	int	original_x;
+	int	original_y;
+
+	original_x = point->x;
+	original_y = point->y;
+	point->x = round((-cos(get_radians(30))) * (double)original_x + cos(get_radians(30) * (double)original_y));
+	point->y = round(((double)point->z - (sin(get_radians(30)) * (double)original_x) - (sin(get_radians(30)) * (double)original_y)));
+}
+
 //wip
 void shift_x(t_dimensions dim, t_ft_point **coords, double offset)
 {

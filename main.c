@@ -11,8 +11,8 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 512 
-#define HEIGHT 512 
+#define WIDTH 1024 
+#define HEIGHT 1024 
 
 static mlx_image_t* image;
 static int someA;
@@ -261,6 +261,7 @@ void put_42(void *param)
 {
 	int fd;
 	fd = open(((t_name_holder *)param)->file_name, O_RDONLY);
+//	t_dimensions image_size = ((t_name_holder *)param)->image_size;
 	t_dimensions dim;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
 
@@ -276,33 +277,23 @@ void put_42(void *param)
 
 	dim = validate_lines(file_lines);
 	t_ft_point	**coords = alloc_data_space(dim);
+	
 
 	fill_with_data(dim, coords, file_lines);
 	ft_lstclear(&tmp, delete_content);
 	//ft_printf("%d %d\n", asd.width, asd.length);
 	int x = 0;
 	int y = 0;
-
+	int ext_coef = 40;
 	
 	while(y < dim.length)
 	{
 		while (x < dim.width)
 		{
-//			coords[x][y]
-			extend_lines(&coords[y][x], 10);
-			translate_Y _angles(&coords[y][x]);
-			//ft_printf("%d ",coords[y][x].x);
-//			if (coords[y][x].z == 100)
-//			{
-//				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
-//				ft_printf("about to put pixel\n");
-//				mlx_put_pixel(image, coords[y][x].x, coords[y][x].y, color);
-//				ft_printf("after putting pixel\n");
-//			}
-			//file_lines = file_lines->next;
+			extend_lines(&coords[y][x], ext_coef);
+			translate_angles(&coords[y][x]);
 			x++;
 		}
-//		ft_printf("\n");
 		x = 0;
 		y++;
 	}
@@ -310,18 +301,25 @@ void put_42(void *param)
 	y = 0;
 
 	make_positive(dim, coords);
+//	ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[0][0].x, coords[0][0].y, coords[0][0].z);
 	while(y < dim.length)
 	{
 		while (x < dim.width)
 		{
 //			coords[x][y]
 			//ft_printf("%d ",coords[y][x].x);
-			if (coords[y][x].z == 250)
+			if (coords[y][x].z == (10 * ext_coef))
 			{
 				ft_printf("yo!");
 				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
 //				ft_printf("about to put pixel\n");
-				mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)coords[y][x].y, color);
+//				if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length)
+					mlx_put_pixel(image, 1024 - (uint32_t)coords[y][x].x, 1024 -(uint32_t)coords[y][x].y, color);
+//				else
+//				{
+//					perror("image too small");
+//					exit(1);
+//				}
 //				ft_printf("after putting pixel\n");
 			}
 			//file_lines = file_lines->next;
@@ -336,7 +334,7 @@ void put_42(void *param)
 
 // TODO: check what happens if you change space to tab
 /*int main(int argc, char **argv)
-{
+{}{
 	if (argc != 2)
 		return (1);
 	argv++;
@@ -414,6 +412,7 @@ int32_t main(int argc, char **argv)
 	some.mlx = mlx;
 	some.image = image;
 	some.file_name = *(++argv);
+	some.image_size = (t_dimensions){HEIGHT, WIDTH};
 //	mlx_loop_hook(mlx, ft_randomize, mlx);
 //	mlx_loop_hook(mlx, put_line, mlx);
 	mlx_loop_hook(mlx, put_42, &some);
