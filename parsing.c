@@ -77,6 +77,7 @@ void translate_angles(t_ft_point *point)
 }
 */
 
+/*
 void translate_angles(t_ft_point *point)
 {
 	int	original_x;
@@ -87,6 +88,18 @@ void translate_angles(t_ft_point *point)
 	point->x = round((-cos(get_radians(30))) * (double)original_x + cos(get_radians(30) * (double)original_y));
 // wrong coefficient at z
 	point->y = round(((double)point->z - (sin(get_radians(30)) * (double)original_x) - (sin(get_radians(30)) * (double)original_y)));
+}
+*/
+void translate_angles(t_ft_point *point)
+{
+	int	original_x;
+	int	original_y;
+
+	original_x = point->x;
+	original_y = point->y;
+	point->x = round((cos(get_radians(30))) * (double)original_x + cos(get_radians(30) * (double)original_y));
+// wrong coefficient at z
+	point->y = round(((double)point->z + (sin(get_radians(30)) * (double)original_x) + (-sin(get_radians(30)) * (double)original_y)));
 }
 
 //wip
@@ -146,6 +159,7 @@ void shift_z(t_dimensions dim, t_ft_point **coords, double offset)
 		y++;
 	}
 }
+
 void make_positive(t_dimensions dim, t_ft_point **coords)
 {
 	// go through all coordinates
@@ -297,7 +311,36 @@ t_ft_point	**alloc_data_space(t_dimensions dim)
 	}
 	return (coordinates);
 }
+/*
+void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
+{
+	char **split_res;
+	int x;
+	int y;
 
+	x = 0;
+	y = 0;
+//	y = dim.length - 1;
+//	while (y > -1)
+	while (y < dim.length)
+	{
+		split_res = ft_split((char *)lines->content, ' ');
+		while (x < dim.width)
+		{
+			coordinates[y][x].x = x;
+			coordinates[y][x].y = y;
+			coordinates[y][x].z = ft_atoi(split_res[x]);
+			x++;
+			
+		}
+		free_split(split_res);
+		x = 0;
+		lines = lines->next;
+//		y--;
+		y++;
+	}
+}
+*/
 void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 {
 	char **split_res;

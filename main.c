@@ -314,8 +314,11 @@ void put_42(void *param)
 				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
 //				ft_printf("about to put pixel\n");
 // TODO: come up with a correct translation of coordinates onto image
-				if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length)
-					mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)coords[y][x].y, color);
+				if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length )
+				{
+				//	if (coords[y][x].z == (10 * ext_coef))
+						mlx_put_pixel(image, (uint32_t)coords[y][x].x, image_size.length - (uint32_t)coords[y][x].y, color);
+				}
 				else
 				{
 					perror("image too small");
