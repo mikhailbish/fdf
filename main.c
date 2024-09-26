@@ -11,13 +11,13 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 1024 
-#define HEIGHT 1024 
+#define WIDTH 2048 
+#define HEIGHT 2048 
 
 static mlx_image_t* image;
-static int someA;
-static int someB;
-static int someC;
+//static int someA;
+//static int someB;
+//static int someC;
 
 // -----------------------------------------------------------------------------
 
@@ -77,6 +77,21 @@ int get_straight_line_y(int x, double k, int b)
 
 // y = kx + b
 // x = y-b   / k
+/*
+int get_straight_line_y(int x, int m, int n, int b)
+{
+	if (m == 0 || n == 0)
+		return (b);
+	return (((x * m) / n) + b);
+}
+
+int get_straight_line_x(int y, int m, int n, int b)
+{
+	if (m == 0 || n == 0)
+		return (0);
+	return (((y - b) * n) / m);
+}
+*/
 int get_straight_line_y(int x, int m, int n, int b)
 {
 	if (m == 0 || n == 0)
@@ -91,6 +106,21 @@ int get_straight_line_x(int y, int m, int n, int b)
 	return (((y - b) * n) / m);
 }
 
+int determine_m(t_ft_point a, t_ft_point b)
+{
+	return (b.y - a.y);
+}
+
+int determine_n(t_ft_point a, t_ft_point b)
+{
+	return (b.x - a.x);
+}
+
+int determine_b(t_ft_point a, t_ft_point b)
+{
+	return ((a.x * b.y - a.y * b.x)/(a.x - b.x));
+}
+/*
 void put_line()
 {
 	int x = 0;
@@ -126,41 +156,59 @@ void put_line()
 
 	}
 }
+*/
 /*
 t_ft_point get_mnb(t_ft_point start, t_ft_point end)
 {
 	return ();
 }*/
-/*
+
 void put_line(t_ft_point start, t_ft_point end)
 {
-	int x = 0;
-	int y = 0;
 
 	//get_mnb(start, end);
+	int m;
+	int n;
+	int b;
+	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
 
+	m = determine_m(start, end);
+	n = determine_n(start, end);
+	b = determine_b(start, end);
+	uint32_t min_x;
+	uint32_t min_y;
+	uint32_t max_x;
+	uint32_t max_y;
+	min_x = start.x > end.x ? end.x : start.x;
+	min_y = start.y > end.y ? end.y : start.y;
+	max_x = start.x > end.x ? start.x : end.x;
+	max_y = start.y > end.y ? start.y : end.y;
+	uint32_t x = min_x;
+	uint32_t y = min_y;
 	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
 	{
-		while((x <  (int)image->width) && (y < (int)image->height))
+		//while((x <= max_x) && (y <= max_y) && (x >= min_x) &&( y >= min_y))
+//		while((x <= max_x) && ((image->height - y) <= (uint32_t)max_y) && (x >= min_x) &&((image->height - y) >= (uint32_t)min_y))
+		while((x <= max_x) && (y <= max_y) && (x >= min_x) && (y >= min_y))
 		{
 			y = get_straight_line_y(x, m, n, b);
-			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
+//			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
 				mlx_put_pixel(image, x, (int)image->height - y, color);
 			x++;
 		}
 	}
 	else
 	{
-		while((x < (int)image->width) && (y < (int)image->height))
+		while((x <= max_x) && (y <= max_y) && (x >= min_x) && (y >= min_y))
 		{
 			x = get_straight_line_x(y, m, n, b);
-			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
+//			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
 				mlx_put_pixel(image, x, (int)image->height - y, color);
 			y++;
 		}
 	}
 }
-*/
+
 /*
 void put_line(int m, int n, int b, int top, int bot, int left, int right)
 {
@@ -257,13 +305,38 @@ int main()
 }
 */
 
+void put_lines(t_dimensions dim, t_ft_point **coords)
+{
+	int y;
+	int x;
+
+	y = 0;
+	x = 0;
+	while(y < dim.length)
+	{
+		while(x < dim.width)
+		{
+			if ((y + 1) < dim.length)
+				put_line(coords[y][x], coords[y + 1][x]);
+			if ((x + 1) < dim.width)
+				put_line(coords[y][x + 1], coords[y][x]);
+	//		if ((x - 1) > 0)
+	//			put_line(coords[y][x - 1], coords[y][x]);
+	//		if ((y - 1) > 0)
+	//			put_line(coords[y - 1][x], coords[y][x]);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
 void put_42(void *param)
 {
 	int fd;
 	fd = open(((t_name_holder *)param)->file_name, O_RDONLY);
 	t_dimensions image_size = ((t_name_holder *)param)->image_size;
 	t_dimensions dim;
-	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+//	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
 
 	if (fd < 0)
 	{
@@ -301,38 +374,31 @@ void put_42(void *param)
 	y = 0;
 
 	make_positive(dim, coords);
-//	ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[0][0].x, coords[0][0].y, coords[0][0].z);
 	while(y < dim.length)
 	{
 		while (x < dim.width)
 		{
-//			coords[x][y]
-			//ft_printf("%d ",coords[y][x].x);
-	//		if (coords[y][x].z == (10 * ext_coef))
-	//		{
-				ft_printf("yo!");
-				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
-//				ft_printf("about to put pixel\n");
+//			ft_printf("yo!");
+		//	ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
 // TODO: come up with a correct translation of coordinates onto image
-				if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length )
-				{
-				//	if (coords[y][x].z == (10 * ext_coef))
-						mlx_put_pixel(image, (uint32_t)coords[y][x].x, image_size.length - (uint32_t)coords[y][x].y, color);
-				}
-				else
-				{
-					perror("image too small");
-					exit(1);
-				}
-//				ft_printf("after putting pixel\n");
-	//		}
-			//file_lines = file_lines->next;
+			if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length )
+			{
+//				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
+	//			mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)image_size.length - (uint32_t)coords[y][x].y, color);
+			}
+			else
+			{
+				perror("image too small");
+				exit(1);
+			}
 			x++;
 		}
-		ft_printf("\n");
+//		ft_printf("\n");
 		x = 0;
 		y++;
 	}
+	put_lines(dim, coords);
+//	ft_printf("__________________________________________________________________________");
 	// TODO: free coords
 }
 

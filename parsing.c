@@ -22,7 +22,7 @@ void	delete_content(void *content)
 
 double get_radians(int angle)
 {
-	return ((double)angle * M_PI / 180);
+	return (((double)angle * M_PI) / 180);
 }
 
 //wip
@@ -90,6 +90,21 @@ void translate_angles(t_ft_point *point)
 	point->y = round(((double)point->z - (sin(get_radians(30)) * (double)original_x) - (sin(get_radians(30)) * (double)original_y)));
 }
 */
+
+void translate_angles(t_ft_point *point)
+{
+	int	original_x;
+	int	original_y;
+
+	original_x = point->x;
+	original_y = point->y;
+//	printf("radians: %a\n", get_radians(30));
+	point->x = round((cos(get_radians(30))) * (double)original_x - cos(get_radians(30)) * (double)original_y);
+// wrong coefficient at z
+	point->y = round(((double)point->z + (sin(get_radians(30)) * (double)original_x) + (sin(get_radians(30)) * (double)original_y)));
+}
+
+/*
 void translate_angles(t_ft_point *point)
 {
 	int	original_x;
@@ -101,7 +116,7 @@ void translate_angles(t_ft_point *point)
 // wrong coefficient at z
 	point->y = round(((double)point->z + (sin(get_radians(30)) * (double)original_x) + (-sin(get_radians(30)) * (double)original_y)));
 }
-
+*/
 //wip
 void shift_x(t_dimensions dim, t_ft_point **coords, double offset)
 {
@@ -202,13 +217,13 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 		shift_y(dim, coords, -smallest_y);
 	//	shift ys
 	}
-/*	if (smallest_z < 0)
+	if (smallest_z < 0)
 	{
-		ft_printf("neg z?");
+	//	ft_printf("neg z?");
 		shift_z(dim, coords, -smallest_z);
 	//	shift zs
 	}
-*/
+
 }
 
 /*
@@ -357,7 +372,7 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 		while (x < dim.width)
 		{
 			coordinates[y][x].x = x;
-			coordinates[y][x].y = y;
+			coordinates[y][x].y = dim.length - y - 1;
 			coordinates[y][x].z = ft_atoi(split_res[x]);
 			x++;
 			
