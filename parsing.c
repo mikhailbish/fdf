@@ -356,7 +356,8 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 	}
 }
 */
-void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
+// TODO: test returns
+int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 {
 	char **split_res;
 	int x;
@@ -364,11 +365,15 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 
 	x = 0;
 	y = 0;
-//	y = dim.length - 1;
-//	while (y > -1)
+	split_res = 0;
+	if (y >= dim.length)
+		return 1;
 	while (y < dim.length)
 	{
 		split_res = ft_split((char *)lines->content, ' ');
+		
+		if (!split_res)
+			break ;
 		while (x < dim.width)
 		{
 			coordinates[y][x].x = x;
@@ -380,9 +385,11 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 		free_split(split_res);
 		x = 0;
 		lines = lines->next;
-//		y--;
 		y++;
 	}
+	if (!split_res)
+		return (0);
+	return (1);
 }
 /*
 t_dimensions	parse_lines(t_dimensions dim, t_list *lines)

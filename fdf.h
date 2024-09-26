@@ -19,7 +19,7 @@
 //TODO: TEst
 # include <errno.h>
 # include <math.h>
-
+# include <string.h>
 typedef struct s_ft_point {
 	int x;
 	int y;
@@ -46,7 +46,7 @@ void	delete_content(void *content);
 t_list	*get_file_lines(int fd);
 t_dimensions validate_lines(t_list *lines);
 t_dimensions	parse_lines(t_dimensions dim, t_list *lines);
-void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines);
+int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines);
 t_ft_point	**alloc_data_space(t_dimensions dim);
 double get_radians(int angle);
 void translate_angles(t_ft_point *point);

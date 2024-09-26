@@ -11,8 +11,8 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 2048 
-#define HEIGHT 2048 
+#define WIDTH 1024 
+#define HEIGHT 1024 
 
 static mlx_image_t* image;
 //static int someA;
@@ -194,7 +194,7 @@ void put_line(t_ft_point start, t_ft_point end)
 		//while((x <= max_x) && (y <= max_y) && (x >= min_x) &&( y >= min_y))
 //		while((x <= max_x) && ((image->height - y) <= (uint32_t)max_y) && (x >= min_x) &&((image->height - y) >= (uint32_t)min_y))
 // TODO: adjust for the error margins when identifying beginnings and ends of the line
-		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y -2))
+		while((x <= max_x + 1) && (y <= max_y + 1) && (x >= min_x - 1) && (y >= min_y - 1))
 		{
 			y = get_straight_line_y(x, m, n, b);
 	//		ft_printf("x: %d y: %d, max_x: %d max_y: %d, min_x: %d, min_y: %d\n", x, y, max_x, max_y, min_x, min_y);
@@ -205,7 +205,7 @@ void put_line(t_ft_point start, t_ft_point end)
 	}
 	else
 	{
-		while((x <= max_x) && (y <= max_y) && (x >= min_x) && (y >= min_y))
+		while((x <= max_x + 1) && (y <= max_y + 1) && (x >= min_x - 1) && (y >= min_y - 1))
 		{
 			x = get_straight_line_x(y, m, n, b);
 //			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
@@ -346,7 +346,13 @@ void put_42(void *param)
 
 	if (fd < 0)
 	{
+/*		if (errno)
+		{
+			perror(strerror(errno));
+		}
+*/
 		perror("Cannot find file");
+//		TODO: handle
 //		return (1);
 	}
 
@@ -459,7 +465,8 @@ void put_42(void *param)
 int32_t main(int argc, char **argv)
 {
 	if (argc != 2)
-		return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
+//		return (EXIT_FAILURE);
 	mlx_t* mlx;
 	t_name_holder some;
 /*	++argv;
