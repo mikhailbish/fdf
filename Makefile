@@ -29,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 
 
 all: clone $(NAME)
-	./$(NAME) 42.fdf
+	./$(NAME) tst.fdf
 
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
 # to tell if the target is latest or not. So the execute 'make' command at the second
