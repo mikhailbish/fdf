@@ -171,29 +171,35 @@ void put_line(t_ft_point start, t_ft_point end)
 	int n;
 	int b;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
-
+//	printf("%d %d\n", start.x, end.x);
+//	printf("%d %d\n", start.y, end.y);
 	m = determine_m(start, end);
+	//printf("m: %d\n", m);
 	n = determine_n(start, end);
+	//printf("n: %d\n", n);
 	b = determine_b(start, end);
+	//printf("b: %d\n", b);
 	uint32_t min_x;
 	uint32_t min_y;
 	uint32_t max_x;
 	uint32_t max_y;
-	min_x = start.x > end.x ? end.x : start.x;
-	min_y = start.y > end.y ? end.y : start.y;
-	max_x = start.x > end.x ? start.x : end.x;
-	max_y = start.y > end.y ? start.y : end.y;
+	min_x = (start.x > end.x) ? end.x : start.x;
+	min_y = (start.y > end.y) ? end.y : start.y;
+	max_x = (start.x > end.x) ? start.x : end.x;
+	max_y = (start.y > end.y) ? start.y : end.y;
 	uint32_t x = min_x;
 	uint32_t y = min_y;
 	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
 	{
 		//while((x <= max_x) && (y <= max_y) && (x >= min_x) &&( y >= min_y))
 //		while((x <= max_x) && ((image->height - y) <= (uint32_t)max_y) && (x >= min_x) &&((image->height - y) >= (uint32_t)min_y))
-		while((x <= max_x) && (y <= max_y) && (x >= min_x) && (y >= min_y))
+// TODO: adjust for the error margins when identifying beginnings and ends of the line
+		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y -2))
 		{
 			y = get_straight_line_y(x, m, n, b);
+	//		ft_printf("x: %d y: %d, max_x: %d max_y: %d, min_x: %d, min_y: %d\n", x, y, max_x, max_y, min_x, min_y);
 //			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
-				mlx_put_pixel(image, x, (int)image->height - y, color);
+			mlx_put_pixel(image, x, (int)image->height - y, color);
 			x++;
 		}
 	}
@@ -203,7 +209,7 @@ void put_line(t_ft_point start, t_ft_point end)
 		{
 			x = get_straight_line_x(y, m, n, b);
 //			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
-				mlx_put_pixel(image, x, (int)image->height - y, color);
+			mlx_put_pixel(image, x, (int)image->height - y, color);
 			y++;
 		}
 	}
@@ -397,7 +403,9 @@ void put_42(void *param)
 		x = 0;
 		y++;
 	}
+	
 	put_lines(dim, coords);
+//	put_line(coords[2][2], coords[2][3]);
 //	ft_printf("__________________________________________________________________________");
 	// TODO: free coords
 }
