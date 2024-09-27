@@ -273,7 +273,9 @@ t_list	*get_file_lines(int fd)
 	line = get_next_line(fd);
 	if (!line)
 	{
+		//TODO: handle
 		//error in gnl
+		//malloc or read
 		return (0);
 	}
 	head = ft_lstnew((void *)line);
