@@ -50,32 +50,32 @@ void extend_lines(t_ft_point *point, int num)
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
 }
-/*
+
 void translate_angles(t_ft_point *point)
 {
 	double	vector[3];
 	double	matrix[3][3];
-
+// TODO: find out why some angles crash
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
-	matrix[0][0] = cos(120);
-	matrix[0][1] = -sin(120);
+	matrix[0][0] = cos(get_radians(30));
+	matrix[0][1] = -cos(get_radians(30));
 	matrix[0][2] = 0;
-	matrix[1][0] = sin(120);
-	matrix[1][1] = cos(120);
-	matrix[1][2] = 0;
+	matrix[1][0] = sin(get_radians(30));
+	matrix[1][1] = sin(get_radians(30));
+	matrix[1][2] = 1;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
 	matrix[2][2] = 1;
 //	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
 //	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
 	mutate_3d_vector(vector, matrix);
-	point->x = ceil(vector[0]);
-	point->y = ceil(vector[1]);
-	point->z = ceil(vector[2]);
+	point->x = round(vector[0]);
+	point->y = round(vector[1]);
+	point->z = round(vector[2]);
 }
-*/
+
 
 /*
 void translate_angles(t_ft_point *point)
@@ -90,7 +90,7 @@ void translate_angles(t_ft_point *point)
 	point->y = round(((double)point->z - (sin(get_radians(30)) * (double)original_x) - (sin(get_radians(30)) * (double)original_y)));
 }
 */
-
+/*
 void translate_angles(t_ft_point *point)
 {
 	int	original_x;
@@ -99,10 +99,12 @@ void translate_angles(t_ft_point *point)
 	original_x = point->x;
 	original_y = point->y;
 //	printf("radians: %a\n", get_radians(30));
+
+//TODO: rewrite with matrices
 	point->x = round((cos(get_radians(30))) * (double)original_x - cos(get_radians(30)) * (double)original_y);
 // wrong coefficient at z
 	point->y = round(((double)point->z + (sin(get_radians(30)) * (double)original_x) + (sin(get_radians(30)) * (double)original_y)));
-}
+}*/
 
 /*
 void translate_angles(t_ft_point *point)
