@@ -92,6 +92,13 @@ int get_straight_line_x(int y, int m, int n, int b)
 	return (((y - b) * n) / m);
 }
 */
+/*
+	starting point 
+	y = kx + b
+
+	could be imagined as y = (m/n) * x + b
+
+*/
 int get_straight_line_y(int x, int m, int n, int b)
 {
 	if (m == 0 || n == 0)
@@ -115,10 +122,12 @@ int determine_n(t_ft_point a, t_ft_point b)
 {
 	return (b.x - a.x);
 }
-
+/* fails when a.x == b.x */
 int determine_b(t_ft_point a, t_ft_point b)
 {
-	return ((a.x * b.y - a.y * b.x)/(a.x - b.x));
+	if (a.x - b.x)
+		return ((a.x * b.y - a.y * b.x)/(a.x - b.x));
+	return (0);
 }
 /*
 void put_line()
@@ -320,13 +329,13 @@ void put_lines(t_dimensions dim, t_ft_point **coords)
 
 	y = 0;
 	x = 0;
-	while(y < dim.length)
+	while(y < dim.length - 1)
 	{
-		while(x < dim.width)
+		while(x < dim.width - 1)
 		{
-			if ((y + 1) < dim.length)
+			if ((y + 1) < dim.length - 1)
 				put_line(coords[y][x], coords[y + 1][x]);
-			if ((x + 1) < dim.width)
+			if ((x + 1) < dim.width - 1)
 				put_line(coords[y][x + 1], coords[y][x]);
 	//		if ((x - 1) > 0)
 	//			put_line(coords[y][x - 1], coords[y][x]);
