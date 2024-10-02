@@ -174,20 +174,13 @@ t_ft_point get_mnb(t_ft_point start, t_ft_point end)
 
 void put_line(t_ft_point start, t_ft_point end)
 {
-
-	//get_mnb(start, end);
 	int m;
 	int n;
 	int b;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
-//	printf("%d %d\n", start.x, end.x);
-//	printf("%d %d\n", start.y, end.y);
 	m = determine_m(start, end);
-	//printf("m: %d\n", m);
 	n = determine_n(start, end);
-	//printf("n: %d\n", n);
 	b = determine_b(start, end);
-	//printf("b: %d\n", b);
 	uint32_t min_x;
 	uint32_t min_y;
 	uint32_t max_x;
@@ -198,27 +191,30 @@ void put_line(t_ft_point start, t_ft_point end)
 	max_y = (start.y > end.y) ? start.y : end.y;
 	uint32_t x = min_x;
 	uint32_t y = min_y;
+	//TODO: don't cast image height to int?
+	ft_printf("in put_line\n");
+
 	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
 	{
-		//while((x <= max_x) && (y <= max_y) && (x >= min_x) &&( y >= min_y))
-//		while((x <= max_x) && ((image->height - y) <= (uint32_t)max_y) && (x >= min_x) &&((image->height - y) >= (uint32_t)min_y))
-// TODO: adjust for the error margins when identifying beginnings and ends of the line
+		ft_printf("case 1");
+		ft_printf("x: %d, y: %d, m: %d, n: %d\n", x, y, m, n);
+		
 		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y - 2))
 		{
+			
 			y = get_straight_line_y(x, m, n, b);
-	//		ft_printf("x: %d y: %d, max_x: %d max_y: %d, min_x: %d, min_y: %d\n", x, y, max_x, max_y, min_x, min_y);
-//			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
-			mlx_put_pixel(image, x, (int)image->height - y, color);
+			mlx_put_pixel(image, x, image->height - y, color);
 			x++;
 		}
 	}
 	else
 	{
+		ft_printf("case 2");
+		ft_printf("x: %d, y: %d, m: %d, n: %d\n", x, y, m, n);
 		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y - 2))
 		{
 			x = get_straight_line_x(y, m, n, b);
-//			if (y < (int)image->height && y > -1 && x < (int)image->width && x > -1 )
-			mlx_put_pixel(image, x, (int)image->height - y, color);
+			mlx_put_pixel(image, x, image->height - y, color);
 			y++;
 		}
 	}
@@ -322,28 +318,25 @@ int main()
 
 // not all lines shown?
 //TODO: implement flood fill?
+// TODO: include every possible line
 void put_lines(t_dimensions dim, t_ft_point **coords)
 {
 	int y;
 	int x;
 
 	y = 0;
-	x = 0;
+	x = dim.width - 1;
 	while(y < dim.length - 1)
 	{
-		while(x < dim.width - 1)
+		while(x > 0)
 		{
-			if ((y + 1) < dim.length - 1)
-				put_line(coords[y][x], coords[y + 1][x]);
-			if ((x + 1) < dim.width - 1)
-				put_line(coords[y][x + 1], coords[y][x]);
-	//		if ((x - 1) > 0)
-	//			put_line(coords[y][x - 1], coords[y][x]);
-	//		if ((y - 1) > 0)
-	//			put_line(coords[y - 1][x], coords[y][x]);
-			x++;
+			ft_printf("y, x: %d, %d\n", y, x);
+			ft_printf("y, x: %d, %d\n", coords[y][x].y, coords[y][x].x);
+			put_line(coords[y][x], coords[y + 1][x]);
+			put_line(coords[y][x - 1], coords[y][x]);
+			x--;
 		}
-		x = 0;
+		x = dim.width - 1;
 		y++;
 	}
 }
@@ -371,11 +364,8 @@ void put_42(void *param)
 	t_list *file_lines = get_file_lines(fd);
 	close(fd);
 	t_list *tmp = file_lines;
-
 	dim = validate_lines(file_lines);
 	t_ft_point	**coords = alloc_data_space(dim);
-	
-
 	fill_with_data(dim, coords, file_lines);
 	ft_lstclear(&tmp, delete_content);
 	//ft_printf("%d %d\n", asd.width, asd.length);
@@ -421,7 +411,20 @@ void put_42(void *param)
 		x = 0;
 		y++;
 	}
-	
+/*
+	int i = 0;
+	int j = 0;
+	while (i < dim.length)
+	{
+		while (j < dim.width)
+		{
+			ft_printf("x: %d, y: %d, z: %d\n", coords[i][j].x, coords[i][j].y, coords[i][j].z);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+*/
 	put_lines(dim, coords);
 //	put_line(coords[2][2], coords[2][3]);
 //	ft_printf("__________________________________________________________________________");
