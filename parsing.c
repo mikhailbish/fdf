@@ -26,6 +26,7 @@ double get_radians(int angle)
 }
 
 //wip
+
 void extend_lines(t_ft_point *point, int num)
 {
 	double	vector[3];
@@ -51,7 +52,7 @@ void extend_lines(t_ft_point *point, int num)
 	point->z = round(vector[2]);
 }
 
-void translate_angles(t_ft_point *point)
+void translate_angles(t_ft_point *point, double factor)
 {
 	double	vector[3];
 	double	matrix[3][3];
@@ -59,15 +60,15 @@ void translate_angles(t_ft_point *point)
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
-	matrix[0][0] = cos(get_radians(30));
-	matrix[0][1] = -cos(get_radians(30));
+	matrix[0][0] = cos(get_radians(30)) * factor;
+	matrix[0][1] = -cos(get_radians(30)) * factor;
 	matrix[0][2] = 0;
-	matrix[1][0] = sin(get_radians(30));
-	matrix[1][1] = sin(get_radians(30));
-	matrix[1][2] = 1;
+	matrix[1][0] = sin(get_radians(30)) * factor;
+	matrix[1][1] = sin(get_radians(30)) * factor;
+	matrix[1][2] = 1 * factor;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = 1;
+	matrix[2][2] = 1 * factor;
 //	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
 //	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
 	mutate_3d_vector(vector, matrix);

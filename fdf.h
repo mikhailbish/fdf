@@ -49,7 +49,7 @@ t_dimensions	parse_lines(t_dimensions dim, t_list *lines);
 int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines);
 t_ft_point	**alloc_data_space(t_dimensions dim);
 double get_radians(int angle);
-void translate_angles(t_ft_point *point);
+void translate_angles(t_ft_point *point, double factor);
 void mutate_3d_vector(double vector[3], double matrix[3][3]);
 void extend_lines(t_ft_point *point, int num);
 void make_positive(t_dimensions dim, t_ft_point **coords);

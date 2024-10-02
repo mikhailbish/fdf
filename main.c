@@ -377,8 +377,8 @@ void put_42(void *param)
 	{
 		while (x < dim.width)
 		{
-			extend_lines(&coords[y][x], ext_coef);
-			translate_angles(&coords[y][x]);
+			translate_angles(&coords[y][x], ext_coef);
+			extend_lines(&coords[y][x], 1);
 			x++;
 		}
 		x = 0;
