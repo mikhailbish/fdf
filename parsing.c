@@ -183,6 +183,7 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 	// go through all coordinates
 	// find smallest x y and z
 	// shift all coordinates by the abs of negative
+// wip some corner points showing poorly and lines not connected
 	int x;
 	int y;
 	double smallest_x;
@@ -210,12 +211,12 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 		}
 		y++;
 	}
-	if (smallest_x < 0)
+	if (smallest_x < 1)
 	{
 		shift_x(dim, coords, -smallest_x);
 	//	shift xs
 	}
-	if (smallest_y < 0)
+	if (smallest_y < 1)
 	{
 		shift_y(dim, coords, -smallest_y);
 	//	shift ys
@@ -362,6 +363,7 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 }
 */
 // TODO: test returns
+// wip some corner points showing poorly and lines not connected
 int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 {
 	char **split_res;

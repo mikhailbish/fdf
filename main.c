@@ -196,10 +196,10 @@ void put_line(t_ft_point start, t_ft_point end)
 
 	if (m == 0 || (m > -1 && n > -1 && m < n) || (m < 0 && n < 0 && n < m))
 	{
-		ft_printf("case 1");
+		ft_printf("case 1\n");
 		ft_printf("x: %d, y: %d, m: %d, n: %d\n", x, y, m, n);
 		
-		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y - 2))
+		while((x <= max_x + 5) && (y <= max_y + 5) && (x >= min_x - 5) && (y >= min_y - 5))
 		{
 			
 			y = get_straight_line_y(x, m, n, b);
@@ -209,9 +209,9 @@ void put_line(t_ft_point start, t_ft_point end)
 	}
 	else
 	{
-		ft_printf("case 2");
+		ft_printf("case 2\n");
 		ft_printf("x: %d, y: %d, m: %d, n: %d\n", x, y, m, n);
-		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y - 2))
+		while((x <= max_x + 5) && (y <= max_y + 5) && (x >= min_x - 5) && (y >= min_y - 5))
 		{
 			x = get_straight_line_x(y, m, n, b);
 			mlx_put_pixel(image, x, image->height - y, color);
@@ -325,20 +325,47 @@ void put_lines(t_dimensions dim, t_ft_point **coords)
 	int x;
 
 	y = 0;
-	x = dim.width - 1;
-	while(y < dim.length - 1)
+	int line_count = 0;
+	//x = dim.width - 1;
+	// 9 rows * 8 columns = 72
+	// 7 lines in a row
+	// 7*9 = 63 horizontal lines
+	// 8 lines in a column
+	// 64 vertical lines
+	// 127 total lines
+	while(y < dim.length)
 	{
-		while(x > 0)
+		x = dim.width - 1;
+		while(x > - 1)
 		{
 			ft_printf("y, x: %d, %d\n", y, x);
 			ft_printf("y, x: %d, %d\n", coords[y][x].y, coords[y][x].x);
-			put_line(coords[y][x], coords[y + 1][x]);
-			put_line(coords[y][x - 1], coords[y][x]);
+			if (x == 0 && y < dim.length - 1)
+			{
+				ft_printf("pls case 1 x: %d, y: %d\n", x, y);
+				put_line(coords[y][x], coords[y + 1][x]);
+				line_count +=1;
+			}
+			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
+			{
+				ft_printf("pls case 2 x: %d, y: %d\n", x, y);
+				put_line(coords[y][x], coords[y][x + 1]);
+				line_count +=1;
+			}
+			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
+			{
+			}
+			else {
+				ft_printf("pls case 3 x: %d, y: %d\n", x, y);
+				put_line(coords[y][x], coords[y + 1][x]);
+				put_line(coords[y][x - 1], coords[y][x]);
+				line_count +=2;
+			}
 			x--;
 		}
-		x = dim.width - 1;
 		y++;
 	}
+	ft_printf("line_count = %d\n", line_count);
 }
 void put_42(void *param)
 {
@@ -347,7 +374,7 @@ void put_42(void *param)
 	fd = open(((t_name_holder *)param)->file_name, O_RDONLY);
 	t_dimensions image_size = ((t_name_holder *)param)->image_size;
 	t_dimensions dim;
-//	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+	//uint32_t red_color = ft_pixel(0xFF, 0, 0, 0xFF);
 
 	if (fd < 0)
 	{
@@ -399,6 +426,20 @@ void put_42(void *param)
 			{
 //				ft_printf("in a loop, x: %d, y: %d, z: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x].z);
 	//			mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)image_size.length - (uint32_t)coords[y][x].y, color);
+// wip some corner points showing poorly and lines not connected
+				if (((y == (dim.length - 1)) || (y == 0) ) && x == 0 )
+				{
+					ft_printf("dim.length: %d\n", dim.length);
+					ft_printf("dim.width: %d\n", dim.width);
+					ft_printf("x: %d\n", x);
+					ft_printf("y: %d\n", y);
+					ft_printf("x at xy: %d\n", coords[y][x].x);
+					ft_printf("y at xy: %d\n", coords[y][x].y);
+					ft_printf("z at xy: %d\n", coords[y][x].z);
+					uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+					mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)image_size.length - (uint32_t)coords[y][x].y , color);
+//					mlx_put_pixel(image, 346, (uint32_t)image_size.length - 1, red_color);
+				}
 			}
 			else
 			{
@@ -427,7 +468,7 @@ void put_42(void *param)
 */
 	put_lines(dim, coords);
 //	put_line(coords[2][2], coords[2][3]);
-//	ft_printf("__________________________________________________________________________");
+	ft_printf("__________________________________________________________________________\n");
 	// TODO: free coords
 }
 

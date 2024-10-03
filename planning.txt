@@ -11,7 +11,7 @@ Tasks:
 	1.4	parsing
 	1.5	validation
 2.	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
-start point > make sure every line is drawn
+start point > make sure every line is drawn wip
 3.	add colors
 4.	add scaling (determine the highest and lowest x and y values)
 5.	parse colors as well as points
