@@ -4,15 +4,18 @@ parse coordinates from file (into a 2d matrix in a correct projection, use the p
 
 Tasks:
 
-1.	reorganize code into more managable components, separate files:
+-	move parsing out of the hook
+-	reorganize code into more managable components, separate files:
 	1.1	math utils (vector matrix calculations)
 	1.2	mlx utils
 	1.3	errors and exits
 	1.4	parsing
 	1.5	validation
-2.	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
+-	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
 start point > make sure every line is drawn wip
-3.	add colors
-4.	add scaling (determine the highest and lowest x and y values)
-5.	parse colors as well as points
-6.	find the way to test that each possible line would be drawn correctly, without points being skipped  
+-	add colors
+-	add scaling (determine the highest and lowest x and y values)
+-	parse colors as well as points
+-	find the way to test that each possible line would be drawn correctly, without points being skipped 
+-	add brasenham
+-	scaling calculations and centering
