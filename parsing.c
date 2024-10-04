@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
+/*   Updated: 2024/10/04 20:21:54 by mbutuzov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 int check_name(char *name)
@@ -44,13 +56,12 @@ void extend_lines(t_ft_point *point, int num)
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
 	matrix[2][2] = num;
-//	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
-//	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
 	mutate_3d_vector(vector, matrix);
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
 }
+
 
 void translate_angles(t_ft_point *point, double factor)
 {
@@ -105,8 +116,8 @@ void translate_angles(t_ft_point *point)
 	point->x = round((cos(get_radians(30))) * (double)original_x - cos(get_radians(30)) * (double)original_y);
 // wrong coefficient at z
 	point->y = round(((double)point->z + (sin(get_radians(30)) * (double)original_x) + (sin(get_radians(30)) * (double)original_y)));
-}*/
-
+}
+*/
 /*
 void translate_angles(t_ft_point *point)
 {
@@ -398,87 +409,94 @@ int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 		return (0);
 	return (1);
 }
-/*
-t_dimensions	parse_lines(t_dimensions dim, t_list *lines)
+
+t_dimensions get_data_from_fd(int fd)
 {
-	int		column_count;
-	int		line_count;
+	t_dimensions dim;
+	t_list *file_lines;
+	t_list *tmp;
 
-	while(lines)
+	if (fd < 0)
 	{
-		column_count = validate_lines(lines->content);
-		if (column_count == -1)
-		{
-//			alloc fail in validate line
-//			or illegal values
-		}
-		if (dim.width != column_count)
-		{
-//			wrong number of columns in a line
-		}
-		lines = lines->next;
+		perror("Cannot find file");
+//		TODO: handle
+//		return (1);
 	}
-	dim.length = line_count;
-	return (dim);	
+	
+	file_lines = get_file_lines(fd);
+	//close(fd); // handle outside
+	tmp = file_lines;
+	dim = validate_lines(file_lines);
+	dim.coords = alloc_data_space(dim);
+	if (!dim.coords)
+	{
+		//TODO: handle
+	}
+	fill_with_data(dim, dim.coords, file_lines);
+	ft_lstclear(&tmp, delete_content);
+	return (dim);
+	//ft_printf("%d %d\n", asd.width, asd.length);
+	
 }
-*/	
-/*
-	char	*line;
-	t_list	*head;
-	t_list	*tmp;
 
-	line = (char *)-1;
-
-	while (line)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break;
-		tmp = ft_lstnew((void *)line);
-		if (!tmp)
-			break;
-			//malloc list error
-			//free list?
-			//break??
-			//no errno check
-			// adjust errno?
-		ft_lstadd_back(&head, tmp);
-	}
-	// gnl till the end
-	if (!tmp)
-		while(line)
-		{
-			free(line);
-			line = get_next_line(fd)
-		}
-	if (errno == ENOMEM)
-	{
-		//error in gnl
-	}
-*/
-/*
-	line = get_next_line(fd);
-	if (line)
-		head->content = (void *)line;
-	tmp = head;
-	while(line)
-	{
-		tmp->next = *ft_lstnew(line);
-		if (!tmp->next)
-			ft_lstclear(head, delete_content);
-		tmp = tmp->next;
-		line = get_next_line(fd);
-	}
-	if (errno == ENOMEM)
-	{
-		//error in gnl
-	}
-*/	
-
-/*
-t_dimensions get_map_dimensions()
+void	process_data(t_dimensions dim)
 {
+	int x;
+	int y;
+	int ext_coef;
+	t_ft_point **coords;
 
+	x = 0;
+	y = 0;
+	ext_coef = 40;
+	coords = dim.coords;
+	while(y < dim.length)
+	{
+		while (x < dim.width)
+		{
+			extend_lines(&coords[y][x], ext_coef);
+			translate_angles(&coords[y][x], 1);
+//			translate_angles(&coords[y][x]);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	x = 0;
+	y = 0;
+
+	make_positive(dim, coords);
 }
-*/
 
+void display_data(t_dimensions dim, t_dimensions image_size, mlx_image_t *image)
+{
+	int x;
+	int y;
+	t_ft_point **coords;
+	coords = dim.coords;
+	
+	y = 0;
+	while(y < dim.length)
+	{
+		x = 0;
+		while (x < dim.width)
+		{
+			if (coords[y][x].x < image_size.width && coords[y][x].y < image_size.length )
+			{
+				if (((y == (dim.length - 1)) || (y == 0) ) && x == 0 )
+				{
+					uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+					mlx_put_pixel(image, (uint32_t)coords[y][x].x, (uint32_t)image_size.length - (uint32_t)coords[y][x].y , color);
+				}
+			}
+			else
+			{	// TODO: should not be thing, work on ext_coef at parsing
+				perror("image too small");
+				exit(1);
+			}
+			x++;
+		}
+		y++;
+	}
+	put_lines(image, dim, coords);
+}
