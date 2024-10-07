@@ -12,7 +12,7 @@
 //#define HEIGHT 512
 
 #define WIDTH 1024 
-#define HEIGHT 1024 
+#define HEIGHT 512 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -102,7 +102,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 //		ft_printf("case 1\n");
 //		ft_printf("x: %d, y: %d, m: %d, n: %d\n", x, y, m, n);
 		
-		while((x <= max_x + 5) && (y <= max_y + 5) && (x >= min_x - 5) && (y >= min_y - 5))
+		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y - 2))
 		{
 			
 			y = get_straight_line_y(x, m, n, b);
@@ -114,7 +114,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	{
 //		ft_printf("case 2\n");
 //		ft_printf("x: %d, y: %d, m: %d, n: %d\n", x, y, m, n);
-		while((x <= max_x + 5) && (y <= max_y + 5) && (x >= min_x - 5) && (y >= min_y - 5))
+		while((x <= max_x + 2) && (y <= max_y + 2) && (x >= min_x - 2) && (y >= min_y - 2))
 		{
 			x = get_straight_line_x(y, m, n, b);
 			mlx_put_pixel(image, x, image->height - y, color);
@@ -132,14 +132,6 @@ void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
 
 	y = 0;
 	int line_count = 0;
-	//x = dim.width - 1;
-	// 9 rows * 8 columns = 72
-	// 7 lines in a row
-	// 7*9 = 63 horizontal lines
-	// 8 lines in a column
-	// 64 vertical lines
-	// 127 total lines
-	// num of lines seems to match
 	while(y < dim.length)
 	{
 		x = dim.width - 1;
@@ -180,10 +172,16 @@ void put_42_v2(void *param)
 	t_dimensions dim;
 	t_dimensions image_size;
 	mlx_image_t	*image;
-	dim = ((t_name_holder *)param)->dim;
-	image_size = ((t_name_holder *)param)->image_size;
-	image = ((t_name_holder *)param)->image;
-	display_data(dim, image_size, image);
+	int painted;
+	painted = ((t_name_holder *)param)->painted;
+	if (!painted)
+	{
+		dim = ((t_name_holder *)param)->dim;
+		image_size = ((t_name_holder *)param)->image_size;
+		image = ((t_name_holder *)param)->image;
+		display_data(dim, image_size, image);
+		((t_name_holder *)param)->painted = 1;
+	}
 }
 
 //TODO: remove
@@ -246,6 +244,7 @@ int32_t main(int argc, char **argv)
 	some.image_size = (t_dimensions){0, HEIGHT, WIDTH};
 	some.image = image;
 	some.dim = dim;
+	some.painted = 0;
 //	mlx_loop_hook(mlx, ft_randomize, mlx);
 //	mlx_loop_hook(mlx, put_line, mlx)
 	mlx_loop_hook(mlx, put_42_v2, &some);

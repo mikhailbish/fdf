@@ -20,7 +20,9 @@ start point > make sure every line is drawn wip
 	putline logic
 -	add scaling (determine the highest and lowest x and y values)
 -	parse colors as well as points
--	find the way to test that each possible line would be drawn correctly, without points being skipped 
 -	scaling calculations and centering
 	either use second coords matrix or learn to calculate the max possible fixing scale
+-	implement function pointers to work with coordinates
 -	fix the bug where some points disappear
+	find the way to test that each possible line would be drawn correctly, without points being skipped 
+-	make the programm display lines once, unless something changes //DONE, painted struct member

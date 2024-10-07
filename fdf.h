@@ -36,6 +36,7 @@ typedef struct s_name_holder {
 	mlx_t	*mlx;
 	char	*file_name;
 	int	fd;
+	int	painted;
 	mlx_image_t	*image;
 	t_dimensions	image_size;
 	t_dimensions	dim;
