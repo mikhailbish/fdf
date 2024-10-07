@@ -27,9 +27,11 @@ SRCS = main.c utils.c validation.c parsing.c math_ops.c
 
 OBJS = $(SRCS:.c=.o)
 
+# TODO: remove logging in the end
+LOG_NAME = $(shell date -Iseconds)
 
 all: clone $(NAME)
-	./$(NAME) test_maps/tst.fdf
+	./$(NAME) test_maps/tst.fdf >> ./logs/$(LOG_NAME)
 
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
 # to tell if the target is latest or not. So the execute 'make' command at the second
@@ -52,16 +54,19 @@ $(NAME): $(OBJS)
 %.o: %.c
 	@$(CC) $(CFLAGS) $(HEADERS) $< -c -o $@ && printf "Compiling: $(notdir $<)"
 
+# TODO: add cleaning of mlx
 clean:
-	@make clean -C $(LIB_DIR)
+	@make fclean -C $(LIB_DIR)
+	@$(RM) $(LIBMLX_DIR)/build
 	@$(RM) $(OBJS)
-	@$(RM) $(LIBMLX_DIR)
-	@rm -rf lib/libft
+#	temp block to prevent unnecessary downloading
+#	@rm -rf lib/libft
 
 fclean: clean
-	@$(RM) lib
 	@$(RM) $(NAME)
-	@echo "$(GREEN)so_long executable file has been cleaned.$(DEFAULT)"
+	@echo "$(GREEN)$(NAME) executable file has been cleaned.$(DEFAULT)"
+#	temp block to prevent unnecessary downloading
+#	@$(RM) lib
 
 re:	fclean all
 
