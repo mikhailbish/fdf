@@ -448,7 +448,7 @@ void	process_data(t_dimensions dim)
 
 	x = 0;
 	y = 0;
-	ext_coef = 40;
+	ext_coef = 20;
 	coords = dim.coords;
 	while(y < dim.length)
 	{

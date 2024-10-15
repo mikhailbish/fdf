@@ -26,3 +26,4 @@ start point > make sure every line is drawn wip
 -	fix the bug where some points disappear
 	find the way to test that each possible line would be drawn correctly, without points being skipped 
 -	make the programm display lines once, unless something changes //DONE, painted struct member
+-	clipping algorythm

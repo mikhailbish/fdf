@@ -1,0 +1,453 @@
+pls case 3 x: 7, y: 0
+in put_line
+x1: 122, y1 410
+y2: 139, x2: 400
+in put_line
+x1: 104, y1 340
+y2: 122, x2: 410
+pls case 3 x: 6, y: 0
+in put_line
+x1: 104, y1 340
+y2: 122, x2: 330
+in put_line
+x1: 87, y1 250
+y2: 104, x2: 340
+pls case 3 x: 5, y: 0
+in put_line
+x1: 87, y1 250
+y2: 104, x2: 240
+in put_line
+x1: 70, y1 20
+y2: 87, x2: 250
+pls case 3 x: 4, y: 0
+in put_line
+x1: 70, y1 20
+y2: 87, x2: 10
+in put_line
+x1: 52, y1 90
+y2: 70, x2: 20
+pls case 3 x: 3, y: 0
+in put_line
+x1: 52, y1 90
+y2: 70, x2: 80
+in put_line
+x1: 35, y1 220
+y2: 52, x2: 90
+pls case 3 x: 2, y: 0
+in put_line
+x1: 35, y1 220
+y2: 52, x2: 210
+in put_line
+x1: 18, y1 290
+y2: 35, x2: 220
+pls case 3 x: 1, y: 0
+in put_line
+x1: 18, y1 290
+y2: 35, x2: 280
+in put_line
+x1: 0, y1 340
+y2: 18, x2: 290
+pls case 1 x: 0, y: 0
+x1: 0, y1 340
+y2: 18, x2: 330
+in put_line
+pls case 3 x: 7, y: 1
+in put_line
+x1: 139, y1 400
+y2: 156, x2: 390
+in put_line
+x1: 122, y1 330
+y2: 139, x2: 400
+pls case 3 x: 6, y: 1
+in put_line
+x1: 122, y1 330
+y2: 139, x2: 320
+in put_line
+x1: 104, y1 240
+y2: 122, x2: 330
+pls case 3 x: 5, y: 1
+in put_line
+x1: 104, y1 240
+y2: 122, x2: 230
+in put_line
+x1: 87, y1 10
+y2: 104, x2: 240
+pls case 3 x: 4, y: 1
+in put_line
+x1: 87, y1 10
+y2: 104, x2: 0
+in put_line
+x1: 70, y1 80
+y2: 87, x2: 10
+pls case 3 x: 3, y: 1
+in put_line
+x1: 70, y1 80
+y2: 87, x2: 70
+in put_line
+x1: 52, y1 210
+y2: 70, x2: 80
+pls case 3 x: 2, y: 1
+in put_line
+x1: 52, y1 210
+y2: 70, x2: 200
+in put_line
+x1: 35, y1 280
+y2: 52, x2: 210
+pls case 3 x: 1, y: 1
+in put_line
+x1: 35, y1 280
+y2: 52, x2: 270
+in put_line
+x1: 18, y1 330
+y2: 35, x2: 280
+pls case 1 x: 0, y: 1
+x1: 18, y1 330
+y2: 35, x2: 320
+in put_line
+pls case 3 x: 7, y: 2
+in put_line
+x1: 156, y1 390
+y2: 174, x2: 240
+in put_line
+x1: 139, y1 320
+y2: 156, x2: 390
+pls case 3 x: 6, y: 2
+in put_line
+x1: 139, y1 320
+y2: 156, x2: 130
+in put_line
+x1: 122, y1 230
+y2: 139, x2: 320
+pls case 3 x: 5, y: 2
+in put_line
+x1: 122, y1 230
+y2: 139, x2: 100
+in put_line
+x1: 104, y1 0
+y2: 122, x2: 230
+pls case 3 x: 4, y: 2
+in put_line
+x1: 104, y1 0
+y2: 122, x2: 170
+in put_line
+x1: 87, y1 70
+y2: 104, x2: 0
+pls case 3 x: 3, y: 2
+in put_line
+x1: 87, y1 70
+y2: 104, x2: 200
+in put_line
+x1: 70, y1 200
+y2: 87, x2: 70
+pls case 3 x: 2, y: 2
+in put_line
+x1: 70, y1 200
+y2: 87, x2: 270
+in put_line
+x1: 52, y1 270
+y2: 70, x2: 200
+pls case 3 x: 1, y: 2
+in put_line
+x1: 52, y1 270
+y2: 70, x2: 180
+in put_line
+x1: 35, y1 320
+y2: 52, x2: 270
+pls case 1 x: 0, y: 2
+x1: 35, y1 320
+y2: 52, x2: 130
+in put_line
+pls case 3 x: 7, y: 3
+in put_line
+x1: 174, y1 240
+y2: 191, x2: 230
+in put_line
+x1: 156, y1 130
+y2: 174, x2: 240
+pls case 3 x: 6, y: 3
+in put_line
+x1: 156, y1 130
+y2: 174, x2: 140
+in put_line
+x1: 139, y1 100
+y2: 156, x2: 130
+pls case 3 x: 5, y: 3
+in put_line
+x1: 139, y1 100
+y2: 156, x2: 130
+in put_line
+x1: 122, y1 170
+y2: 139, x2: 100
+pls case 3 x: 4, y: 3
+in put_line
+x1: 122, y1 170
+y2: 139, x2: 200
+in put_line
+x1: 104, y1 200
+y2: 122, x2: 170
+pls case 3 x: 3, y: 3
+in put_line
+x1: 104, y1 200
+y2: 122, x2: 210
+in put_line
+x1: 87, y1 270
+y2: 104, x2: 200
+pls case 3 x: 2, y: 3
+in put_line
+x1: 87, y1 270
+y2: 104, x2: 160
+in put_line
+x1: 70, y1 180
+y2: 87, x2: 270
+pls case 3 x: 1, y: 3
+in put_line
+x1: 70, y1 180
+y2: 87, x2: 90
+in put_line
+x1: 52, y1 130
+y2: 70, x2: 180
+pls case 1 x: 0, y: 3
+x1: 52, y1 130
+y2: 70, x2: 80
+in put_line
+pls case 3 x: 7, y: 4
+in put_line
+x1: 191, y1 230
+y2: 208, x2: 220
+in put_line
+x1: 174, y1 140
+y2: 191, x2: 230
+pls case 3 x: 6, y: 4
+in put_line
+x1: 174, y1 140
+y2: 191, x2: 110
+in put_line
+x1: 156, y1 130
+y2: 174, x2: 140
+pls case 3 x: 5, y: 4
+in put_line
+x1: 156, y1 130
+y2: 174, x2: 80
+in put_line
+x1: 139, y1 200
+y2: 156, x2: 130
+pls case 3 x: 4, y: 4
+in put_line
+x1: 139, y1 200
+y2: 156, x2: 150
+in put_line
+x1: 122, y1 210
+y2: 139, x2: 200
+pls case 3 x: 3, y: 4
+in put_line
+x1: 122, y1 210
+y2: 139, x2: 180
+in put_line
+x1: 104, y1 160
+y2: 122, x2: 210
+pls case 3 x: 2, y: 4
+in put_line
+x1: 104, y1 160
+y2: 122, x2: 250
+in put_line
+x1: 87, y1 90
+y2: 104, x2: 160
+pls case 3 x: 1, y: 4
+in put_line
+x1: 87, y1 90
+y2: 104, x2: 160
+in put_line
+x1: 70, y1 80
+y2: 87, x2: 90
+pls case 1 x: 0, y: 4
+x1: 70, y1 80
+y2: 87, x2: 110
+in put_line
+pls case 3 x: 7, y: 5
+in put_line
+x1: 208, y1 220
+y2: 226, x2: 210
+in put_line
+x1: 191, y1 110
+y2: 208, x2: 220
+pls case 3 x: 6, y: 5
+in put_line
+x1: 191, y1 110
+y2: 208, x2: 120
+in put_line
+x1: 174, y1 80
+y2: 191, x2: 110
+pls case 3 x: 5, y: 5
+in put_line
+x1: 174, y1 80
+y2: 191, x2: 110
+in put_line
+x1: 156, y1 150
+y2: 174, x2: 80
+pls case 3 x: 4, y: 5
+in put_line
+x1: 156, y1 150
+y2: 174, x2: 180
+in put_line
+x1: 139, y1 180
+y2: 156, x2: 150
+pls case 3 x: 3, y: 5
+in put_line
+x1: 139, y1 180
+y2: 156, x2: 190
+in put_line
+x1: 122, y1 250
+y2: 139, x2: 180
+pls case 3 x: 2, y: 5
+in put_line
+x1: 122, y1 250
+y2: 139, x2: 140
+in put_line
+x1: 104, y1 160
+y2: 122, x2: 250
+pls case 3 x: 1, y: 5
+in put_line
+x1: 104, y1 160
+y2: 122, x2: 70
+in put_line
+x1: 87, y1 110
+y2: 104, x2: 160
+pls case 1 x: 0, y: 5
+x1: 87, y1 110
+y2: 104, x2: 60
+in put_line
+pls case 3 x: 7, y: 6
+in put_line
+x1: 226, y1 210
+y2: 243, x2: 200
+in put_line
+x1: 208, y1 120
+y2: 226, x2: 210
+pls case 3 x: 6, y: 6
+in put_line
+x1: 208, y1 120
+y2: 226, x2: 90
+in put_line
+x1: 191, y1 110
+y2: 208, x2: 120
+pls case 3 x: 5, y: 6
+in put_line
+x1: 191, y1 110
+y2: 208, x2: 60
+in put_line
+x1: 174, y1 180
+y2: 191, x2: 110
+pls case 3 x: 4, y: 6
+in put_line
+x1: 174, y1 180
+y2: 191, x2: 130
+in put_line
+x1: 156, y1 190
+y2: 174, x2: 180
+pls case 3 x: 3, y: 6
+in put_line
+x1: 156, y1 190
+y2: 174, x2: 160
+in put_line
+x1: 139, y1 140
+y2: 156, x2: 190
+pls case 3 x: 2, y: 6
+in put_line
+x1: 139, y1 140
+y2: 156, x2: 230
+in put_line
+x1: 122, y1 70
+y2: 139, x2: 140
+pls case 3 x: 1, y: 6
+in put_line
+x1: 122, y1 70
+y2: 139, x2: 140
+in put_line
+x1: 104, y1 60
+y2: 122, x2: 70
+pls case 1 x: 0, y: 6
+x1: 104, y1 60
+y2: 122, x2: 90
+in put_line
+pls case 3 x: 7, y: 7
+in put_line
+x1: 243, y1 200
+y2: 260, x2: 190
+in put_line
+x1: 226, y1 90
+y2: 243, x2: 200
+pls case 3 x: 6, y: 7
+in put_line
+x1: 226, y1 90
+y2: 243, x2: 100
+in put_line
+x1: 208, y1 60
+y2: 226, x2: 90
+pls case 3 x: 5, y: 7
+in put_line
+x1: 208, y1 60
+y2: 226, x2: 90
+in put_line
+x1: 191, y1 130
+y2: 208, x2: 60
+pls case 3 x: 4, y: 7
+in put_line
+x1: 191, y1 130
+y2: 208, x2: 160
+in put_line
+x1: 174, y1 160
+y2: 191, x2: 130
+pls case 3 x: 3, y: 7
+in put_line
+x1: 174, y1 160
+y2: 191, x2: 170
+in put_line
+x1: 156, y1 230
+y2: 174, x2: 160
+pls case 3 x: 2, y: 7
+in put_line
+x1: 156, y1 230
+y2: 174, x2: 120
+in put_line
+x1: 139, y1 140
+y2: 156, x2: 230
+pls case 3 x: 1, y: 7
+in put_line
+x1: 139, y1 140
+y2: 156, x2: 50
+in put_line
+x1: 122, y1 90
+y2: 139, x2: 140
+pls case 1 x: 0, y: 7
+x1: 122, y1 90
+y2: 139, x2: 40
+in put_line
+pls case 2 x: 6, y: 8
+in put_line
+x1: 243, y1 100
+y2: 260, x2: 190
+pls case 2 x: 5, y: 8
+in put_line
+x1: 226, y1 90
+y2: 243, x2: 100
+pls case 2 x: 4, y: 8
+in put_line
+x1: 208, y1 160
+y2: 226, x2: 90
+pls case 2 x: 3, y: 8
+in put_line
+x1: 191, y1 170
+y2: 208, x2: 160
+pls case 2 x: 2, y: 8
+in put_line
+x1: 174, y1 120
+y2: 191, x2: 170
+pls case 2 x: 1, y: 8
+in put_line
+x1: 156, y1 50
+y2: 174, x2: 120
+pls case 2 x: 0, y: 8
+in put_line
+x1: 139, y1 40
+y2: 156, x2: 50
+line_count = 127
