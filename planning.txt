@@ -13,17 +13,18 @@ Tasks:
 	1.5	validation
 -	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
 	-	add brasenham
-start point > make sure every line is drawn wip
+	
 -	add colors
 	parsing
 -	add gradient
 	putline logic
--	add scaling (determine the highest and lowest x and y values)
 -	parse colors as well as points
--	scaling calculations and centering
+-	add scaling (determine the highest and lowest x and y values)
+-	scaling calculations and centering PRIORITY
 	either use second coords matrix or learn to calculate the max possible fixing scale
 -	implement function pointers to work with coordinates
--	fix the bug where some points disappear
-	find the way to test that each possible line would be drawn correctly, without points being skipped 
--	make the programm display lines once, unless something changes //DONE, painted struct member
+-	make the program display lines once, unless something changes //DONE, painted struct member
+	mlx_delete_image
+	mlx_resize_image
+	^ Explore others
 -	clipping algorythm
