@@ -7,12 +7,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "fdf.h"
-//317955 bytes in 3106 blocks
+// normal minilibx problems: 317955 bytes in 3106 blocks
 //#define WIDTH 512
 //#define HEIGHT 512
 
 #define WIDTH 1024 
-#define HEIGHT 512 
+#define HEIGHT 1024 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -74,7 +74,7 @@ int determine_b(t_ft_point a, t_ft_point b)
 		return ((a.x * b.y - a.y * b.x)/(a.x - b.x));
 	return (0);
 }
-
+/*
 void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 {
 	int m;
@@ -120,7 +120,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 		}
 	}
 }
-
+*/
 int ft_abs(int num)
 {
 	if (num < 0)
@@ -175,6 +175,94 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 
 }
 */
+void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
+{
+	int dx;
+	int dy;
+	int d;
+	int x_step;
+	int y_step;
+	int x;
+	int y;
+	int min;	
+	int rem;
+	int i;
+	int step_counter;
+	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
+
+	step_counter = 0;
+	dx = end.x - start.x;
+	dy = end.y - start.y;
+	d = ft_abs(ft_abs(dx) - ft_abs(dy));
+	x_step = -1 * (dx < 0) + (dx > 0);
+	y_step = -1 * (dy < 0) + (dy > 0);
+	
+//	ft_printf("put pixel in ")
+	if (ft_abs(dx) > ft_abs(dy))
+	{
+		min = d / dy;
+		rem = d % dy;
+	} else if (ft_abs(dx) < ft_abs(dy))
+	{
+		min = d / dx;
+		rem = d % dx;
+	}
+	else
+	{
+		min = 0;
+		rem = 0;
+	}
+	x = start.x;
+	y = start.y;
+//	ft_printf("bp 1\nrem: %d\nmin: %d\n");
+
+	while ((x != end.x && y != end.y) && (step_counter < (ft_abs(dx) + ft_abs(dy))) )
+	{
+	// reconsider order of operations (move along "larger" axis and then move diagonally)
+		x += x_step;
+		y += y_step;
+		mlx_put_pixel(image, x, image->height - (y), color);
+		step_counter++;
+		i = 0;
+		if (ft_abs(dx) > ft_abs(dy))
+		{
+			while (i < min)
+			{			
+				x += x_step;
+				mlx_put_pixel(image, x, image->height - (y), color);
+				step_counter++;
+				i++;
+			}
+	// how to spread rem evenly
+			if (rem)
+			{
+				x += x_step;
+				mlx_put_pixel(image, x, image->height - (y), color);
+				rem--;
+				step_counter++;
+			}
+
+		} else if (ft_abs(dx) < ft_abs(dy))
+		{
+			while (i < min)
+			{			
+				y += y_step;
+				mlx_put_pixel(image, x, image->height - (y), color);
+				step_counter++;
+				i++;
+			}
+			if (rem)
+			{
+				y += y_step;
+				mlx_put_pixel(image, x, image->height - (y), color);
+				rem--;
+				step_counter++;
+			}
+		}
+	}
+	ft_printf("x: %d end.x: %d\ny: %d end.y: %d\n", x, end.x, y, end.y);
+}
+
 
 // not all lines shown?
 // TODO: include every possible line
@@ -196,7 +284,7 @@ void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
 			{
 				ft_printf("pls case 1 x: %d, y: %d\n", x, y);
 	//			ft_printf("y, x: %d, %d\n", y, x);
-				ft_printf("x1: %d, y1 %d\ny2: %d, x2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
+				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
 				put_line(coords[y][x], coords[y + 1][x], image);
 				line_count +=1;
 			}
@@ -204,7 +292,7 @@ void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
 			{
 				ft_printf("pls case 2 x: %d, y: %d\n", x, y);
 				put_line(coords[y][x], coords[y][x + 1], image);
-				ft_printf("x1: %d, y1 %d\ny2: %d, x2: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x + 1].x, coords[y][x + 1].y);
+				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x + 1].x, coords[y][x + 1].y);
 				line_count +=1;
 			}
 			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
@@ -213,9 +301,9 @@ void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
 			else {
 				ft_printf("pls case 3 x: %d, y: %d\n", x, y);
 				put_line(coords[y][x], coords[y + 1][x], image);
-				ft_printf("x1: %d, y1 %d\ny2: %d, x2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
+				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
 				put_line(coords[y][x - 1], coords[y][x], image);
-				ft_printf("x1: %d, y1 %d\ny2: %d, x2: %d\n", coords[y][x - 1].x, coords[y][x - 1].y, coords[y][x].x, coords[y][x].y);
+				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x - 1].x, coords[y][x - 1].y, coords[y][x].x, coords[y][x].y);
 				line_count +=2;
 			}
 			x--;
