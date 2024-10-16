@@ -75,6 +75,7 @@ int determine_b(t_ft_point a, t_ft_point b)
 	return (0);
 }
 /*
+
 void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 {
 	int m;
@@ -121,6 +122,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	}
 }
 */
+
 int ft_abs(int num)
 {
 	if (num < 0)
@@ -175,6 +177,8 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 
 }
 */
+
+
 void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 {
 	int dx;
@@ -197,21 +201,10 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	x_step = -1 * (dx < 0) + (dx > 0);
 	y_step = -1 * (dy < 0) + (dy > 0);
 	
-//	ft_printf("put pixel in ")
-	if (ft_abs(dx) > ft_abs(dy))
-	{
-		min = d / dy;
-		rem = d % dy;
-	} else if (ft_abs(dx) < ft_abs(dy))
-	{
-		min = d / dx;
-		rem = d % dx;
-	}
-	else
-	{
-		min = 0;
-		rem = 0;
-	}
+	min = (d / dy) * (ft_abs(dx) > ft_abs(dy));
+	min += (d / dx) * (ft_abs(dx) < ft_abs(dy));
+	rem = (d % dy) * (ft_abs(dx) > ft_abs(dy));
+	rem += (d % dx) * (ft_abs(dx) < ft_abs(dy));
 	x = start.x;
 	y = start.y;
 //	ft_printf("bp 1\nrem: %d\nmin: %d\n");
@@ -312,7 +305,6 @@ void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
 	}
 	ft_printf("line_count = %d\n", line_count);
 }
-
 void put_42_v2(void *param)
 {
 	t_dimensions dim;
