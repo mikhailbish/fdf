@@ -177,8 +177,6 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 
 }
 */
-
-
 void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 {
 	int dx;
@@ -190,6 +188,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	int y;
 	int min;	
 	int rem;
+	int rem_i;
 	int i;
 	int step_counter;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
@@ -207,6 +206,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	rem += (d % dx) * (ft_abs(dx) < ft_abs(dy));
 	x = start.x;
 	y = start.y;
+	rem_i = 0;
 //	ft_printf("bp 1\nrem: %d\nmin: %d\n");
 
 	while ((x != end.x && y != end.y) && (step_counter < (ft_abs(dx) + ft_abs(dy))) )
@@ -227,8 +227,12 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 				i++;
 			}
 	// how to spread rem evenly
+	// dy 7, rem 4
+	// 7/4
+	// 1 3/4
+	// 1 3 5 6
 			if (rem)
-			{
+			{	
 				x += x_step;
 				mlx_put_pixel(image, x, image->height - (y), color);
 				rem--;
@@ -255,6 +259,9 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	}
 	ft_printf("x: %d end.x: %d\ny: %d end.y: %d\n", x, end.x, y, end.y);
 }
+
+// WIP
+void put_line_bresenhamn();
 
 
 // not all lines shown?

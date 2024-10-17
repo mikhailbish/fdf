@@ -12,13 +12,15 @@ Tasks:
 	1.4	parsing
 	1.5	validation
 -	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
-	-	add brasenham
+	-	add brasenham				WIP
+	https://digitalbunker.dev/bresenhams-line-algorithm/
 	
--	add colors
-	parsing
+-	add colors					done, needs testing
+	parsing						done, needs testing
+	add logic to take colors from point struct
+	optionally comes after z, separated by comma
 -	add gradient
 	putline logic
--	parse colors as well as points
 -	add scaling (determine the highest and lowest x and y values)
 -	scaling calculations and centering PRIORITY
 	either use second coords matrix or learn to calculate the max possible fixing scale
