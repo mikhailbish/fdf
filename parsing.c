@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/15 20:41:31 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:10:12 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,6 +380,7 @@ int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 	char **split_res;
 	int x;
 	int y;
+	char **comma_split_res;
 
 	x = 0;
 	y = 0;
@@ -394,10 +395,28 @@ int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 			break ;
 		while (x < dim.width)
 		{
-			coordinates[y][x].x = x;
-			coordinates[y][x].y = dim.length - y - 1;
-			coordinates[y][x].z = ft_atoi(split_res[x]);
+			if (ft_strchr(split_res[x], ',') && ft_strchr(split_res[x], ',') == ft_strrchr(split_res[x], ','))
+			{
+				comma_split_res = ft_split(split_res[x], ',');
+				// TODO: handle 0
+				coordinates[y][x].z = ft_atoi(comma_split_res[0]);
+				coordinates[y][x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
+				coordinates[y][x].color = coordinates[y][x].color << 8;
+				coordinates[y][x].color += 0xFF; 
+			}
+			else if (ft_strchr(split_res[x], ','))
+			{
+				//more than one comma - error?
+			}
+			else
+			{
+				coordinates[y][x].x = x;
+				coordinates[y][x].y = dim.length - y - 1;
+				coordinates[y][x].z = ft_atoi(split_res[x]);
+				coordinates[y][x].color = -1;
+			}
 			x++;
+			
 			
 		}
 		free_split(split_res);

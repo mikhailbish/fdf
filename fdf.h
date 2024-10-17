@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/04 20:20:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:29:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_ft_point {
 	int x;
 	int y;
 	int z;
+	int32_t color;
 }	t_ft_point;
 
 typedef struct s_dimensions {
