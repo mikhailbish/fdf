@@ -31,7 +31,8 @@ OBJS = $(SRCS:.c=.o)
 LOG_NAME = $(shell date -Iseconds)
 
 all: clone $(NAME)
-	./$(NAME) test_maps/elem-col.fdf >> ./logs/$(LOG_NAME)
+	./$(NAME) ~/Downloads/test_maps/julia.fdf
+#	./$(NAME) test_maps/elem-col.fdf >> ./logs/$(LOG_NAME)
 
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
 # to tell if the target is latest or not. So the execute 'make' command at the second
@@ -52,7 +53,7 @@ $(NAME): $(OBJS)
 	@echo "$(GREEN)$(NAME) has been generated successfully!$(DEFAULT)"
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) $< -c -o $@ && printf "Compiling: $(notdir $<)"
+	@$(CC) $(CFLAGS) $(HEADERS) $< -D BUFFER_SIZE=6000 -c -o $@ && printf "Compiling: $(notdir $<)"
 
 # TODO: add cleaning of mlx
 clean:

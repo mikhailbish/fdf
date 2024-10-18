@@ -58,12 +58,13 @@ void	translate_angles(t_ft_point *point, double factor);
 //void	translate_angles(t_ft_point *point);
 void	mutate_3d_vector(double vector[3], double matrix[3][3]);
 void	extend_lines(t_ft_point *point, int num);
-void	make_positive(t_dimensions dim, t_ft_point **coords);
+void	make_positive(t_dimensions dim);//, t_ft_point **coords);
 t_dimensions	get_data_from_fd(int fd);
 void	process_data(t_dimensions dim);
 void	display_data(t_dimensions dim, t_dimensions image_size, mlx_image_t *image);
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords);
+void display_coords_testing(t_dimensions dim);
 
 
 #endif

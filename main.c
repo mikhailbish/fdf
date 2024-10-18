@@ -12,7 +12,7 @@
 //#define HEIGHT 512
 
 #define WIDTH 2048 
-#define HEIGHT 2048 
+#define HEIGHT 600 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -295,20 +295,20 @@ int get_color(int start_color, int end_color, int i, int a, int b)
 	//total_cchange = ft_abs(start_color - end_color);
 	if (i == 0 || (start_color == end_color))
 	{
-		ft_printf("color case 1\n");
+//		ft_printf("color case 1\n");
 		return (start_color);
 	}
 	if (a + i == b)
 	{
-		ft_printf("color case 2\n");
+//		ft_printf("color case 2\n");
 		return (end_color);
 	}
-	ft_printf("color case 3\n");
+//	ft_printf("color case 3\n");
 	final_red = round((double)get_red(start_color) + (double)((double)(i * (red_change)) / (double)(b - a)));
 	final_green = round((double)get_green(start_color) + (double)((double)(i * (green_change)) / (double)(b - a)));
 	final_blue = round((double)get_blue(start_color) + (double)((double)(i * (blue_change)) / (double)(b - a)));
-	if (final_red > 0xFF || final_blue > 0xFF || final_green > 0xFF)
-		ft_printf("color change issue");
+//	if (final_red > 0xFF || final_blue > 0xFF || final_green > 0xFF)
+//		ft_printf("color change issue");
 	return (final_red << 16 | final_green << 8 | final_blue);
 	//else
 	//	return
@@ -336,8 +336,8 @@ void put_line_low(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	while (start.x <= end.x)
 	{
 		// TODO: modify color handling here
-//		color = get_color(start.color, end.color, start.x, end.x - dx, end.x);
-		color = 0xFFFFFF;
+		color = get_color(start.color, end.color, start.x, end.x - dx, end.x);
+//		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, image->height - (start.y), (color << 8) + 0xFF);
 		if (d > 0)	
 		{
@@ -370,8 +370,8 @@ void put_line_high(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	while (start.y <= end.y)
 	{
 		// TODO: modify color handling here
-//		color = get_color(start.color, end.color, start.y, ( -end.y + dy), image->height - end.y);
-		color = 0xFFFFFF;
+		color = get_color(start.color, end.color, start.y, ( -end.y + dy), image->height - end.y);
+//		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, image->height - (start.y), (color << 8) + 0xFF);
 		if (d > 0)	
 		{
@@ -420,35 +420,35 @@ void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
 	//		ft_printf("y, x: %d, %d\n", coords[y][x].y, coords[y][x].x);
 			if (x == 0 && y < dim.length - 1)
 			{
-				ft_printf("pls case 1 x: %d, y: %d\n", x, y);
+//				ft_printf("pls case 1 x: %d, y: %d\n", x, y);
 	//			ft_printf("y, x: %d, %d\n", y, x);
-				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
+//				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
 				put_line(coords[y][x], coords[y + 1][x], image);
 				line_count +=1;
 			}
 			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
 			{
-				ft_printf("pls case 2 x: %d, y: %d\n", x, y);
+//				ft_printf("pls case 2 x: %d, y: %d\n", x, y);
 				put_line(coords[y][x], coords[y][x + 1], image);
-				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x + 1].x, coords[y][x + 1].y);
+//				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y][x + 1].x, coords[y][x + 1].y);
 				line_count +=1;
 			}
 			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
 			{
 			}
 			else {
-				ft_printf("pls case 3 x: %d, y: %d\n", x, y);
+//				ft_printf("pls case 3 x: %d, y: %d\n", x, y);
 				put_line(coords[y][x], coords[y + 1][x], image);
-				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
+//				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x].x, coords[y][x].y, coords[y + 1][x].x, coords[y + 1][x].y);
 				put_line(coords[y][x - 1], coords[y][x], image);
-				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x - 1].x, coords[y][x - 1].y, coords[y][x].x, coords[y][x].y);
+//				ft_printf("x1: %d, y1 %d\nx2: %d, y2: %d\n", coords[y][x - 1].x, coords[y][x - 1].y, coords[y][x].x, coords[y][x].y);
 				line_count +=2;
 			}
 			x--;
 		}
 		y++;
 	}
-	ft_printf("line_count = %d\n", line_count);
+//	ft_printf("line_count = %d\n", line_count);
 }
 void put_42_v2(void *param)
 {
@@ -499,11 +499,13 @@ int32_t main(int argc, char **argv)
 	t_name_holder some;
 	fd = open(*(++argv), O_RDONLY);
 	dim = get_data_from_fd(fd);
-	display_coords_testing(dim);
+	ft_printf("done parsing\n");
+//	display_coords_testing(dim);
 
 	//TODO: close in the middle if error
 	close(fd);
 	process_data(dim);
+	ft_printf("done processing\n");
 	// Gotta error check this stuff
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{

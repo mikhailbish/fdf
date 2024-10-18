@@ -18,7 +18,7 @@ static int	is_legal_number(char *num)
 	long	result;
 
 	result = ft_strtol(num, &endptr, 10);
-	if (!(*endptr == '\0' || *endptr == '\n'))
+	if (!(*endptr == '\0' || *endptr == '\n' || *endptr == ','))
 		return (0);
 	return (!(result < INT_MIN || result > INT_MAX));
 }
@@ -44,6 +44,7 @@ static int	validate_line(char *line)
 	if (!line_split)
 	{
 		//some error handling
+		ft_printf("problems in validate line split\n");
 		return (-1);
 	}
 	while (*tmp_line_split)
@@ -55,6 +56,7 @@ static int	validate_line(char *line)
 		else
 		{
 //			ft_printf("illegal num: %s\n", *tmp_line_split);
+			ft_printf("illegal number\n");
 			column_count = -1;
 			break;
 		}
@@ -100,7 +102,7 @@ t_dimensions validate_file(int fd)
 	return (dim);
 	
 }*/
-
+// TODO: make sure errors are handled
 t_dimensions validate_lines(t_list *lines)
 {
 	int 	column_count;
@@ -111,6 +113,7 @@ t_dimensions validate_lines(t_list *lines)
 	dim.length = 0;
 	dim.width = 0;
 	line_count = ft_lstsize(lines);
+	ft_printf("line count: %d\n", line_count);
 	while(lines)
 	{
 		column_count = validate_line((char *)lines->content);
@@ -118,6 +121,8 @@ t_dimensions validate_lines(t_list *lines)
 			dim.width = column_count;
 		if (column_count == -1)
 		{
+			ft_printf("alloc fail in validate line or illegal values\n");
+			exit(1);
 //			alloc fail in validate line
 //			or illegal values
 		}

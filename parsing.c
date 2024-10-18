@@ -189,7 +189,7 @@ void shift_z(t_dimensions dim, t_ft_point **coords, double offset)
 	}
 }
 
-void make_positive(t_dimensions dim, t_ft_point **coords)
+void make_positive(t_dimensions dim)//, t_ft_point **coords)
 {
 	// go through all coordinates
 	// find smallest x y and z
@@ -200,13 +200,17 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 	double smallest_x;
 	double smallest_y;
 	double smallest_z;
-	
+	t_ft_point **coords;
 
+	coords = dim.coords;
 //	x = 0;
 	y = 0;
-	smallest_x = coords[0][0].x;
-	smallest_y = coords[0][0].y;
-	smallest_z = coords[0][0].z;
+	ft_printf("a\n");
+	//display_coords_testing(dim);
+	smallest_x = (double)coords[0][0].x;
+	smallest_y = (double)coords[0][0].y;
+	smallest_z = (double)coords[0][0].z;
+	ft_printf("b\n");
 	while (y < dim.length)
 	{
 		x = 0;
@@ -220,8 +224,11 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 				smallest_z = coords[y][x].z;
 			x++;	
 		}
+		if (y > 0 && y % 100 == 0)
+			ft_printf("100 rows analyzed for smallest\n");
 		y++;
 	}
+	ft_printf("found smallest\n");
 	if (smallest_x < 1)
 	{
 		shift_x(dim, coords, -smallest_x);
@@ -238,6 +245,7 @@ void make_positive(t_dimensions dim, t_ft_point **coords)
 		shift_z(dim, coords, -smallest_z);
 	//	shift zs
 	}
+	ft_printf("adjusted smallest\n");
 
 }
 
@@ -284,6 +292,7 @@ t_list	*get_file_lines(int fd)
 	char	*line;
 	t_list	*head;
 	t_list	*tmp;
+	int count = 0;
 	
 	line = get_next_line(fd);
 	if (!line)
@@ -305,6 +314,8 @@ t_list	*get_file_lines(int fd)
 		if (!line && errno == ENOMEM)
 		{
 			//error in gnl
+			ft_printf("gnl error at %d attempt\n", count);
+			exit(1);
 			return (0);	
 		} else if (!line)
 			break ;
@@ -312,9 +323,12 @@ t_list	*get_file_lines(int fd)
 		if (!tmp)
 		{
 			// error in lst new
+			ft_printf("lstnew error at %d attempt\n", count);
+			exit(1);
 			return (0);
 		}
 		ft_lstadd_back(&head, tmp);
+		count++;
 	}
 	return (head);
 }
@@ -329,14 +343,20 @@ t_ft_point	**alloc_data_space(t_dimensions dim)
 	if (!coordinates)
 	{
 		//error handling
+		perror("ptp calloc fail");
+		exit(1);
 		return (0);
 	}
+	ft_printf("dim width: %d\n", dim.width);
 	while (i < dim.length)
 	{
 		coordinates[i] = (t_ft_point *)ft_calloc(dim.width, sizeof(t_ft_point));
 		if (!coordinates[i])
 		{
 			//error handling, empty previous values filling
+			ft_printf("point calloc fail i: %d\n", i);
+			perror("point calloc fail");
+			exit(1);
 			return (0);
 		}
 		i++;
@@ -450,6 +470,8 @@ t_dimensions get_data_from_fd(int fd)
 	if (!dim.coords)
 	{
 		//TODO: handle
+		perror(strerror(errno));
+		exit(1);
 	}
 	fill_with_data(dim, dim.coords, file_lines);
 	ft_lstclear(&tmp, delete_content);
@@ -467,7 +489,7 @@ void	process_data(t_dimensions dim)
 
 	x = 0;
 	y = 0;
-	ext_coef = 40;
+	ext_coef = 1;
 	coords = dim.coords;
 	while(y < dim.length)
 	{
@@ -478,13 +500,16 @@ void	process_data(t_dimensions dim)
 //			translate_angles(&coords[y][x]);
 			x++;
 		}
+		if (y > 0 && y % 100 == 0)
+			ft_printf("100 rows processed\n");
 		x = 0;
 		y++;
 	}
+	ft_printf("all rows processed\n");
 	x = 0;
 	y = 0;
 
-	make_positive(dim, coords);
+	make_positive(dim);//, coords);
 }
 
 void display_data(t_dimensions dim, t_dimensions image_size, mlx_image_t *image)
