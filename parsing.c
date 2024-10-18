@@ -401,8 +401,8 @@ int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 				// TODO: handle 0
 				coordinates[y][x].z = ft_atoi(comma_split_res[0]);
 				coordinates[y][x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
-				coordinates[y][x].color = coordinates[y][x].color << 8;
-				coordinates[y][x].color += 0xFF; 
+	//			coordinates[y][x].color = coordinates[y][x].color << 8;
+	//			coordinates[y][x].color += 0xFF; 
 			}
 			else if (ft_strchr(split_res[x], ','))
 			{
@@ -410,11 +410,11 @@ int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 			}
 			else
 			{
-				coordinates[y][x].x = x;
-				coordinates[y][x].y = dim.length - y - 1;
 				coordinates[y][x].z = ft_atoi(split_res[x]);
-				coordinates[y][x].color = -1;
+				coordinates[y][x].color = 0xFFFFFF;
 			}
+			coordinates[y][x].x = x;
+			coordinates[y][x].y = dim.length - y - 1;
 			x++;
 			
 			
@@ -467,7 +467,7 @@ void	process_data(t_dimensions dim)
 
 	x = 0;
 	y = 0;
-	ext_coef = 40;
+	ext_coef = 20;
 	coords = dim.coords;
 	while(y < dim.length)
 	{

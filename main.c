@@ -12,7 +12,7 @@
 //#define HEIGHT 512
 
 #define WIDTH 1024 
-#define HEIGHT 1024 
+#define HEIGHT 700 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -177,6 +177,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 
 }
 */
+/*
 void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 {
 	int dx;
@@ -188,7 +189,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	int y;
 	int min;	
 	int rem;
-	int rem_i;
+//	int rem_i;
 	int i;
 	int step_counter;
 	uint32_t color = ft_pixel(0xFF, 0xFF, 0xFF, 0xFF);
@@ -206,7 +207,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	rem += (d % dx) * (ft_abs(dx) < ft_abs(dy));
 	x = start.x;
 	y = start.y;
-	rem_i = 0;
+//	rem_i = 0;
 //	ft_printf("bp 1\nrem: %d\nmin: %d\n");
 
 	while ((x != end.x && y != end.y) && (step_counter < (ft_abs(dx) + ft_abs(dy))) )
@@ -259,10 +260,124 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	}
 	ft_printf("x: %d end.x: %d\ny: %d end.y: %d\n", x, end.x, y, end.y);
 }
+*/
+
+//needs testing
+int get_color(int start_color, int end_color, int i, int a, int b)
+{
+	int total_cchange;
+
+	total_cchange = ft_abs(start_color - end_color);
+	if (i == 0 || start_color == end_color)
+	{
+		ft_printf("color case 1\n");
+		return (start_color);
+	}
+	if (a + i == b)
+	{
+		ft_printf("color case 2\n");
+		return (end_color);
+	}
+	if (start_color > end_color)
+	{
+		int k = (start_color - i *  total_cchange / (b - a));
+		ft_printf("color case 3\n%x\n", k);
+		return k;
+	}
+	int z = (start_color + i * total_cchange / (b - a));
+	ft_printf("color case 4\n%x\n", z);
+	return z;
+	//else
+	//	return
+	
+}
 
 // WIP
-void put_line_bresenhamn();
+void put_line_low(t_ft_point start, t_ft_point end, mlx_image_t *image)
+{
+	int dx;
+	int dy;
+	int step_y;
+	int d;
+	int color;
 
+	dx = end.x - start.x;
+	dy = end.y - start.y;
+	step_y = 1;
+	if (dy < 0)
+	{
+		step_y = -1;
+		dy = -dy;
+	}
+	d = (2 * dy) - dx;
+	while (start.x <= end.x)
+	{
+		// TODO: modify color handling here
+		color = get_color(start.color, end.color, start.x, end.x - dx, end.x);
+//		color = 0xFFFFFF;
+		mlx_put_pixel(image, start.x, image->height - (start.y), (color << 8) + 0xFF);
+		if (d > 0)	
+		{
+			start.y += step_y;
+			d += 2 * (dy - dx);
+		}
+		else
+			d += 2 * dy;
+		start.x++;
+	}
+}
+
+void put_line_high(t_ft_point start, t_ft_point end, mlx_image_t *image)
+{
+	int dx;
+	int dy;
+	int d;
+	int step_x;
+	int color;
+
+	dx = end.x - start.x;
+	dy = end.y - start.y;
+	step_x = 1;
+	if (dx < 0)
+	{
+		step_x = -1;
+		dx = -dx;
+	}
+	d = (2 * dx) - dy;
+	while (start.y <= end.y)
+	{
+		// TODO: modify color handling here
+		color = get_color(start.color, end.color, start.y, end.y - dy, end.y);
+//		color = 0xFFFFFF;
+		mlx_put_pixel(image, start.x, image->height - (start.y), (color << 8) + 0xFF);
+		if (d > 0)	
+		{
+			start.x += step_x;
+			d += 2 * (dx - dy);
+		}
+		else
+			d += 2 * dx;
+		start.y++;
+	}
+}
+
+void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
+{
+	if (ft_abs(end.y - start.y) < ft_abs(end.x - start.x))
+	{
+		if (start.x > end.x)
+			put_line_low(end, start, image);
+		else
+			put_line_low(start, end, image);
+	}
+	else
+	{
+		if (start.y > end.y)
+			put_line_high(end, start, image);
+		else
+			put_line_high(start, end, image);
+	}
+}
 
 // not all lines shown?
 // TODO: include every possible line
@@ -340,6 +455,7 @@ void display_coords_testing(t_dimensions dim)
 	{
 		while (j < dim.width)
 		{
+			//ft_printf("x: %d, y: %d, z: %d, color: %x\n", coords[i][j].x, coords[i][j].y, coords[i][j].z, coords[i][j].color);
 			ft_printf("x: %d, y: %d, z: %d\n", coords[i][j].x, coords[i][j].y, coords[i][j].z);
 			j++;
 		}
@@ -360,6 +476,7 @@ int32_t main(int argc, char **argv)
 	t_name_holder some;
 	fd = open(*(++argv), O_RDONLY);
 	dim = get_data_from_fd(fd);
+	display_coords_testing(dim);
 	//TODO: close in the middle if error
 	close(fd);
 	process_data(dim);
