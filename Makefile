@@ -31,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 LOG_NAME = $(shell date -Iseconds)
 
 all: clone $(NAME)
-	./$(NAME) test_maps/tst.fdf >> ./logs/$(LOG_NAME)
+	./$(NAME) test_maps/elem-col.fdf >> ./logs/$(LOG_NAME)
 
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
 # to tell if the target is latest or not. So the execute 'make' command at the second
