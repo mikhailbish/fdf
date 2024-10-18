@@ -177,6 +177,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 
 }
 */
+
 /*
 void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 {
@@ -499,6 +500,7 @@ int32_t main(int argc, char **argv)
 	fd = open(*(++argv), O_RDONLY);
 	dim = get_data_from_fd(fd);
 	display_coords_testing(dim);
+
 	//TODO: close in the middle if error
 	close(fd);
 	process_data(dim);
@@ -535,5 +537,6 @@ int32_t main(int argc, char **argv)
 //	mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+
 	return (EXIT_SUCCESS);
 }

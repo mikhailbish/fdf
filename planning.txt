@@ -11,6 +11,9 @@ Tasks:
 	1.3	errors and exits
 	1.4	parsing
 	1.5	validation
+-	putlines
+	elem-col map has an extra line coming to the height 20 point. Is it a bug or am I missing something? URGENT
+-	handle if map doesn't exist
 -	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
 	-	add brasenham				WIP
 	https://digitalbunker.dev/bresenhams-line-algorithm/
