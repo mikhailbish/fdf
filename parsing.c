@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/17 17:10:12 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:07:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,7 +467,7 @@ void	process_data(t_dimensions dim)
 
 	x = 0;
 	y = 0;
-	ext_coef = 20;
+	ext_coef = 40;
 	coords = dim.coords;
 	while(y < dim.length)
 	{

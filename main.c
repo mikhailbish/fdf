@@ -11,8 +11,8 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 1024 
-#define HEIGHT 700 
+#define WIDTH 2048 
+#define HEIGHT 2048 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -263,12 +263,36 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 */
 
 //needs testing
+int32_t get_red(int32_t color)
+{
+	return ((color >> 16) & 0xFF);
+}
+
+int32_t get_green(int32_t color)
+{
+	return ((color >> 8) & 0xFF);
+}
+
+int32_t get_blue(int32_t color)
+{
+	return ((color) & 0xFF);
+}
+
 int get_color(int start_color, int end_color, int i, int a, int b)
 {
-	int total_cchange;
+	int red_change;
+	int green_change;
+	int blue_change;
+	int final_red;
+	int final_green;
+	int final_blue;
 
-	total_cchange = ft_abs(start_color - end_color);
-	if (i == 0 || start_color == end_color)
+	red_change = get_red(end_color) - get_red(start_color);
+	green_change = get_green(end_color) - get_green(start_color);
+	blue_change = get_blue(end_color) - get_blue(start_color);
+
+	//total_cchange = ft_abs(start_color - end_color);
+	if (i == 0 || (start_color == end_color))
 	{
 		ft_printf("color case 1\n");
 		return (start_color);
@@ -278,15 +302,13 @@ int get_color(int start_color, int end_color, int i, int a, int b)
 		ft_printf("color case 2\n");
 		return (end_color);
 	}
-	if (start_color > end_color)
-	{
-		int k = (start_color - i *  total_cchange / (b - a));
-		ft_printf("color case 3\n%x\n", k);
-		return k;
-	}
-	int z = (start_color + i * total_cchange / (b - a));
-	ft_printf("color case 4\n%x\n", z);
-	return z;
+	ft_printf("color case 3\n");
+	final_red = round((double)get_red(start_color) + (double)((double)(i * (red_change)) / (double)(b - a)));
+	final_green = round((double)get_green(start_color) + (double)((double)(i * (green_change)) / (double)(b - a)));
+	final_blue = round((double)get_blue(start_color) + (double)((double)(i * (blue_change)) / (double)(b - a)));
+	if (final_red > 0xFF || final_blue > 0xFF || final_green > 0xFF)
+		ft_printf("color change issue");
+	return (final_red << 16 | final_green << 8 | final_blue);
 	//else
 	//	return
 	
@@ -313,8 +335,8 @@ void put_line_low(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	while (start.x <= end.x)
 	{
 		// TODO: modify color handling here
-		color = get_color(start.color, end.color, start.x, end.x - dx, end.x);
-//		color = 0xFFFFFF;
+//		color = get_color(start.color, end.color, start.x, end.x - dx, end.x);
+		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, image->height - (start.y), (color << 8) + 0xFF);
 		if (d > 0)	
 		{
@@ -347,8 +369,8 @@ void put_line_high(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	while (start.y <= end.y)
 	{
 		// TODO: modify color handling here
-		color = get_color(start.color, end.color, start.y, end.y - dy, end.y);
-//		color = 0xFFFFFF;
+//		color = get_color(start.color, end.color, start.y, ( -end.y + dy), image->height - end.y);
+		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, image->height - (start.y), (color << 8) + 0xFF);
 		if (d > 0)	
 		{
