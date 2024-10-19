@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/18 18:07:56 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:33:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ double get_radians(int angle)
 
 //wip
 
-void extend_lines(t_ft_point *point, int num)
+void extend_lines(t_point *point, int num)
 {
 	double	vector[3];
 	double	matrix[3][3];
@@ -63,11 +63,10 @@ void extend_lines(t_ft_point *point, int num)
 }
 
 
-void translate_angles(t_ft_point *point, double factor)
+void translate_angles(t_point *point, double factor)
 {
 	double	vector[3];
 	double	matrix[3][3];
-// TODO: find out why some angles crash
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
@@ -80,8 +79,6 @@ void translate_angles(t_ft_point *point, double factor)
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
 	matrix[2][2] = 1 * factor;
-//	point->x = (int)ceil(cos(get_radians(150)) * original_x - sin(get_radians(150)) * original_y);
-//	point->y = (int)ceil(sin(get_radians(120)) * original_x + cos(get_radians(120)) * original_y);
 	mutate_3d_vector(vector, matrix);
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
@@ -90,7 +87,7 @@ void translate_angles(t_ft_point *point, double factor)
 
 
 /*
-void translate_angles(t_ft_point *point)
+void translate_angles(t_point *point)
 {
 	int	original_x;
 	int	original_y;
@@ -103,7 +100,7 @@ void translate_angles(t_ft_point *point)
 }
 */
 /*
-void translate_angles(t_ft_point *point)
+void translate_angles(t_point *point)
 {
 	int	original_x;
 	int	original_y;
@@ -119,7 +116,7 @@ void translate_angles(t_ft_point *point)
 }
 */
 /*
-void translate_angles(t_ft_point *point)
+void translate_angles(t_point *point)
 {
 	int	original_x;
 	int	original_y;
@@ -132,7 +129,7 @@ void translate_angles(t_ft_point *point)
 }
 */
 //wip
-void shift_x(t_dimensions dim, t_ft_point **coords, double offset)
+void shift_x(t_dimensions dim, t_point **coords, double offset)
 {
 	int x;
 	int y;
@@ -151,7 +148,7 @@ void shift_x(t_dimensions dim, t_ft_point **coords, double offset)
 	}
 }
 
-void shift_y(t_dimensions dim, t_ft_point **coords, double offset)
+void shift_y(t_dimensions dim, t_point **coords, double offset)
 {
 	int x;
 	int y;
@@ -170,7 +167,7 @@ void shift_y(t_dimensions dim, t_ft_point **coords, double offset)
 	}
 }
 
-void shift_z(t_dimensions dim, t_ft_point **coords, double offset)
+void shift_z(t_dimensions dim, t_point **coords, double offset)
 {
 	int x;
 	int y;
@@ -189,7 +186,7 @@ void shift_z(t_dimensions dim, t_ft_point **coords, double offset)
 	}
 }
 
-void make_positive(t_dimensions dim)//, t_ft_point **coords)
+void make_positive(t_dimensions dim)//, t_point **coords)
 {
 	// go through all coordinates
 	// find smallest x y and z
@@ -200,7 +197,7 @@ void make_positive(t_dimensions dim)//, t_ft_point **coords)
 	double smallest_x;
 	double smallest_y;
 	double smallest_z;
-	t_ft_point **coords;
+	t_point **coords;
 
 	coords = dim.coords;
 //	x = 0;
@@ -251,7 +248,7 @@ void make_positive(t_dimensions dim)//, t_ft_point **coords)
 
 /*
 universalize?
-void shift_some(t_dimensions dim, t_ft_point **coords, double offset )
+void shift_some(t_dimensions dim, t_point **coords, double offset )
 {
 	int x;
 	int y;
@@ -271,7 +268,7 @@ void shift_some(t_dimensions dim, t_ft_point **coords, double offset )
 
 
 /*
-void translate_angles(t_ft_point *point)
+void translate_angles(t_point *point)
 {
 	int	original_x;
 	int	original_y;
@@ -333,13 +330,13 @@ t_list	*get_file_lines(int fd)
 	return (head);
 }
 
-t_ft_point	**alloc_data_space(t_dimensions dim)
+t_point	**alloc_data_space(t_dimensions dim)
 {
-	t_ft_point	**coordinates;
+	t_point	**coordinates;
 	int		i;
 
 	i = 0;
-	coordinates = (t_ft_point **)ft_calloc(dim.length, sizeof(t_ft_point *));
+	coordinates = (t_point **)ft_calloc(dim.length, sizeof(t_point *));
 	if (!coordinates)
 	{
 		//error handling
@@ -350,7 +347,7 @@ t_ft_point	**alloc_data_space(t_dimensions dim)
 	ft_printf("dim width: %d\n", dim.width);
 	while (i < dim.length)
 	{
-		coordinates[i] = (t_ft_point *)ft_calloc(dim.width, sizeof(t_ft_point));
+		coordinates[i] = (t_point *)ft_calloc(dim.width, sizeof(t_point));
 		if (!coordinates[i])
 		{
 			//error handling, empty previous values filling
@@ -364,7 +361,7 @@ t_ft_point	**alloc_data_space(t_dimensions dim)
 	return (coordinates);
 }
 /*
-void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
+void	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
 {
 	char **split_res;
 	int x;
@@ -395,7 +392,7 @@ void	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
 */
 // TODO: test returns
 // wip some corner points showing poorly and lines not connected
-int	fill_with_data(t_dimensions dim, t_ft_point **coordinates, t_list *lines)
+int	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
 {
 	char **split_res;
 	int x;
@@ -485,11 +482,11 @@ void	process_data(t_dimensions dim)
 	int x;
 	int y;
 	int ext_coef;
-	t_ft_point **coords;
+	t_point **coords;
 
 	x = 0;
 	y = 0;
-	ext_coef = 1;
+	ext_coef = 2;
 	coords = dim.coords;
 	while(y < dim.length)
 	{
@@ -516,7 +513,7 @@ void display_data(t_dimensions dim, t_dimensions image_size, mlx_image_t *image)
 {
 	int x;
 	int y;
-	t_ft_point **coords;
+	t_point **coords;
 	coords = dim.coords;
 	
 	y = 0;

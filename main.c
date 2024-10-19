@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
+/*   Updated: 2024/10/19 19:17:46 by mbutuzov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // -----------------------------------------------------------------------------
 // Codam Coding College, Amsterdam @ 2022-2023 by W2Wizard.
 // See README in the root project for more information.
@@ -12,7 +24,7 @@
 //#define HEIGHT 512
 
 #define WIDTH 2048 
-#define HEIGHT 600 
+#define HEIGHT 2048 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -58,17 +70,17 @@ int get_straight_line_x(int y, int m, int n, int b)
 	return (((y - b) * n) / m);
 }
 
-int determine_m(t_ft_point a, t_ft_point b)
+int determine_m(t_point a, t_point b)
 {
 	return (b.y - a.y);
 }
 
-int determine_n(t_ft_point a, t_ft_point b)
+int determine_n(t_point a, t_point b)
 {
 	return (b.x - a.x);
 }
 /* fails when a.x == b.x */
-int determine_b(t_ft_point a, t_ft_point b)
+int determine_b(t_point a, t_point b)
 {
 	if (a.x - b.x)
 		return ((a.x * b.y - a.y * b.x)/(a.x - b.x));
@@ -76,7 +88,7 @@ int determine_b(t_ft_point a, t_ft_point b)
 }
 /*
 
-void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
+void put_line(t_point start, t_point end, mlx_image_t *image)
 {
 	int m;
 	int n;
@@ -130,7 +142,7 @@ int ft_abs(int num)
 	return (num);
 }
 /*
-void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
+void put_line(t_point start, t_point end, mlx_image_t *image)
 {
 	int dx;
 	int dy;
@@ -179,7 +191,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 */
 
 /*
-void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
+void put_line(t_point start, t_point end, mlx_image_t *image)
 {
 	int dx;
 	int dy;
@@ -291,32 +303,18 @@ int get_color(int start_color, int end_color, int i, int a, int b)
 	red_change = get_red(end_color) - get_red(start_color);
 	green_change = get_green(end_color) - get_green(start_color);
 	blue_change = get_blue(end_color) - get_blue(start_color);
-
-	//total_cchange = ft_abs(start_color - end_color);
 	if (i == 0 || (start_color == end_color))
-	{
-//		ft_printf("color case 1\n");
 		return (start_color);
-	}
 	if (a + i == b)
-	{
-//		ft_printf("color case 2\n");
 		return (end_color);
-	}
-//	ft_printf("color case 3\n");
 	final_red = round((double)get_red(start_color) + (double)((double)(i * (red_change)) / (double)(b - a)));
 	final_green = round((double)get_green(start_color) + (double)((double)(i * (green_change)) / (double)(b - a)));
 	final_blue = round((double)get_blue(start_color) + (double)((double)(i * (blue_change)) / (double)(b - a)));
-//	if (final_red > 0xFF || final_blue > 0xFF || final_green > 0xFF)
-//		ft_printf("color change issue");
 	return (final_red << 16 | final_green << 8 | final_blue);
-	//else
-	//	return
-	
 }
 
 // WIP
-void put_line_low(t_ft_point start, t_ft_point end, mlx_image_t *image)
+void put_line_low(t_point start, t_point end, mlx_image_t *image)
 {
 	int dx;
 	int dy;
@@ -350,7 +348,7 @@ void put_line_low(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	}
 }
 
-void put_line_high(t_ft_point start, t_ft_point end, mlx_image_t *image)
+void put_line_high(t_point start, t_point end, mlx_image_t *image)
 {
 	int dx;
 	int dy;
@@ -384,7 +382,7 @@ void put_line_high(t_ft_point start, t_ft_point end, mlx_image_t *image)
 	}
 }
 
-void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
+void put_line(t_point start, t_point end, mlx_image_t *image)
 {
 	if (ft_abs(end.y - start.y) < ft_abs(end.x - start.x))
 	{
@@ -404,7 +402,7 @@ void put_line(t_ft_point start, t_ft_point end, mlx_image_t *image)
 
 // not all lines shown?
 // TODO: include every possible line
-void put_lines(mlx_image_t *image, t_dimensions dim, t_ft_point **coords)
+void put_lines(mlx_image_t *image, t_dimensions dim, t_point **coords)
 {
 	int y;
 	int x;
@@ -472,7 +470,7 @@ void display_coords_testing(t_dimensions dim)
 {
 	int i = 0;
 	int j = 0;
-	t_ft_point **coords;
+	t_point **coords;
 	coords = dim.coords;
 	while (i < dim.length)
 	{
@@ -498,6 +496,11 @@ int32_t main(int argc, char **argv)
 	mlx_t* mlx;
 	t_name_holder some;
 	fd = open(*(++argv), O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("File name doesn't exist");
+		return(0);
+	}
 	dim = get_data_from_fd(fd);
 	ft_printf("done parsing\n");
 //	display_coords_testing(dim);
