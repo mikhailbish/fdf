@@ -12,24 +12,22 @@ Tasks:
 	1.4	parsing
 	1.5	validation
 -	putlines
-	elem-col map has an extra line coming to the height 20 point. Is it a bug or am I missing something? URGENT
--	handle if map doesn't exist
--	find the right way to draw a line between points, make sure the points themselves are drawn, accounting for error margins
-	-	add brasenham				WIP
+-	handle if map doesn't exist										done
 	https://digitalbunker.dev/bresenhams-line-algorithm/
 	
--	add colors					done, needs testing
-	parsing						done, needs testing
+-	add colors												done
+	parsing													done
 	add logic to take colors from point struct
 	optionally comes after z, separated by comma
 -	add gradient
+	yellow spots in Julia? possibly some red -> white gradient
 	putline logic
 -	add scaling (determine the highest and lowest x and y values)
--	scaling calculations and centering PRIORITY
-	either use second coords matrix or learn to calculate the max possible fixing scale
+-	scaling calculations and centering									PRIORITY
 -	implement function pointers to work with coordinates
--	make the program display lines once, unless something changes //DONE, painted struct member
+-	make the program display lines once, unless something changes 						done, painted struct member introduced
 	mlx_delete_image
 	mlx_resize_image
 	^ Explore others
 -	clipping algorythm
+	necessary for the zoom feature
