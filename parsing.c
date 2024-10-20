@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/19 19:33:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:02:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,22 @@ void extend_lines(t_point *point, int num)
 }
 
 
-void translate_angles(t_point *point, double factor)
+void translate_angles(t_point *point)
 {
 	double	vector[3];
 	double	matrix[3][3];
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
-	matrix[0][0] = cos(get_radians(30)) * factor;
-	matrix[0][1] = -cos(get_radians(30)) * factor;
+	matrix[0][0] = cos(get_radians(30));
+	matrix[0][1] = -cos(get_radians(30));
 	matrix[0][2] = 0;
-	matrix[1][0] = sin(get_radians(30)) * factor;
-	matrix[1][1] = sin(get_radians(30)) * factor;
-	matrix[1][2] = 1 * factor;
+	matrix[1][0] = sin(get_radians(30));
+	matrix[1][1] = sin(get_radians(30));
+	matrix[1][2] = 1;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = 1 * factor;
+	matrix[2][2] = 1;
 	mutate_3d_vector(vector, matrix);
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
@@ -493,7 +493,7 @@ void	process_data(t_dimensions dim)
 		while (x < dim.width)
 		{
 			extend_lines(&coords[y][x], ext_coef);
-			translate_angles(&coords[y][x], 1);
+			translate_angles(&coords[y][x]);
 //			translate_angles(&coords[y][x]);
 			x++;
 		}

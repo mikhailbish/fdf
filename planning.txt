@@ -24,6 +24,7 @@ Tasks:
 	putline logic
 -	add scaling (determine the highest and lowest x and y values)
 -	scaling calculations and centering									PRIORITY
+	rethink parsing to adapt to put_pixel logic, so that, I would not need to make image->height - y operation
 -	implement function pointers to work with coordinates
 -	make the program display lines once, unless something changes 						done, painted struct member introduced
 	mlx_delete_image
