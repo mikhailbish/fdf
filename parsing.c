@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/20 19:02:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/20 23:09:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,23 @@ double get_radians(int angle)
 
 //wip
 
-void extend_lines(t_point *point, int num)
+void extend_lines(t_3d_point *point, int num)
 {
 	double	vector[3];
 	double	matrix[3][3];
 
-	vector[0] = (double)point->x;
-	vector[1] = (double)point->y;
-	vector[2] = (double)point->z;
-	matrix[0][0] = num;
+	vector[0] = point->x;
+	vector[1] = point->y;
+	vector[2] = point->z;
+	matrix[0][0] = (double)num;
 	matrix[0][1] = 0;
 	matrix[0][2] = 0;
 	matrix[1][0] = 0;
-	matrix[1][1] = num;
+	matrix[1][1] = (double)num;
 	matrix[1][2] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = num;
+	matrix[2][2] = (double)num;
 	mutate_3d_vector(vector, matrix);
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
@@ -63,7 +63,7 @@ void extend_lines(t_point *point, int num)
 }
 
 
-void translate_angles(t_point *point)
+void translate_angles(t_3d_point *point)
 {
 	double	vector[3];
 	double	matrix[3][3];
@@ -84,8 +84,10 @@ void translate_angles(t_point *point)
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
 }
-
-
+/*
+void rotate_x(t_3d_point poi)
+{}
+*/
 /*
 void translate_angles(t_point *point)
 {
@@ -129,7 +131,7 @@ void translate_angles(t_point *point)
 }
 */
 //wip
-void shift_x(t_dimensions dim, t_point **coords, double offset)
+void shift_x(t_map dim, t_3d_point **coords, double offset)
 {
 	int x;
 	int y;
@@ -148,7 +150,7 @@ void shift_x(t_dimensions dim, t_point **coords, double offset)
 	}
 }
 
-void shift_y(t_dimensions dim, t_point **coords, double offset)
+void shift_y(t_map dim, t_3d_point **coords, double offset)
 {
 	int x;
 	int y;
@@ -167,7 +169,7 @@ void shift_y(t_dimensions dim, t_point **coords, double offset)
 	}
 }
 
-void shift_z(t_dimensions dim, t_point **coords, double offset)
+void shift_z(t_map dim, t_3d_point **coords, double offset)
 {
 	int x;
 	int y;
@@ -186,7 +188,7 @@ void shift_z(t_dimensions dim, t_point **coords, double offset)
 	}
 }
 
-void make_positive(t_dimensions dim)//, t_point **coords)
+void make_positive(t_map dim)//, t_point **coords)
 {
 	// go through all coordinates
 	// find smallest x y and z
@@ -197,9 +199,9 @@ void make_positive(t_dimensions dim)//, t_point **coords)
 	double smallest_x;
 	double smallest_y;
 	double smallest_z;
-	t_point **coords;
+	t_3d_point **coords;
 
-	coords = dim.coords;
+	coords = (t_3d_point **)dim.coords;
 //	x = 0;
 	y = 0;
 	ft_printf("a\n");
@@ -330,13 +332,14 @@ t_list	*get_file_lines(int fd)
 	return (head);
 }
 
-t_point	**alloc_data_space(t_dimensions dim)
+t_3d_point	**alloc_data_space(t_map dim)
 {
-	t_point	**coordinates;
+	t_3d_point	**coordinates;
 	int		i;
 
 	i = 0;
-	coordinates = (t_point **)ft_calloc(dim.length, sizeof(t_point *));
+	// TODO: Malloc at once
+	coordinates = (t_3d_point **)ft_calloc(dim.length, sizeof(t_3d_point *));
 	if (!coordinates)
 	{
 		//error handling
@@ -347,7 +350,7 @@ t_point	**alloc_data_space(t_dimensions dim)
 	ft_printf("dim width: %d\n", dim.width);
 	while (i < dim.length)
 	{
-		coordinates[i] = (t_point *)ft_calloc(dim.width, sizeof(t_point));
+		coordinates[i] = (t_3d_point *)ft_calloc(dim.width, sizeof(t_3d_point));
 		if (!coordinates[i])
 		{
 			//error handling, empty previous values filling
@@ -392,13 +395,15 @@ void	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
 */
 // TODO: test returns
 // wip some corner points showing poorly and lines not connected
-int	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
+int	fill_with_data(t_map dim, t_list *lines)
 {
 	char **split_res;
 	int x;
 	int y;
 	char **comma_split_res;
+	t_3d_point **coordinates;
 
+	coordinates = (t_3d_point **)dim.coords;
 	x = 0;
 	y = 0;
 	split_res = 0;
@@ -407,7 +412,6 @@ int	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
 	while (y < dim.length)
 	{
 		split_res = ft_split((char *)lines->content, ' ');
-		
 		if (!split_res)
 			break ;
 		while (x < dim.width)
@@ -431,10 +435,8 @@ int	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
 				coordinates[y][x].color = 0xFFFFFF;
 			}
 			coordinates[y][x].x = x;
-			coordinates[y][x].y = dim.length - y - 1;
+			coordinates[y][x].y = y; // dim.length - y - 1;
 			x++;
-			
-			
 		}
 		free_split(split_res);
 		x = 0;
@@ -446,9 +448,9 @@ int	fill_with_data(t_dimensions dim, t_point **coordinates, t_list *lines)
 	return (1);
 }
 
-t_dimensions get_data_from_fd(int fd)
+t_map get_data_from_fd(int fd)
 {
-	t_dimensions dim;
+	t_map dim;
 	t_list *file_lines;
 	t_list *tmp;
 
@@ -463,31 +465,31 @@ t_dimensions get_data_from_fd(int fd)
 	//close(fd); // handle outside
 	tmp = file_lines;
 	dim = validate_lines(file_lines);
-	dim.coords = alloc_data_space(dim);
+	dim.coords = (void *)alloc_data_space(dim);
 	if (!dim.coords)
 	{
 		//TODO: handle
 		perror(strerror(errno));
 		exit(1);
 	}
-	fill_with_data(dim, dim.coords, file_lines);
+	fill_with_data(dim, file_lines);
 	ft_lstclear(&tmp, delete_content);
 	return (dim);
 	//ft_printf("%d %d\n", asd.width, asd.length);
 	
 }
 
-void	process_data(t_dimensions dim)
+void	process_data(t_map dim)
 {
 	int x;
 	int y;
 	int ext_coef;
-	t_point **coords;
+	t_3d_point **coords;
 
 	x = 0;
 	y = 0;
-	ext_coef = 2;
-	coords = dim.coords;
+	ext_coef = 40;
+	coords = (t_3d_point **)dim.coords;
 	while(y < dim.length)
 	{
 		while (x < dim.width)
@@ -509,13 +511,42 @@ void	process_data(t_dimensions dim)
 	make_positive(dim);//, coords);
 }
 
-void display_data(t_dimensions dim, t_dimensions image_size, mlx_image_t *image)
+// assuming that the correct math has already been performed
+void convert_3dto2d(t_map *dim)
 {
-	int x;
-	int y;
-	t_point **coords;
-	coords = dim.coords;
-	
+	int	i;
+	int	j;
+	t_3d_point **coords;
+	t_2d_point **newcoords;
+
+	i = 0;
+	j = 0;
+	coords = (t_3d_point **)dim->coords;
+
+//	TODO: write a function that allocates 2ddata at once, given length, width and size of one
+//	TODO: handle malloc failes
+	newcoords = malloc(sizeof(t_2d_point *) * dim->length);
+	while (j < dim->length)
+	{
+		newcoords = malloc(sizeof(t_2d_point) * dim->width);
+		while (i < dim->width)
+		{
+			newcoords[j][i].x = round(coords[j][i].x);
+			newcoords[j][i].y = round(coords[j][i].y);
+			i++;
+		}
+		j++;
+	}
+	dim->coords = (void *)newcoords;
+}
+
+void display_data(t_map dim, mlx_image_t *image)
+{
+//	int x;
+//	int y;
+//	t_point **coords;
+//	coords = dim.coords;
+	/*
 	y = 0;
 	while(y < dim.length)
 	{
@@ -538,6 +569,7 @@ void display_data(t_dimensions dim, t_dimensions image_size, mlx_image_t *image)
 			x++;
 		}
 		y++;
-	}
-	put_lines(image, dim, coords);
+	}*/
+	convert_3dto2d(&dim);
+	put_lines(image, dim);
 }
