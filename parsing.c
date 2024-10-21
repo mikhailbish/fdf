@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/20 23:09:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:16:26 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void translate_angles(t_point *point)
 }
 */
 //wip
-void shift_x(t_map dim, t_3d_point **coords, double offset)
+void shift_x(t_map dim, t_3d_point *coords, double offset)
 {
 	int x;
 	int y;
@@ -143,14 +143,14 @@ void shift_x(t_map dim, t_3d_point **coords, double offset)
 		x = 0;
 		while(x < dim.width)
 		{
-			coords[y][x].x += offset;
+			coords[y * dim.width + x].x += offset;
 			x++;	
 		}
 		y++;
 	}
 }
 
-void shift_y(t_map dim, t_3d_point **coords, double offset)
+void shift_y(t_map dim, t_3d_point *coords, double offset)
 {
 	int x;
 	int y;
@@ -162,14 +162,14 @@ void shift_y(t_map dim, t_3d_point **coords, double offset)
 		x = 0;
 		while(x < dim.width)
 		{
-			coords[y][x].y += offset;
+			coords[y * dim.width + x].y += offset;
 			x++;	
 		}
 		y++;
 	}
 }
 
-void shift_z(t_map dim, t_3d_point **coords, double offset)
+void shift_z(t_map dim, t_3d_point *coords, double offset)
 {
 	int x;
 	int y;
@@ -181,7 +181,7 @@ void shift_z(t_map dim, t_3d_point **coords, double offset)
 		x = 0;
 		while(x < dim.width)
 		{
-			coords[y][x].z += offset;
+			coords[y * dim.width + x].z += offset;
 			x++;	
 		}
 		y++;
@@ -199,28 +199,28 @@ void make_positive(t_map dim)//, t_point **coords)
 	double smallest_x;
 	double smallest_y;
 	double smallest_z;
-	t_3d_point **coords;
+	t_3d_point *coords;
 
-	coords = (t_3d_point **)dim.coords;
+	coords = (t_3d_point *)dim.coords;
 //	x = 0;
 	y = 0;
 	ft_printf("a\n");
 	//display_coords_testing(dim);
-	smallest_x = (double)coords[0][0].x;
-	smallest_y = (double)coords[0][0].y;
-	smallest_z = (double)coords[0][0].z;
+	smallest_x = (double)coords[0].x;
+	smallest_y = (double)coords[0].y;
+	smallest_z = (double)coords[0].z;
 	ft_printf("b\n");
 	while (y < dim.length)
 	{
 		x = 0;
 		while(x < dim.width)
 		{
-			if (smallest_x > coords[y][x].x)
-				smallest_x = coords[y][x].x;
-			if (smallest_y > coords[y][x].y)
-				smallest_y = coords[y][x].y;
-			if (smallest_z > coords[y][x].z)
-				smallest_z = coords[y][x].z;
+			if (smallest_x > coords[y * dim.width + x].x)
+				smallest_x = coords[y * dim.width + x].x;
+			if (smallest_y > coords[y * dim.width + x].y)
+				smallest_y = coords[y * dim.width + x].y;
+			if (smallest_z > coords[y * dim.width + x].z)
+				smallest_z = coords[y * dim.width + x].z;
 			x++;	
 		}
 		if (y > 0 && y % 100 == 0)
@@ -332,34 +332,21 @@ t_list	*get_file_lines(int fd)
 	return (head);
 }
 
-t_3d_point	**alloc_data_space(t_map dim)
+t_3d_point	*alloc_data_space(t_map dim)
 {
-	t_3d_point	**coordinates;
+	t_3d_point	*coordinates;
 	int		i;
 
 	i = 0;
 	// TODO: Malloc at once
-	coordinates = (t_3d_point **)ft_calloc(dim.length, sizeof(t_3d_point *));
+//	coordinates = (t_3d_point **)ft_calloc(dim.length, sizeof(t_3d_point *));
+	coordinates = (t_3d_point *)ft_calloc(dim.length * dim.width, sizeof(t_3d_point));
 	if (!coordinates)
 	{
 		//error handling
 		perror("ptp calloc fail");
 		exit(1);
 		return (0);
-	}
-	ft_printf("dim width: %d\n", dim.width);
-	while (i < dim.length)
-	{
-		coordinates[i] = (t_3d_point *)ft_calloc(dim.width, sizeof(t_3d_point));
-		if (!coordinates[i])
-		{
-			//error handling, empty previous values filling
-			ft_printf("point calloc fail i: %d\n", i);
-			perror("point calloc fail");
-			exit(1);
-			return (0);
-		}
-		i++;
 	}
 	return (coordinates);
 }
@@ -401,9 +388,9 @@ int	fill_with_data(t_map dim, t_list *lines)
 	int x;
 	int y;
 	char **comma_split_res;
-	t_3d_point **coordinates;
+	t_3d_point *coordinates;
 
-	coordinates = (t_3d_point **)dim.coords;
+	coordinates = (t_3d_point *)dim.coords;
 	x = 0;
 	y = 0;
 	split_res = 0;
@@ -420,8 +407,8 @@ int	fill_with_data(t_map dim, t_list *lines)
 			{
 				comma_split_res = ft_split(split_res[x], ',');
 				// TODO: handle 0
-				coordinates[y][x].z = ft_atoi(comma_split_res[0]);
-				coordinates[y][x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
+				coordinates[y * dim.width + x].z = ft_atoi(comma_split_res[0]);
+				coordinates[y * dim.width + x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
 	//			coordinates[y][x].color = coordinates[y][x].color << 8;
 	//			coordinates[y][x].color += 0xFF; 
 			}
@@ -431,11 +418,11 @@ int	fill_with_data(t_map dim, t_list *lines)
 			}
 			else
 			{
-				coordinates[y][x].z = ft_atoi(split_res[x]);
-				coordinates[y][x].color = 0xFFFFFF;
+				coordinates[y * dim.width + x].z = ft_atoi(split_res[x]);
+				coordinates[y * dim.width + x].color = 0xFFFFFF;
 			}
-			coordinates[y][x].x = x;
-			coordinates[y][x].y = y; // dim.length - y - 1;
+			coordinates[y * dim.width + x].x = x;
+			coordinates[y * dim.width + x].y = y; // dim.length - y - 1;
 			x++;
 		}
 		free_split(split_res);
@@ -484,18 +471,18 @@ void	process_data(t_map dim)
 	int x;
 	int y;
 	int ext_coef;
-	t_3d_point **coords;
+	t_3d_point *coords;
 
 	x = 0;
 	y = 0;
 	ext_coef = 40;
-	coords = (t_3d_point **)dim.coords;
+	coords = (t_3d_point *)dim.coords;
 	while(y < dim.length)
 	{
 		while (x < dim.width)
 		{
-			extend_lines(&coords[y][x], ext_coef);
-			translate_angles(&coords[y][x]);
+			extend_lines(&coords[y * dim.width + x], ext_coef);
+			translate_angles(&coords[y * dim.width + x]);
 //			translate_angles(&coords[y][x]);
 			x++;
 		}
@@ -507,7 +494,8 @@ void	process_data(t_map dim)
 	ft_printf("all rows processed\n");
 	x = 0;
 	y = 0;
-
+	
+	//is this necessary?
 	make_positive(dim);//, coords);
 }
 
@@ -516,23 +504,26 @@ void convert_3dto2d(t_map *dim)
 {
 	int	i;
 	int	j;
-	t_3d_point **coords;
-	t_2d_point **newcoords;
+	t_3d_point *coords;
+	t_2d_point *newcoords;
 
 	i = 0;
 	j = 0;
-	coords = (t_3d_point **)dim->coords;
+	coords = (t_3d_point *)dim->coords;
 
 //	TODO: write a function that allocates 2ddata at once, given length, width and size of one
 //	TODO: handle malloc failes
-	newcoords = malloc(sizeof(t_2d_point *) * dim->length);
+	newcoords = calloc(sizeof(t_2d_point), dim->width * dim->length);
+	ft_printf("in convert, length: %d, width: %d\n", dim->length, dim->width);
 	while (j < dim->length)
 	{
-		newcoords = malloc(sizeof(t_2d_point) * dim->width);
+		i = 0;
 		while (i < dim->width)
 		{
-			newcoords[j][i].x = round(coords[j][i].x);
-			newcoords[j][i].y = round(coords[j][i].y);
+			ft_printf("in convert j:%d, i:%d\n",j,i);
+			newcoords[j * dim->width + i].x = round(coords[j * dim->width + i].x);
+			newcoords[j * dim->width + i].y = round(coords[j * dim->width + i].y);
+			newcoords[j * dim->width + i].color = coords[j * dim->width + i].color;
 			i++;
 		}
 		j++;
@@ -570,6 +561,8 @@ void display_data(t_map dim, mlx_image_t *image)
 		}
 		y++;
 	}*/
+	ft_printf("before convert");
 	convert_3dto2d(&dim);
+	ft_printf("after convert");
 	put_lines(image, dim);
 }

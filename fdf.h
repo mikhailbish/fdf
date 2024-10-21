@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/20 22:53:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/21 20:22:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_3d_point {
 }	t_3d_point;
 
 typedef struct s_map {
-	void	**coords;
+	void	*coords;
 	int length;
 	int width;
 }	t_map;
@@ -63,7 +63,7 @@ t_map		validate_lines(t_list *lines);
 int		check_name(char *name);
 t_map		get_data_from_fd(int fd);
 t_list		*get_file_lines(int fd);
-t_3d_point	**alloc_data_space(t_map dim);
+t_3d_point	*alloc_data_space(t_map dim);
 t_map		parse_lines(t_map dim, t_list *lines);
 int		fill_with_data(t_map dim, t_list *lines);
 
@@ -76,7 +76,7 @@ void		extend_lines(t_3d_point *point, int num);
 /*		DISPLAY			*/
 void		display_data(t_map dim, mlx_image_t *image);
 void 		put_lines(mlx_image_t *image, t_map dim);
-//void 		display_coords_testing(t_map dim);
+void 		display_coords_testing(t_map dim);
 void		put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);

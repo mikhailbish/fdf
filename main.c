@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/20 23:13:06 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:48:57 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,9 @@ void put_lines(mlx_image_t *image, t_map dim)
 {
 	int y;
 	int x;
-	t_2d_point **coords;
+	t_2d_point *coords;
 
-	coords = (t_2d_point **)dim.coords;
+	coords = (t_2d_point *)dim.coords;
 	y = 0;
 	int line_count = 0;
 	while(y < dim.length)
@@ -197,20 +197,20 @@ void put_lines(mlx_image_t *image, t_map dim)
 		{
 			if (x == 0 && y < dim.length - 1)
 			{
-				put_line(coords[y][x], coords[y + 1][x], image);
+				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
 				line_count +=1;
 			}
 			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
 			{
-				put_line(coords[y][x], coords[y][x + 1], image);
+				put_line(coords[y * dim.width + x], coords[y * dim.width + x + 1], image);
 				line_count +=1;
 			}
 			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
 			{
 			}
 			else {
-				put_line(coords[y][x], coords[y + 1][x], image);
-				put_line(coords[y][x - 1], coords[y][x], image);
+				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
+				put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
 				line_count +=2;
 			}
 			x--;
@@ -230,24 +230,27 @@ void put_42_v2(void *param)
 		dim = ((t_fdf *)param)->dim;
 		image_size = ((t_fdf *)param)->image_size;
 		image = ((t_fdf *)param)->image;
+		ft_printf("before display data");
+//		display_coords_testing(dim);
 		display_data(dim, image);
 		((t_fdf *)param)->painted = 1;
 	}
 }
 
 //TODO: remove
-/*
+
 void display_coords_testing(t_map dim)
 {
 	int i = 0;
 	int j = 0;
-	t_2d_point **coords;
-	coords = dim.coords;
+//	t_2d_point **coords;
+	t_3d_point **coords;
+	coords = (t_3d_point **)dim.coords;
 	while (i < dim.length)
 	{
 		while (j < dim.width)
 		{
-//			ft_printf("x: %d, y: %d, z: %d, color: %x\n", coords[i][j].x, coords[i][j].y, coords[i][j].z, coords[i][j].color);
+			printf("x: %F, y: %F, z: %F, color: %dx\n", coords[i][j].x, coords[i][j].y, coords[i][j].z, coords[i][j].color);
 //			ft_printf("x: %d, y: %d, z: %d\n", coords[i][j].x, coords[i][j].y, coords[i][j].z);
 			j++;
 		}
@@ -255,7 +258,7 @@ void display_coords_testing(t_map dim)
 		i++;
 	}
 }
-*/
+
 
 int32_t main(int argc, char **argv)
 {
@@ -303,11 +306,12 @@ int32_t main(int argc, char **argv)
 	some.mlx = mlx;
 	some.image = image;
 	//TODO: remove file name here and in the header
-	some.file_name = *(++argv);
+	some.file_name = *(argv);
 	some.image_size = (t_map){0, HEIGHT, WIDTH};
 	some.image = image;
 	some.dim = dim;
 	some.painted = 0;
+	ft_printf("before hook");
 	mlx_loop_hook(mlx, put_42_v2, &some);
 //	mlx_loop_hook(mlx, ft_hook, mlx);
 	mlx_loop(mlx);

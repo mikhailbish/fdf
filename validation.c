@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/09/16 22:28:27 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:35:09 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ static int	validate_line(char *line)
 	return (column_count);
 }
 /*
-t_dimensions validate_file(int fd)
+t_map validate_file(int fd)
 {
 	int 	column_count;
 	int	line_count;
 	char	*line;
-	t_dimensions dim;
+	t_map dim;
 
 	dim.length = 0;
 	dim.width = 0;
@@ -103,12 +103,12 @@ t_dimensions validate_file(int fd)
 	
 }*/
 // TODO: make sure errors are handled
-t_dimensions validate_lines(t_list *lines)
+t_map validate_lines(t_list *lines)
 {
 	int 	column_count;
 	int	line_count;
 	//char	*line;
-	t_dimensions dim;
+	t_map dim;
 
 	dim.length = 0;
 	dim.width = 0;

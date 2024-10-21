@@ -31,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 LOG_NAME = $(shell date -Iseconds)
 
 all: clone $(NAME)
-	./$(NAME) ~/Downloads/test_maps/julia.fdf
+	./$(NAME) ~/Downloads/test_maps/42.fdf
 #	./$(NAME) test_maps/elem-col.fdf >> ./logs/$(LOG_NAME)
 
 # .clone_done will be generated as a hidden file, and it will contain the timestamp
