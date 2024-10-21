@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/21 19:48:57 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:47:06 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int32_t get_blue(int32_t color)
 	return ((color) & 0xFF);
 }
 
+/*
 int get_color(int start_color, int end_color, int i, int a, int b)
 {
 	int red_change;
@@ -92,6 +93,31 @@ int get_color(int start_color, int end_color, int i, int a, int b)
 	final_red = round((double)get_red(start_color) + (double)((double)(i * (red_change)) / (double)(b - a)));
 	final_green = round((double)get_green(start_color) + (double)((double)(i * (green_change)) / (double)(b - a)));
 	final_blue = round((double)get_blue(start_color) + (double)((double)(i * (blue_change)) / (double)(b - a)));
+	return (final_red << 16 | final_green << 8 | final_blue);
+}
+*/
+int get_color(int start_color, int end_color, int i, int length)
+{
+	double red_change;
+	double green_change;
+	double blue_change;
+	int final_red;
+	int final_green;
+	int final_blue;
+
+	red_change = ((double)get_red(end_color)  - (double)get_red(start_color))/(double)length;
+	green_change = ((double)get_green(end_color)  - (double)get_green(start_color))/(double)length;;
+	blue_change = ((double)get_blue(end_color) - (double)get_blue(start_color))/(double)length;;
+	if (i == 0 || (start_color == end_color))
+		return (start_color);
+	if (i == length)
+		return (end_color);
+	// TODO: redo datatypes
+	final_red = round((double)get_red(start_color) + ((double)i * (red_change)));
+	final_green =round((double)get_green(start_color) + ((double)i * (green_change)));
+	final_blue = round((double)get_blue(start_color) + ((double)i * (blue_change)));
+	if (final_red < 0 || final_blue < 0 || final_green < 0)
+		ft_printf("weird colors\n");
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
 
@@ -115,7 +141,7 @@ void put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
 	while (start.x <= end.x)
 	{
 		// TODO: modify color handling here
-		color = get_color(start.color, end.color, start.x, end.x - dx, end.x);
+		color = get_color(start.color, end.color, start.x - (end.x - dx), dx);
 //		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, start.y, (color << 8) + 0xFF);
 		if (d > 0)	
@@ -149,7 +175,7 @@ void put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image)
 	while (start.y <= end.y)
 	{
 		// TODO: modify color handling here
-		color = get_color(start.color, end.color, start.y, end.y - dy, end.y);
+		color = get_color(start.color, end.color, start.y - (end.y - dy), dy);
 //		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, start.y, (color << 8) + 0xFF);
 		if (d > 0)	
