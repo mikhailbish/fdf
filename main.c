@@ -23,8 +23,8 @@
 //#define WIDTH 512
 //#define HEIGHT 512
 
-#define WIDTH 2048 
-#define HEIGHT 2048 
+//#define WIDTH 1366 
+//#define HEIGHT 768 
 
 
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -247,14 +247,14 @@ void put_lines(mlx_image_t *image, t_map dim)
 void put_42_v2(void *param)
 {
 	t_map dim;
-	t_map image_size;
+	//t_map image_size;
 	mlx_image_t	*image;
 	int painted;
 	painted = ((t_fdf *)param)->painted;
 	if (!painted)
 	{
 		dim = ((t_fdf *)param)->dim;
-		image_size = ((t_fdf *)param)->image_size;
+	//	image_size = ((t_fdf *)param)->image_size;
 		image = ((t_fdf *)param)->image;
 		ft_printf("before display data");
 //		display_coords_testing(dim);
@@ -333,7 +333,6 @@ int32_t main(int argc, char **argv)
 	some.image = image;
 	//TODO: remove file name here and in the header
 	some.file_name = *(argv);
-	some.image_size = (t_map){0, HEIGHT, WIDTH};
 	some.image = image;
 	some.dim = dim;
 	some.painted = 0;

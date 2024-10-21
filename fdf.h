@@ -20,6 +20,10 @@
 # include <errno.h>
 # include <math.h>
 # include <string.h>
+#define WIDTH 1366 
+#define HEIGHT 768 
+//#define WIDTH 2732 
+//#define HEIGHT 1536 
 typedef struct s_2d_point {
 	int x;
 	int y;
@@ -37,6 +41,8 @@ typedef struct s_map {
 	void	*coords;
 	int length;
 	int width;
+	int max_z;
+	int min_z;
 }	t_map;
 
 typedef struct s_fdf {
@@ -45,7 +51,6 @@ typedef struct s_fdf {
 	int	fd;
 	int	painted;
 	mlx_image_t	*image;
-	t_map	image_size;
 	t_map	dim;
 }	t_fdf;
 /*

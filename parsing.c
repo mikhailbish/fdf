@@ -86,6 +86,7 @@ void translate_angles(t_3d_point *point)
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
 }*/
+// TODO: REDO
 void translate_angles(t_3d_point *point)
 {
 	double	vector[3];
@@ -93,15 +94,15 @@ void translate_angles(t_3d_point *point)
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
-	matrix[0][0] = cos(get_radians(30));
-	matrix[0][1] = cos(get_radians(30));
+	matrix[0][0] = cos(get_radians(30)) * cos(get_radians(30));
+	matrix[0][1] = cos(get_radians(30)) * cos(get_radians(30));
 	matrix[0][2] = 0;
 	matrix[1][0] = -sin(get_radians(30));
-	matrix[1][1] = sin(get_radians(30));
+	matrix[1][1] = sin(get_radians(30)) * sin(get_radians(30));
 	matrix[1][2] = -1;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = -1;
+	matrix[2][2] = 1;
 	mutate_3d_vector(vector, matrix);
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
@@ -227,12 +228,12 @@ void make_positive(t_map dim)//, t_point **coords)
 	coords = (t_3d_point *)dim.coords;
 //	x = 0;
 	y = 0;
-	ft_printf("a\n");
+//	ft_printf("a\n");
 	//display_coords_testing(dim);
 	smallest_x = (double)coords[0].x;
 	smallest_y = (double)coords[0].y;
 	smallest_z = (double)coords[0].z;
-	ft_printf("b\n");
+//	ft_printf("b\n");
 	while (y < dim.length)
 	{
 		x = 0;
@@ -358,9 +359,9 @@ t_list	*get_file_lines(int fd)
 t_3d_point	*alloc_data_space(t_map dim)
 {
 	t_3d_point	*coordinates;
-	int		i;
+	//int		i;
 
-	i = 0;
+//	i = 0;
 	// TODO: Malloc at once
 //	coordinates = (t_3d_point **)ft_calloc(dim.length, sizeof(t_3d_point *));
 	coordinates = (t_3d_point *)ft_calloc(dim.length * dim.width, sizeof(t_3d_point));
@@ -458,6 +459,32 @@ int	fill_with_data(t_map dim, t_list *lines)
 	return (1);
 }
 
+void set_max_min_z(t_map *dim)
+{
+	int i;
+	int max_z;
+	int min_z;
+	t_3d_point *coords;
+
+//TODO: handle no coords?
+
+	coords = (t_3d_point *)dim->coords;
+	i = 0;
+	max_z = coords[i].z;
+	min_z = coords[i].z;
+	i++;
+	while (i < (dim->length * dim->width))
+	{
+		if (min_z > coords[i].z)
+			min_z = coords[i].z;
+		if (max_z < coords[i].z)
+			max_z = coords[i].z;
+		i++;
+	}
+	dim->max_z = max_z;
+	dim->min_z = min_z;
+}
+
 t_map get_data_from_fd(int fd)
 {
 	t_map dim;
@@ -483,10 +510,40 @@ t_map get_data_from_fd(int fd)
 		exit(1);
 	}
 	fill_with_data(dim, file_lines);
+	set_max_min_z(&dim);
 	ft_lstclear(&tmp, delete_content);
 	return (dim);
 	//ft_printf("%d %d\n", asd.width, asd.length);
 	
+}
+int get_ext_coef(t_map dim)
+{
+	//check overflow?
+/*
+	sqrt(dim.width * dim.width + dim.height * dim.height)
+	(0,0) - leftmost
+	leftmost.x = 
+	(max, max) - rightmost
+	(0, max) xy - bottommost (not considering z)
+	(max, 0) xy - top most (not considering z)
+*/
+	
+	t_3d_point *coords = (t_3d_point *)dim.coords;
+
+	t_3d_point left = coords[0];
+	t_3d_point right = coords[(dim.length - 1) * dim.width + dim.width - 1];
+	t_3d_point top = coords[dim.width - 1];
+	t_3d_point bottom = coords[(dim.length - 1) * dim.width];
+
+	translate_angles(&left);
+	translate_angles(&right);
+	translate_angles(&top);
+	translate_angles(&bottom);
+//	TODO: adjust for the border
+	double a = WIDTH/(right.x - left.x)/2;
+	double b = HEIGHT/(bottom.y - top.y)/2;
+	double c = HEIGHT/(dim.max_z - dim.min_z);
+	return round(((a < b) && (a < c)) * a + ((b < a) && (b < c)) * b + (c < a && c < b) * c);
 }
 
 void	process_data(t_map dim)
@@ -498,7 +555,9 @@ void	process_data(t_map dim)
 
 	x = 0;
 	y = 0;
-	ext_coef = 40;
+	//ext_coef = 20;
+	ext_coef = get_ext_coef(dim);
+	printf("ext_coef: %d\n", ext_coef);
 	coords = (t_3d_point *)dim.coords;
 	while(y < dim.length)
 	{
@@ -537,13 +596,13 @@ void convert_3dto2d(t_map *dim)
 //	TODO: write a function that allocates 2ddata at once, given length, width and size of one
 //	TODO: handle malloc failes
 	newcoords = calloc(sizeof(t_2d_point), dim->width * dim->length);
-	ft_printf("in convert, length: %d, width: %d\n", dim->length, dim->width);
+//	ft_printf("in convert, length: %d, width: %d\n", dim->length, dim->width);
 	while (j < dim->length)
 	{
 		i = 0;
 		while (i < dim->width)
 		{
-			ft_printf("in convert j:%d, i:%d\n",j,i);
+//			ft_printf("in convert j:%d, i:%d\n",j,i);
 			newcoords[j * dim->width + i].x = round(coords[j * dim->width + i].x);
 			newcoords[j * dim->width + i].y = round(coords[j * dim->width + i].y);
 			newcoords[j * dim->width + i].color = coords[j * dim->width + i].color;
@@ -584,8 +643,8 @@ void display_data(t_map dim, mlx_image_t *image)
 		}
 		y++;
 	}*/
-	ft_printf("before convert");
+//	ft_printf("before convert");
 	convert_3dto2d(&dim);
-	ft_printf("after convert");
+//	ft_printf("after convert");
 	put_lines(image, dim);
 }
