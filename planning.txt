@@ -12,9 +12,10 @@ Tasks:
 	1.4	parsing
 	1.5	validation
 -	putlines
+	double check the order again
 -	handle if map doesn't exist										done
 	https://digitalbunker.dev/bresenhams-line-algorithm/
-	
+
 -	add colors												done
 	parsing													done
 	add logic to take colors from point struct
