@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:53:09 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:53:01 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	delete_content(void *content)
 	free((char *)content);	
 }
 
-double get_radians(int angle)
+double get_radians(double angle)
 {
-	return (((double)angle * M_PI) / 180);
+	return ((angle * M_PI) / 180);
 }
 
 //wip
@@ -85,8 +85,78 @@ void translate_angles(t_3d_point *point)
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
-}*/
+}
+*/
 // TODO: REDO
+
+
+void rotate_x(t_3d_point *point, double angle)
+{
+	double	vector[3];
+	double	matrix[3][3];
+	vector[0] = (double)point->x;
+	vector[1] = (double)point->y;
+	vector[2] = (double)point->z;
+	matrix[0][0] = 1;
+	matrix[0][1] = 0;
+	matrix[0][2] = 0;
+	matrix[1][0] = 0;
+	matrix[1][1] = cos(get_radians(angle));
+	matrix[1][2] = sin(get_radians(angle));
+	matrix[2][0] = 0;
+	matrix[2][1] = -sin(get_radians(angle));
+	matrix[2][2] = cos(get_radians(angle));
+	mutate_3d_vector(vector, matrix);
+	point->x = vector[0];
+	point->y = vector[1];
+	point->z = vector[2];
+}
+
+void rotate_y(t_3d_point *point, double angle)
+{
+	double	vector[3];
+	double	matrix[3][3];
+	vector[0] = (double)point->x;
+	vector[1] = (double)point->y;
+	vector[2] = (double)point->z;
+	matrix[0][0] = cos(get_radians(angle));
+	matrix[0][1] = 0;
+	matrix[0][2] = -sin(get_radians(angle));
+	matrix[1][0] = 0;
+	matrix[1][1] = 1;
+	matrix[1][2] = 0;
+	matrix[2][0] = -sin(get_radians(angle));
+	matrix[2][1] = 0; 
+	matrix[2][2] = cos(get_radians(angle));
+	mutate_3d_vector(vector, matrix);
+	point->x = vector[0];
+	point->y = vector[1];
+	point->z = vector[2];
+}
+
+void rotate_z(t_3d_point *point, double angle)
+{
+	double	vector[3];
+	double	matrix[3][3];
+	vector[0] = (double)point->x;
+	vector[1] = (double)point->y;
+	vector[2] = (double)point->z;
+	matrix[0][0] = cos(get_radians(angle));
+	matrix[0][1] = -sin(get_radians(angle));
+	matrix[0][2] = 0;
+	matrix[1][0] = sin(get_radians(angle));
+	matrix[1][1] = cos(get_radians(angle));
+	matrix[1][2] = 0;
+	matrix[2][0] = 0;
+	matrix[2][1] = 0; 
+	matrix[2][2] = 1;
+	mutate_3d_vector(vector, matrix);
+	point->x = vector[0];
+	point->y = vector[1];
+	point->z = vector[2];
+}
+
+/*
 void translate_angles(t_3d_point *point)
 {
 	double	vector[3];
@@ -94,11 +164,11 @@ void translate_angles(t_3d_point *point)
 	vector[0] = (double)point->x;
 	vector[1] = (double)point->y;
 	vector[2] = (double)point->z;
-	matrix[0][0] = cos(get_radians(30)) * cos(get_radians(30));
-	matrix[0][1] = cos(get_radians(30)) * cos(get_radians(30));
+	matrix[0][0] = cos(get_radians(30));
+	matrix[0][1] = cos(get_radians(30));
 	matrix[0][2] = 0;
 	matrix[1][0] = -sin(get_radians(30));
-	matrix[1][1] = sin(get_radians(30)) * sin(get_radians(30));
+	matrix[1][1] = sin(get_radians(30));
 	matrix[1][2] = -1;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
@@ -108,10 +178,20 @@ void translate_angles(t_3d_point *point)
 	point->y = round(vector[1]);
 	point->z = round(vector[2]);
 }
-/*
-void rotate_x(t_3d_point poi)
-{}
 */
+
+void translate_angles(t_3d_point *point)
+{
+	rotate_z(point, -45.264);
+//	rotate_y(point, 35);
+	rotate_x(point, -35);
+
+//	rotate_z(point, 45.264);
+//	rotate_x(point, -35);
+
+}
+
+
 /*
 void translate_angles(t_point *point)
 {
@@ -540,10 +620,23 @@ int get_ext_coef(t_map dim)
 	translate_angles(&top);
 	translate_angles(&bottom);
 //	TODO: adjust for the border
-	double a = WIDTH/(right.x - left.x)/2;
-	double b = HEIGHT/(bottom.y - top.y)/2;
-	double c = HEIGHT/(dim.max_z - dim.min_z);
-	return round(((a < b) && (a < c)) * a + ((b < a) && (b < c)) * b + (c < a && c < b) * c);
+	double a = (WIDTH)/(fabs(right.x - left.x))/2;
+	double b = (HEIGHT)/(fabs(bottom.y - top.y))/2;
+	double c = (HEIGHT)/(fabs((double)dim.max_z - (double)dim.min_z));
+/*
+	double diag = sqrt((double)(dim.width * dim.width + dim.length * dim.length));
+	double a = (WIDTH - 300) / diag;
+	double b = (HEIGHT - 1000) / diag;
+//	double c = HEIGHT/(fabs((double)dim.max_z - (double)dim.min_z));
+*/
+	//return round((a < b) * a + (b < a) * b);
+	if (a < b &&  a < c)
+		ft_printf("smalles coef from x\n");
+	else if (b < a && b < c)
+		ft_printf("smalles coef from y\n");
+	else if (c < a && c < b) 
+		ft_printf("smalles coef from z\n");
+	return floor((a < b &&  a < c) * a + (b < a && b < c) * b + (c < a && c < b) * c);
 }
 
 void	process_data(t_map dim)
@@ -596,7 +689,7 @@ void convert_3dto2d(t_map *dim)
 //	TODO: write a function that allocates 2ddata at once, given length, width and size of one
 //	TODO: handle malloc failes
 	newcoords = calloc(sizeof(t_2d_point), dim->width * dim->length);
-//	ft_printf("in convert, length: %d, width: %d\n", dim->length, dim->width);
+	ft_printf("in convert, length: %d, width: %d\n", dim->length, dim->width);
 	while (j < dim->length)
 	{
 		i = 0;
@@ -610,6 +703,7 @@ void convert_3dto2d(t_map *dim)
 		}
 		j++;
 	}
+	ft_printf("after convert");
 	dim->coords = (void *)newcoords;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/21 22:47:06 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:39:48 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,18 +223,22 @@ void put_lines(mlx_image_t *image, t_map dim)
 		{
 			if (x == 0 && y < dim.length - 1)
 			{
+//				ft_printf("case 1\n");
 				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
 				line_count +=1;
 			}
 			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
 			{
+//				ft_printf("case 2\n");
 				put_line(coords[y * dim.width + x], coords[y * dim.width + x + 1], image);
 				line_count +=1;
 			}
 			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
 			{
+//				ft_printf("case 3\n");
 			}
 			else {
+//				ft_printf("case 4\n");
 				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
 				put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
 				line_count +=2;

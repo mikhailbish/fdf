@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/21 22:05:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:31:34 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <errno.h>
 # include <math.h>
 # include <string.h>
-#define WIDTH 1366 
-#define HEIGHT 768 
+#define WIDTH 3840 
+#define HEIGHT 2160 
+//#define WIDTH 1366 
+//#define HEIGHT 768 
 //#define WIDTH 2732 
 //#define HEIGHT 1536 
 typedef struct s_2d_point {
@@ -88,7 +90,7 @@ void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 
 /*		UTILS			*/
 void		mutate_3d_vector(double vector[3], double matrix[3][3]);
-double		get_radians(int angle);
+double		get_radians(double angle);
 int		count_split(char **texts);
 void		free_split(char **args);
 void		delete_content(void *content);
