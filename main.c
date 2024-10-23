@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/22 17:39:48 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:36:01 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,23 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }
-/*
+
 void ft_hook(void* param)
 {
-	mlx_t* mlx = param;
-
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
-}*/
+//	mlx_t* mlx = param;
+	t_fdf *fdf = (t_fdf *)param;
+//TODO: free up everything used
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(fdf->mlx);
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
+		fdf->image->instances[0].y -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
+		fdf->image->instances[0].y += 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
+		fdf->image->instances[0].x -= 5;
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
+		fdf->image->instances[0].x += 5;
+}
 
 // -----------------------------------------------------------------------------
 
@@ -314,25 +315,30 @@ int32_t main(int argc, char **argv)
 	close(fd);
 	process_data(dim);
 	ft_printf("done processing, width: %d, length: %d\n", dim.width, dim.length);
-
+	ft_printf("before mlx init\n");
 	// Gotta error check this stuff
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
+	ft_printf("before new image\n");
 	if (!(image = mlx_new_image(mlx, WIDTH, HEIGHT)))
 	{
 		mlx_close_window(mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
+	ft_printf("before image to window\n");
 	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
 	{
 		mlx_close_window(mlx);
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
+	//ft_bzero(image->pixels, image->height * image->width);
+	
+	ft_memset(image->pixels, 0, image->height * image->width * sizeof(int32_t));
 	some.mlx = mlx;
 	some.image = image;
 	//TODO: remove file name here and in the header
@@ -342,7 +348,7 @@ int32_t main(int argc, char **argv)
 	some.painted = 0;
 	ft_printf("before hook");
 	mlx_loop_hook(mlx, put_42_v2, &some);
-//	mlx_loop_hook(mlx, ft_hook, mlx);
+	mlx_loop_hook(mlx, ft_hook, &some);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 
