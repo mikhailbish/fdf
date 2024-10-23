@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/22 16:31:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:20:40 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,23 @@ typedef struct s_3d_point {
 	double z;
 	int32_t color;
 }	t_3d_point;
-
+/*
+typedef struct s_edges {
+	t_3d_point left;
+	t_3d_point right;
+	t_3d_point top;
+	t_3d_point bottom;
+	int max_z;
+	int min_z;
+}	t_edges;
+*/
 typedef struct s_map {
 	void	*coords;
 	int length;
 	int width;
 	int max_z;
 	int min_z;
+//	t_edges edge;
 }	t_map;
 
 typedef struct s_fdf {
