@@ -18,18 +18,22 @@ Tasks:
 
 -	add colors												done
 	parsing													done
-	add logic to take colors from point struct
-	optionally comes after z, separated by comma
--	add gradient
-	yellow spots in Julia? possibly some red -> white gradient
-	putline logic
--	add scaling (determine the highest and lowest x and y values)
+	add logic to take colors from point struct								done
+	optionally comes after z, separated by comma								done
+-	add gradient												done
+	add scaling (determine the highest and lowest x and y values)						started
 -	scaling calculations and centering									PRIORITY
-	rethink parsing to adapt to put_pixel logic, so that, I would not need to make image->height - y operation
--	implement function pointers to work with coordinates
+-	implement function pointers to work with coordinates (maybe)
 -	make the program display lines once, unless something changes 						done, painted struct member introduced
 	mlx_delete_image
 	mlx_resize_image
 	^ Explore others
+-	add controls
+//	handle exiting correctly
+	resize on window resize
+-	set bg color to black
+-	norm
+-	replace the use of errno with a static function?
+
 -	clipping algorythm
 	necessary for the zoom feature
