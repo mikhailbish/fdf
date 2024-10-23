@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/22 17:53:01 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/23 19:44:38 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,6 +414,9 @@ t_list	*get_file_lines(int fd)
 	while (line)
 	{
 		line = get_next_line(fd);
+// TODO: replace errno - no global variables
+// if gnl == 0 assume there is nothing more to read
+// may be don't use gnl
 		if (!line && errno == ENOMEM)
 		{
 			//error in gnl
@@ -636,7 +639,7 @@ int get_ext_coef(t_map dim)
 		ft_printf("smalles coef from y\n");
 	else if (c < a && c < b) 
 		ft_printf("smalles coef from z\n");
-	return floor((a < b &&  a < c) * a + (b < a && b < c) * b + (c < a && c < b) * c);
+	return round((a < b &&  a < c) * a + (b < a && b < c) * b + (c < a && c < b) * c);
 }
 
 void	process_data(t_map dim)
