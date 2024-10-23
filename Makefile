@@ -34,9 +34,6 @@ all: clone $(NAME)
 	./$(NAME) ~/Downloads/test_maps/42.fdf
 #	./$(NAME) test_maps/elem-col.fdf >> ./logs/$(LOG_NAME)
 
-# .clone_done will be generated as a hidden file, and it will contain the timestamp
-# to tell if the target is latest or not. So the execute 'make' command at the second
-# time, it will show "make: nothing to be done for 'all'"
 clone: lib/MLX42 lib/libft # .clone_mlx_done .clone_lib_done
 
 # "! -d" means if the directory doesn't exist.
@@ -53,7 +50,7 @@ $(NAME): $(OBJS)
 	@echo "$(GREEN)$(NAME) has been generated successfully!$(DEFAULT)"
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) $< -D BUFFER_SIZE=6000 -c -o $@ && printf "Compiling: $(notdir $<)"
+	@$(CC) $(CFLAGS) $(HEADERS) $< -D BUFFER_SIZE=6000 -c -o $@
 
 # TODO: add cleaning of mlx
 clean:
