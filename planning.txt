@@ -16,6 +16,9 @@ Tasks:
 -	handle if map doesn't exist										done
 	https://digitalbunker.dev/bresenhams-line-algorithm/
 
+-	FIND OUT WHY IT FAILS IN PIPEX
+
+
 -	add colors												done
 	parsing													done
 	add logic to take colors from point struct								done
