@@ -54,17 +54,19 @@ $(NAME): $(OBJS)
 
 # TODO: add cleaning of mlx
 clean:
-	@make fclean -C $(LIB_DIR)
-	@$(RM) $(LIBMLX_DIR)/build
 	@$(RM) $(OBJS)
 #	temp block to prevent unnecessary downloading
 #	@rm -rf lib/libft
 
 fclean: clean
+	@make fclean -C $(LIB_DIR)
+	@$(RM) $(LIBMLX_DIR)/build
 	@$(RM) $(NAME)
 	@echo "$(GREEN)$(NAME) executable file has been cleaned.$(DEFAULT)"
 #	temp block to prevent unnecessary downloading
 #	@$(RM) lib
+
+r: clean all
 
 re:	fclean all
 
