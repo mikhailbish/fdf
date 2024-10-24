@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/23 19:36:01 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:24:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@
 //#define HEIGHT 768 
 
 
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void ft_hook(void* param)
+void	ft_hook(void* param)
 {
 //	mlx_t* mlx = param;
-	t_fdf *fdf = (t_fdf *)param;
+	t_fdf	*fdf = (t_fdf *)param;
 //TODO: free up everything used
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(fdf->mlx);
@@ -51,24 +51,24 @@ void ft_hook(void* param)
 
 // -----------------------------------------------------------------------------
 
-int ft_abs(int num)
+int	ft_abs(int num)
 {
 	if (num < 0)
 		return (-num);
 	return (num);
 }
 
-int32_t get_red(int32_t color)
+int32_t	get_red(int32_t color)
 {
 	return ((color >> 16) & 0xFF);
 }
 
-int32_t get_green(int32_t color)
+int32_t	get_green(int32_t color)
 {
 	return ((color >> 8) & 0xFF);
 }
 
-int32_t get_blue(int32_t color)
+int32_t	get_blue(int32_t color)
 {
 	return ((color) & 0xFF);
 }
@@ -97,14 +97,14 @@ int get_color(int start_color, int end_color, int i, int a, int b)
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
 */
-int get_color(int start_color, int end_color, int i, int length)
+int	get_color(int start_color, int end_color, int i, int length)
 {
-	double red_change;
-	double green_change;
-	double blue_change;
-	int final_red;
-	int final_green;
-	int final_blue;
+	double	red_change;
+	double	green_change;
+	double	blue_change;
+	int		final_red;
+	int		final_green;
+	int		final_blue;
 
 	red_change = ((double)get_red(end_color)  - (double)get_red(start_color))/(double)length;
 	green_change = ((double)get_green(end_color)  - (double)get_green(start_color))/(double)length;;
@@ -122,13 +122,13 @@ int get_color(int start_color, int end_color, int i, int length)
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
 
-void put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
+void	put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
 {
-	int dx;
-	int dy;
-	int step_y;
-	int d;
-	int color;
+	int	dx;
+	int	dy;
+	int	step_y;
+	int	d;
+	int	color;
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;
@@ -156,13 +156,13 @@ void put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
 	}
 }
 
-void put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image)
+void	put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image)
 {
-	int dx;
-	int dy;
-	int d;
-	int step_x;
-	int color;
+	int	dx;
+	int	dy;
+	int	d;
+	int	step_x;
+	int	color;
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;
@@ -190,7 +190,7 @@ void put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image)
 	}
 }
 
-void put_line(t_2d_point start, t_2d_point end, mlx_image_t *image)
+void	put_line(t_2d_point start, t_2d_point end, mlx_image_t *image)
 {
 	if (ft_abs(end.y - start.y) < ft_abs(end.x - start.x))
 	{
@@ -208,15 +208,15 @@ void put_line(t_2d_point start, t_2d_point end, mlx_image_t *image)
 	}
 }
 
-void put_lines(mlx_image_t *image, t_map dim)
+void	put_lines(mlx_image_t *image, t_map dim)
 {
-	int y;
-	int x;
-	t_2d_point *coords;
+	int		y;
+	int		x;
+	t_2d_point	*coords;
 
 	coords = (t_2d_point *)dim.coords;
 	y = 0;
-	int line_count = 0;
+	int	line_count = 0;
 	while(y < dim.length)
 	{
 		x = dim.width - 1;
@@ -249,12 +249,13 @@ void put_lines(mlx_image_t *image, t_map dim)
 		y++;
 	}
 }
-void put_42_v2(void *param)
+void	put_42_v2(void *param)
 {
-	t_map dim;
+	t_map	dim;
 	//t_map image_size;
 	mlx_image_t	*image;
-	int painted;
+	int	painted;
+
 	painted = ((t_fdf *)param)->painted;
 	if (!painted)
 	{
@@ -270,10 +271,10 @@ void put_42_v2(void *param)
 
 //TODO: remove
 
-void display_coords_testing(t_map dim)
+void	display_coords_testing(t_map dim)
 {
-	int i = 0;
-	int j = 0;
+	int	i = 0;
+	int	j = 0;
 //	t_2d_point **coords;
 	t_3d_point **coords;
 	coords = (t_3d_point **)dim.coords;
@@ -291,16 +292,16 @@ void display_coords_testing(t_map dim)
 }
 
 
-int32_t main(int argc, char **argv)
+int32_t	main(int argc, char **argv)
 {
-	int fd;
-	mlx_image_t* image;
-	t_map dim;
+	int		fd;
+	mlx_image_t*	image;
+	t_map	dim;
 	if (argc != 2)
 		return (EXIT_SUCCESS);
 //		return (EXIT_FAILURE);
-	mlx_t* mlx;
-	t_fdf some;
+	mlx_t*	mlx;
+	t_fdf	some;
 	fd = open(*(++argv), O_RDONLY);
 	if (fd < 0)
 	{

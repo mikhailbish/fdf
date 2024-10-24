@@ -6,13 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/21 19:35:09 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:26:01 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	is_legal_number(char *num)
+static	int	is_legal_number(char *num)
 {
 	char	*endptr;
 	long	result;
@@ -31,7 +31,7 @@ push_swap
 
 */
 
-static int	validate_line(char *line)
+static	int	validate_line(char *line)
 {
 	char	**line_split;
 	char	**tmp_line_split;
@@ -103,12 +103,12 @@ t_map validate_file(int fd)
 	
 }*/
 // TODO: make sure errors are handled
-t_map validate_lines(t_list *lines)
+t_map	validate_lines(t_list *lines)
 {
-	int 	column_count;
+	int	column_count;
 	int	line_count;
 	//char	*line;
-	t_map dim;
+	t_map	dim;
 
 	dim.length = 0;
 	dim.width = 0;
