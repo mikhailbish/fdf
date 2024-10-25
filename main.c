@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/24 20:24:17 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:09:10 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ int32_t	main(int argc, char **argv)
 		return(0);
 	}
 	dim = get_data_from_fd(fd);
+
 	ft_printf("done parsing\n");
 //	display_coords_testing(dim);
 

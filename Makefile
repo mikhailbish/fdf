@@ -31,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 LOG_NAME = $(shell date -Iseconds)
 
 all: clone $(NAME)
-	./$(NAME) ~/Downloads/test_maps/42.fdf
+	valgrind ./$(NAME) ~/Downloads/test_maps/42.fdf
 #	./$(NAME) test_maps/elem-col.fdf >> ./logs/$(LOG_NAME)
 
 clone: lib/MLX42 lib/libft # .clone_mlx_done .clone_lib_done

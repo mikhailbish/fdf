@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/24 20:26:01 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:08:56 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,11 @@ t_map	validate_lines(t_list *lines)
 			dim.width = column_count;
 		if (column_count == -1)
 		{
+			perror("memory error at validation\n")
+			return (dim);
+		/*	
 			ft_printf("alloc fail in validate line or illegal values\n");
-			exit(1);
+			exit(1);*/
 //			alloc fail in validate line
 //			or illegal values
 		}

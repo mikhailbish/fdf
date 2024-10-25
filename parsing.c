@@ -1,12 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/24 21:01:00 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:08:55 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +203,7 @@ t_list	*get_file_lines(int fd)
 	head = ft_lstnew((void *)line);
 	if (!head)
 	{
+//			free lines
 		// error in lst new
 		return (0);
 	}
@@ -220,6 +215,8 @@ t_list	*get_file_lines(int fd)
 // may be don't use gnl
 		if (!line && errno == ENOMEM)
 		{
+//			free lines
+//			free list
 			//error in gnl
 			ft_printf("gnl error at %d attempt\n", count);
 			exit(1);
@@ -230,6 +227,8 @@ t_list	*get_file_lines(int fd)
 		tmp = ft_lstnew(line);
 		if (!tmp)
 		{
+//			free lines
+//			free list
 			// error in lst new
 			ft_printf("lstnew error at %d attempt\n", count);
 			exit(1);
@@ -340,19 +339,23 @@ t_map	get_data_from_fd(int fd)
 	t_list	*file_lines;
 	t_list	*tmp;
 
-	if (fd < 0)
-	{
-		perror("Cannot find file");
-//		TODO: handle
-//		return (1);
-	}
 	file_lines = get_file_lines(fd);
+	// handle malloc
+	// inner stuff from gfl would be already free, prevent further program exec, close fd here??
 	//close(fd); // handle outside
 	tmp = file_lines;
 	dim = validate_lines(file_lines);
+	if (dim.width == -1)
+	{
+		//TODO: free file lines, leave
+	}
+	
+	// handle malloc
+	
 	dim.coords = (void *)alloc_data_space(dim);
 	if (!dim.coords)
 	{
+		//free lines
 		//TODO: handle
 		perror(strerror(errno));
 		exit(1);
