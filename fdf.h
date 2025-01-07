@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/23 19:20:40 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:21:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <string.h>
 //#define WIDTH 3840 
 //#define HEIGHT 2160 
+// TODO: REthink
 #define WIDTH 1366 
 #define HEIGHT 768 
 //#define WIDTH 2732 
@@ -38,16 +39,7 @@ typedef struct s_3d_point {
 	double z;
 	int32_t color;
 }	t_3d_point;
-/*
-typedef struct s_edges {
-	t_3d_point left;
-	t_3d_point right;
-	t_3d_point top;
-	t_3d_point bottom;
-	int max_z;
-	int min_z;
-}	t_edges;
-*/
+
 /*TODO: Create struct inits*/
 typedef struct s_map {
 	void	*coords_3d;
@@ -56,7 +48,6 @@ typedef struct s_map {
 	int width;
 	int max_z;
 	int min_z;
-//	t_edges edge;
 }	t_map;
 
 typedef struct s_fdf {
@@ -67,13 +58,6 @@ typedef struct s_fdf {
 	mlx_image_t	*image;
 	t_map	dim;
 }	t_fdf;
-/*
-typedef struct s_matrix {
-	size_t length;
-	size_t width;
-	double **matrix;
-} t_matrix;
-*/
 
 /*		VALIDATION		*/
 t_map		validate_file(int fd);

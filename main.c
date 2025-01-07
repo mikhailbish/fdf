@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/25 19:09:10 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:16:47 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 // Codam Coding College, Amsterdam @ 2022-2023 by W2Wizard.
 // See README in the root project for more information.
 // -----------------------------------------------------------------------------
-
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+*/
 #include "fdf.h"
 // normal minilibx problems: 317955 bytes in 3106 blocks
 //#define WIDTH 512
@@ -76,23 +77,22 @@ int32_t	get_blue(int32_t color)
 
 int	get_color(int start_color, int end_color, int i, int length)
 {
-	int red_change;
-	int green_change;
-	int blue_change;
-	int final_red;
-	int final_green;
-	int final_blue;
+	int	red_change;
+	int	green_change;
+	int	blue_change;
+	int	final_red;
+	int	final_green;
+	int	final_blue;
+
 	if (i == 0 || (start_color == end_color))
 		return (start_color);
 	if (i == length)
 		return (end_color);
-
 	red_change = get_red(end_color) - get_red(start_color);
 	green_change = get_green(end_color) - get_green(start_color);
 	blue_change = get_blue(end_color) - get_blue(start_color);
-// TODO: redo datatypes
 	final_red = get_red(start_color) + (i * (red_change)) / length;
-final_green = get_green(start_color) + (i * (green_change)) / length;
+	final_green = get_green(start_color) + (i * (green_change)) / length;
 	final_blue = get_blue(start_color) + (i * (blue_change)) / length;
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
