@@ -20,10 +20,10 @@
 # include <errno.h>
 # include <math.h>
 # include <string.h>
-#define WIDTH 3840 
-#define HEIGHT 2160 
-//#define WIDTH 1366 
-//#define HEIGHT 768 
+//#define WIDTH 3840 
+//#define HEIGHT 2160 
+#define WIDTH 1366 
+#define HEIGHT 768 
 //#define WIDTH 2732 
 //#define HEIGHT 1536 
 typedef struct s_2d_point {
@@ -48,8 +48,10 @@ typedef struct s_edges {
 	int min_z;
 }	t_edges;
 */
+/*TODO: Create struct inits*/
 typedef struct s_map {
-	void	*coords;
+	void	*coords_3d;
+	void	*coords_display;
 	int length;
 	int width;
 	int max_z;
@@ -80,15 +82,15 @@ t_map		validate_lines(t_list *lines);
 int		check_name(char *name);
 t_map		get_data_from_fd(int fd);
 t_list		*get_file_lines(int fd);
-t_3d_point	*alloc_data_space(t_map dim);
+t_map		*alloc_data_space(t_map *dim);
 t_map		parse_lines(t_map dim, t_list *lines);
 int		fill_with_data(t_map dim, t_list *lines);
 
 /*		PROCESSING		*/
-void		process_data(t_map dim);
+void		process_data(t_map *dim);
 void		translate_angles(t_3d_point *point);
-void		make_positive(t_map dim);//, t_point **coords);
-void		extend_lines(t_3d_point *point, int num);
+void		make_positive(t_map *dim);//, t_point **coords);
+void		extend_lines(t_3d_point *point, double num);
 
 /*		DISPLAY			*/
 void		display_data(t_map dim, mlx_image_t *image);

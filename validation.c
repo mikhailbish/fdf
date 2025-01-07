@@ -121,7 +121,7 @@ t_map	validate_lines(t_list *lines)
 			dim.width = column_count;
 		if (column_count == -1)
 		{
-			perror("memory error at validation\n")
+			perror("memory error at validation\n");
 			return (dim);
 		/*	
 			ft_printf("alloc fail in validate line or illegal values\n");

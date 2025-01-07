@@ -73,8 +73,8 @@ int32_t	get_blue(int32_t color)
 	return ((color) & 0xFF);
 }
 
-/*
-int get_color(int start_color, int end_color, int i, int a, int b)
+
+int	get_color(int start_color, int end_color, int i, int length)
 {
 	int red_change;
 	int green_change;
@@ -82,21 +82,21 @@ int get_color(int start_color, int end_color, int i, int a, int b)
 	int final_red;
 	int final_green;
 	int final_blue;
+	if (i == 0 || (start_color == end_color))
+		return (start_color);
+	if (i == length)
+		return (end_color);
 
 	red_change = get_red(end_color) - get_red(start_color);
 	green_change = get_green(end_color) - get_green(start_color);
 	blue_change = get_blue(end_color) - get_blue(start_color);
-	if (i == 0 || (start_color == end_color))
-		return (start_color);
-	if (a + i == b)
-		return (end_color);
-	// TODO: redo datatypes
-	final_red = round((double)get_red(start_color) + (double)((double)(i * (red_change)) / (double)(b - a)));
-	final_green = round((double)get_green(start_color) + (double)((double)(i * (green_change)) / (double)(b - a)));
-	final_blue = round((double)get_blue(start_color) + (double)((double)(i * (blue_change)) / (double)(b - a)));
+// TODO: redo datatypes
+	final_red = get_red(start_color) + (i * (red_change)) / length;
+final_green = get_green(start_color) + (i * (green_change)) / length;
+	final_blue = get_blue(start_color) + (i * (blue_change)) / length;
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
-*/
+/*
 int	get_color(int start_color, int end_color, int i, int length)
 {
 	double	red_change;
@@ -106,13 +106,13 @@ int	get_color(int start_color, int end_color, int i, int length)
 	int		final_green;
 	int		final_blue;
 
-	red_change = ((double)get_red(end_color)  - (double)get_red(start_color))/(double)length;
-	green_change = ((double)get_green(end_color)  - (double)get_green(start_color))/(double)length;;
-	blue_change = ((double)get_blue(end_color) - (double)get_blue(start_color))/(double)length;;
 	if (i == 0 || (start_color == end_color))
 		return (start_color);
 	if (i == length)
 		return (end_color);
+	red_change = ((double)get_red(end_color)  - (double)get_red(start_color))/(double)length;
+	green_change = ((double)get_green(end_color)  - (double)get_green(start_color))/(double)length;;
+	blue_change = ((double)get_blue(end_color) - (double)get_blue(start_color))/(double)length;
 	// TODO: redo datatypes
 	final_red = round((double)get_red(start_color) + ((double)i * (red_change)));
 	final_green =round((double)get_green(start_color) + ((double)i * (green_change)));
@@ -121,7 +121,7 @@ int	get_color(int start_color, int end_color, int i, int length)
 		ft_printf("weird colors\n");
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
-
+*/
 void	put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
 {
 	int	dx;
@@ -214,35 +214,40 @@ void	put_lines(mlx_image_t *image, t_map dim)
 	int		x;
 	t_2d_point	*coords;
 
-	coords = (t_2d_point *)dim.coords;
+	coords = (t_2d_point *)dim.coords_display;
 	y = 0;
 	int	line_count = 0;
-	while(y < dim.length)
+	while(y < dim.length )
 	{
 		x = dim.width - 1;
 		while(x > - 1)
 		{
 			if (x == 0 && y < dim.length - 1)
 			{
-//				ft_printf("case 1\n");
+	//			ft_printf("case 1\n");
 				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
 				line_count +=1;
+	//			ft_printf("case 1 ended\n");
 			}
 			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
 			{
-//				ft_printf("case 2\n");
+	//			ft_printf("case 2\n");
 				put_line(coords[y * dim.width + x], coords[y * dim.width + x + 1], image);
 				line_count +=1;
+	//			ft_printf("case 2 ended\n");
 			}
 			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
 			{
-//				ft_printf("case 3\n");
+	//			ft_printf("case 3 ended\n");
 			}
 			else {
-//				ft_printf("case 4\n");
-				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
-				put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
+	//			ft_printf("case 4\n");
+	//			if ((y + 1) < (dim.length - 1))
+					put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
+	//			if (x > 0)
+					put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
 				line_count +=2;
+	//			ft_printf("case 4 ended\n");
 			}
 			x--;
 		}
@@ -263,7 +268,7 @@ void	put_42_v2(void *param)
 	//	image_size = ((t_fdf *)param)->image_size;
 		image = ((t_fdf *)param)->image;
 		ft_printf("before display data");
-//		display_coords_testing(dim);
+		//display_coords_testing(dim);
 		display_data(dim, image);
 		((t_fdf *)param)->painted = 1;
 	}
@@ -274,48 +279,54 @@ void	put_42_v2(void *param)
 void	display_coords_testing(t_map dim)
 {
 	int	i = 0;
-	int	j = 0;
+	int	max = dim.length * dim.width;
 //	t_2d_point **coords;
-	t_3d_point **coords;
-	coords = (t_3d_point **)dim.coords;
-	while (i < dim.length)
+	t_3d_point *coords;
+	coords = (t_3d_point *)dim.coords_3d;
+	printf("display coords testing:\n");
+	while (i < max)
 	{
-		while (j < dim.width)
-		{
-			printf("x: %F, y: %F, z: %F, color: %dx\n", coords[i][j].x, coords[i][j].y, coords[i][j].z, coords[i][j].color);
-//			ft_printf("x: %d, y: %d, z: %d\n", coords[i][j].x, coords[i][j].y, coords[i][j].z);
-			j++;
-		}
-		j = 0;
+		printf("x: %F, y: %F, z: %F, color: %dx\n", coords[i].x, coords[i].y, coords[i].z, coords[i].color);
 		i++;
 	}
 }
 
-
+#include <stdio.h>
+#include <sys/time.h>
+float timedifference_msec(struct timeval t0, struct timeval t1)
+{
+    return (t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) / 1000.0f;
+}
 int32_t	main(int argc, char **argv)
 {
 	int		fd;
 	mlx_image_t*	image;
 	t_map	dim;
 	if (argc != 2)
-		return (EXIT_SUCCESS);
-//		return (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	mlx_t*	mlx;
 	t_fdf	some;
 	fd = open(*(++argv), O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("File name doesn't exist");
+		ft_printf("File name doesn't exist\n");
 		return(0);
 	}
 	dim = get_data_from_fd(fd);
+	///display_coords_testing(dim);
 
 	ft_printf("done parsing\n");
-//	display_coords_testing(dim);
 
 	//TODO: close in the middle if error
 	close(fd);
-	process_data(dim);
+	struct timeval t0;
+	struct timeval t1;
+	float elapsed;
+	gettimeofday(&t0, 0);
+	process_data(&dim);
+	gettimeofday(&t1, 0);
+	elapsed = timedifference_msec(t0,t1);
+	printf("p d seconds %f\n", elapsed);
 	ft_printf("done processing, width: %d, length: %d\n", dim.width, dim.length);
 	ft_printf("before mlx init\n");
 	// Gotta error check this stuff

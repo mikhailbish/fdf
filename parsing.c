@@ -31,7 +31,7 @@ double	get_radians(double angle)
 	return ((angle * M_PI) / 180);
 }
 
-void	extend_lines(t_3d_point *point, int num)
+void	extend_lines(t_3d_point *point, double num)
 {
 	double	vector[3];
 	double	matrix[3][3];
@@ -39,15 +39,15 @@ void	extend_lines(t_3d_point *point, int num)
 	vector[0] = point->x;
 	vector[1] = point->y;
 	vector[2] = point->z;
-	matrix[0][0] = (double)num;
+	matrix[0][0] = num;
 	matrix[0][1] = 0;
 	matrix[0][2] = 0;
 	matrix[1][0] = 0;
-	matrix[1][1] = (double)num;
+	matrix[1][1] = num;
 	matrix[1][2] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = (double)num;
+	matrix[2][2] = num;
 	mutate_3d_vector(vector, matrix);
 	point->x = round(vector[0]);
 	point->y = round(vector[1]);
@@ -157,7 +157,7 @@ void	shift_y(t_map dim, t_3d_point *coords, double offset)
 	}
 }
 
-void	make_positive(t_map dim)
+void	make_positive(t_map *dim)
 {
 	t_3d_point	*coords;
 	double		smallest_x;
@@ -166,8 +166,8 @@ void	make_positive(t_map dim)
 	int			max;
 
 	i = 0;
-	coords = (t_3d_point *)dim.coords;
-	max = dim.width * dim.length;
+	coords = (t_3d_point *)dim->coords_3d;
+	max = dim->width * dim->length;
 	smallest_x = (double)coords[0].x;
 	smallest_y = (double)coords[0].y;
 	while (i < max)
@@ -179,9 +179,9 @@ void	make_positive(t_map dim)
 		i++;
 	}
 	if (smallest_x < 0)
-		shift_x(dim, coords, -smallest_x);
+		shift_x(*dim, coords, -smallest_x);
 	if (smallest_y < 0)
-		shift_y(dim, coords, -smallest_y);
+		shift_y(*dim, coords, -smallest_y);
 }
 
 t_list	*get_file_lines(int fd)
@@ -240,18 +240,34 @@ t_list	*get_file_lines(int fd)
 	return (head);
 }
 
-t_3d_point	*alloc_data_space(t_map dim)
+// TODO: add to utils
+// should check for adr?
+void ft_free(void **adr)
 {
-	t_3d_point	*coordinates;
-
-	coordinates = ft_calloc(dim.length * dim.width, sizeof(t_3d_point));
-	if (!coordinates)
+	if (*adr)
 	{
-		perror("ptp calloc fail");
-		exit(1);
+		free(*adr);
+		*adr = 0;
+	}
+}
+t_map	*alloc_data_space(t_map *dim)
+{
+	t_3d_point	*coords_3d;
+	t_2d_point	*coords_display;
+	int	max;
+
+	max = dim->length * dim->width;
+	coords_3d = ft_calloc(max, sizeof(t_3d_point));
+	coords_display = ft_calloc(max, sizeof(t_2d_point));
+	if (!coords_3d || !coords_display)
+	{
+		ft_free((void **)&coords_3d);
+		ft_free((void **)&coords_display);
 		return (0);
 	}
-	return (coordinates);
+	dim->coords_3d = coords_3d;
+	dim->coords_display = coords_display;
+	return (dim);
 }
 
 // TODO: test returns
@@ -264,7 +280,7 @@ int	fill_with_data(t_map dim, t_list *lines)
 	int			x;
 	int			y;
 
-	coordinates = (t_3d_point *)dim.coords;
+	coordinates = (t_3d_point *)dim.coords_3d;
 	x = 0;
 	y = 0;
 	split_res = 0;
@@ -315,7 +331,7 @@ void	set_max_min_z(t_map *dim)
 	int			max_z;
 	int			min_z;
 
-	coords = (t_3d_point *)dim->coords;
+	coords = (t_3d_point *)dim->coords_3d;
 	i = 0;
 	max_z = coords[i].z;
 	min_z = coords[i].z;
@@ -351,44 +367,60 @@ t_map	get_data_from_fd(int fd)
 	}
 	
 	// handle malloc
-	
-	dim.coords = (void *)alloc_data_space(dim);
-	if (!dim.coords)
+	if (!alloc_data_space(&dim))
 	{
 		//free lines
 		//TODO: handle
+		ft_lstclear(&tmp, delete_content);
 		perror(strerror(errno));
 		exit(1);
 	}
 	fill_with_data(dim, file_lines);
+//	display_coords_testing(dim);
 	set_max_min_z(&dim);
 	ft_lstclear(&tmp, delete_content);
 	return (dim);
 }
 
-int	get_ext_coef(t_map dim)
+//TODO: work on ext coef
+
+double	get_ext_coef(t_map dim)
 {
 	double	a;
 	double	b;
 	double	c;
 
-	a = WIDTH / dim.width / 2;
-	b = HEIGHT / dim.length / 2;
-	c = HEIGHT / (fabs((double)dim.max_z - (double)dim.min_z));
-	return (floor(fmin(fmin(a, b), c)));
+// screen width, 
+	a = WIDTH / (((double)dim.width + (double)dim.length) );
+	b = HEIGHT / (((double)dim.width + (double)dim.length) );
+	if (dim.max_z - dim.min_z != 0)
+		c = HEIGHT / (fabs((double)dim.max_z - (double)dim.min_z));
+	else
+		c = HEIGHT;
+//	printf("z val %e\n", 10/((double)dim.max_z - (double)dim.min_z));
+// TODO: clean up
+	double ext_coef = fmin(fmin(a, b), c);
+	if (ext_coef == a)
+		printf("width based smallest %e\n", ext_coef);
+	if (ext_coef == b)
+		printf("length based smallest %e\n", ext_coef);
+	if (ext_coef == c)
+		printf("z based smallest %e\n", ext_coef);
+	return (fmin(fmin(a, b), c));
 }
 
-void	process_data(t_map dim)
+void	process_data(t_map *dim)
 {
 	t_3d_point	*coords;
 	int			x;
-	int			ext_coef;
+	double			ext_coef;
 	int			max;
 
-	max = dim.length * dim.width;
+	max = dim->length * dim->width;
 	x = 0;
-	ext_coef = get_ext_coef(dim);
-	coords = (t_3d_point *)dim.coords;
+	ext_coef = get_ext_coef(*dim);
+//	ext_coef = 3;
+	coords = (t_3d_point *)dim->coords_3d;
 	while (x < max)
 	{
 		extend_lines(&coords[x], ext_coef);
@@ -398,33 +430,42 @@ void	process_data(t_map dim)
 	make_positive(dim);
 }
 
+t_2d_point	point_3dto2d(t_3d_point point_3d )
+{
+	t_2d_point point_2d;
+
+	point_2d.x = round(point_3d.x);
+	point_2d.y = round(point_3d.y);
+	point_2d.color = point_3d.color;
+	return (point_2d);
+}
 // assuming that the correct math has already been performed
 void	convert_3dto2d(t_map *dim)
 {
 	t_3d_point	*coords;
-	t_2d_point	*newcoords;
+	t_2d_point	*new_coords;
 	int			i;
-	int			j;
+	//int			j;
 	int			max;
 
 	max = dim->width * dim->length;
 	i = 0;
-	j = 0;
-	coords = (t_3d_point *)dim->coords;
-//	TODO: handle malloc fails
-	newcoords = calloc(sizeof(t_2d_point), dim->width * dim->length);
+	coords = (t_3d_point *)dim->coords_3d;
+	new_coords = dim->coords_display;
 	while (i < max)
 	{
-		newcoords[i].x = round(coords[i].x);
-		newcoords[i].y = round(coords[i].y);
-		newcoords[i].color = coords[i].color;
+		new_coords[i] = point_3dto2d(coords[i]);
 		i++;
 	}
-	dim->coords = (void *)newcoords;
+	
+	dim->coords_display = (void *)new_coords;
 }
 
 void	display_data(t_map dim, mlx_image_t *image)
 {
+	ft_printf("before convert\n");
 	convert_3dto2d(&dim);
+	ft_printf("after convert\n");
 	put_lines(image, dim);
+	ft_printf("after put lines\n");
 }
