@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/07 20:16:47 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/08 19:19:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,7 @@ int32_t	main(int argc, char **argv)
 	process_data(&dim);
 	gettimeofday(&t1, 0);
 	elapsed = timedifference_msec(t0,t1);
-	printf("p d seconds %f\n", elapsed);
+//	printf("p d seconds %f\n", elapsed);
 	ft_printf("done processing, width: %d, length: %d\n", dim.width, dim.length);
 	ft_printf("before mlx init\n");
 	// Gotta error check this stuff

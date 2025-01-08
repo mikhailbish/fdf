@@ -271,7 +271,6 @@ t_map	*alloc_data_space(t_map *dim)
 }
 
 // TODO: test returns
-// wip some corner points showing poorly and lines not connected
 int	fill_with_data(t_map dim, t_list *lines)
 {
 	t_3d_point	*coordinates;
@@ -299,6 +298,7 @@ int	fill_with_data(t_map dim, t_list *lines)
 				// TODO: handle 0
 				coordinates[y * dim.width + x].z = ft_atoi(comma_split_res[0]);
 				coordinates[y * dim.width + x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
+				free(comma_split_res);
 			}
 			else if (ft_strchr(split_res[x], ','))
 			{
@@ -399,13 +399,14 @@ double	get_ext_coef(t_map dim)
 		c = HEIGHT;
 //	printf("z val %e\n", 10/((double)dim.max_z - (double)dim.min_z));
 // TODO: clean up
-	double ext_coef = fmin(fmin(a, b), c);
+/*	double ext_coef = fmin(fmin(a, b), c);
 	if (ext_coef == a)
 		printf("width based smallest %e\n", ext_coef);
 	if (ext_coef == b)
 		printf("length based smallest %e\n", ext_coef);
 	if (ext_coef == c)
 		printf("z based smallest %e\n", ext_coef);
+*/
 	return (fmin(fmin(a, b), c));
 }
 
@@ -445,7 +446,6 @@ void	convert_3dto2d(t_map *dim)
 	t_3d_point	*coords;
 	t_2d_point	*new_coords;
 	int			i;
-	//int			j;
 	int			max;
 
 	max = dim->width * dim->length;
