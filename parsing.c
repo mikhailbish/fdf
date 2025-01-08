@@ -205,6 +205,7 @@ t_list	*get_file_lines(int fd)
 	{
 //			free lines
 		// error in lst new
+		free(line);
 		return (0);
 	}
 	while (line)
@@ -230,6 +231,8 @@ t_list	*get_file_lines(int fd)
 //			free lines
 //			free list
 			// error in lst new
+			free(line);
+			ft_lstclear(&head, free);
 			ft_printf("lstnew error at %d attempt\n", count);
 			exit(1);
 			return (0);
@@ -295,10 +298,15 @@ int	fill_with_data(t_map dim, t_list *lines)
 			if (ft_strchr(split_res[x], ',') && ft_strchr(split_res[x], ',') == ft_strrchr(split_res[x], ','))
 			{
 				comma_split_res = ft_split(split_res[x], ',');
+				if (!comma_split_res)
+				{
+					free_split(split_res);
+					return (0);
+				}
 				// TODO: handle 0
 				coordinates[y * dim.width + x].z = ft_atoi(comma_split_res[0]);
 				coordinates[y * dim.width + x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
-				free(comma_split_res);
+				free_split(comma_split_res);
 			}
 			else if (ft_strchr(split_res[x], ','))
 			{

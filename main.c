@@ -96,32 +96,7 @@ int	get_color(int start_color, int end_color, int i, int length)
 	final_blue = get_blue(start_color) + (i * (blue_change)) / length;
 	return (final_red << 16 | final_green << 8 | final_blue);
 }
-/*
-int	get_color(int start_color, int end_color, int i, int length)
-{
-	double	red_change;
-	double	green_change;
-	double	blue_change;
-	int		final_red;
-	int		final_green;
-	int		final_blue;
 
-	if (i == 0 || (start_color == end_color))
-		return (start_color);
-	if (i == length)
-		return (end_color);
-	red_change = ((double)get_red(end_color)  - (double)get_red(start_color))/(double)length;
-	green_change = ((double)get_green(end_color)  - (double)get_green(start_color))/(double)length;;
-	blue_change = ((double)get_blue(end_color) - (double)get_blue(start_color))/(double)length;
-	// TODO: redo datatypes
-	final_red = round((double)get_red(start_color) + ((double)i * (red_change)));
-	final_green =round((double)get_green(start_color) + ((double)i * (green_change)));
-	final_blue = round((double)get_blue(start_color) + ((double)i * (blue_change)));
-	if (final_red < 0 || final_blue < 0 || final_green < 0)
-		ft_printf("weird colors\n");
-	return (final_red << 16 | final_green << 8 | final_blue);
-}
-*/
 void	put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
 {
 	int	dx;
@@ -142,6 +117,7 @@ void	put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
 	while (start.x <= end.x)
 	{
 		// TODO: modify color handling here
+		// add get color and put pixel function
 		color = get_color(start.color, end.color, start.x - (end.x - dx), dx);
 //		color = 0xFFFFFF;
 		mlx_put_pixel(image, start.x, start.y, (color << 8) + 0xFF);
