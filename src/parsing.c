@@ -1,11 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 18:39:57 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/25 19:08:55 by mbutuzov         ###   ########.fr       */
+/*   Created: 2025/01/09 20:32:14 by mbutuzov          #+#    #+#             */
+/*   Updated: 2025/01/09 21:10:37 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+//TODO: add directory opening?
 int	check_name(char *name)
 {
 	size_t	length;
@@ -21,167 +28,10 @@ int	check_name(char *name)
 	return (0);
 }
 
+//TODO: rename and move
 void	delete_content(void *content)
 {
 	free((char *)content);
-}
-
-double	get_radians(double angle)
-{
-	return ((angle * M_PI) / 180);
-}
-
-void	extend_lines(t_3d_point *point, double num)
-{
-	double	vector[3];
-	double	matrix[3][3];
-
-	vector[0] = point->x;
-	vector[1] = point->y;
-	vector[2] = point->z;
-	matrix[0][0] = num;
-	matrix[0][1] = 0;
-	matrix[0][2] = 0;
-	matrix[1][0] = 0;
-	matrix[1][1] = num;
-	matrix[1][2] = 0;
-	matrix[2][0] = 0;
-	matrix[2][1] = 0;
-	matrix[2][2] = num;
-	mutate_3d_vector(vector, matrix);
-	point->x = round(vector[0]);
-	point->y = round(vector[1]);
-	point->z = round(vector[2]);
-}
-
-void	rotate_x(t_3d_point *point, double angle)
-{
-	double	vector[3];
-	double	matrix[3][3];
-
-	vector[0] = (double)point->x;
-	vector[1] = (double)point->y;
-	vector[2] = (double)point->z;
-	matrix[0][0] = 1;
-	matrix[0][1] = 0;
-	matrix[0][2] = 0;
-	matrix[1][0] = 0;
-	matrix[1][1] = cos(get_radians(angle));
-	matrix[1][2] = sin(get_radians(angle));
-	matrix[2][0] = 0;
-	matrix[2][1] = -sin(get_radians(angle));
-	matrix[2][2] = cos(get_radians(angle));
-	mutate_3d_vector(vector, matrix);
-	point->x = vector[0];
-	point->y = vector[1];
-	point->z = vector[2];
-}
-
-void	rotate_y(t_3d_point *point, double angle)
-{
-	double	vector[3];
-	double	matrix[3][3];
-
-	vector[0] = (double)point->x;
-	vector[1] = (double)point->y;
-	vector[2] = (double)point->z;
-	matrix[0][0] = cos(get_radians(angle));
-	matrix[0][1] = 0;
-	matrix[0][2] = -sin(get_radians(angle));
-	matrix[1][0] = 0;
-	matrix[1][1] = 1;
-	matrix[1][2] = 0;
-	matrix[2][0] = -sin(get_radians(angle));
-	matrix[2][1] = 0;
-	matrix[2][2] = cos(get_radians(angle));
-	mutate_3d_vector(vector, matrix);
-	point->x = vector[0];
-	point->y = vector[1];
-	point->z = vector[2];
-}
-
-void	rotate_z(t_3d_point *point, double angle)
-{
-	double	vector[3];
-	double	matrix[3][3];
-
-	vector[0] = (double)point->x;
-	vector[1] = (double)point->y;
-	vector[2] = (double)point->z;
-	matrix[0][0] = cos(get_radians(angle));
-	matrix[0][1] = -sin(get_radians(angle));
-	matrix[0][2] = 0;
-	matrix[1][0] = sin(get_radians(angle));
-	matrix[1][1] = cos(get_radians(angle));
-	matrix[1][2] = 0;
-	matrix[2][0] = 0;
-	matrix[2][1] = 0;
-	matrix[2][2] = 1;
-	mutate_3d_vector(vector, matrix);
-	point->x = vector[0];
-	point->y = vector[1];
-	point->z = vector[2];
-}
-
-void	translate_angles(t_3d_point *point)
-{
-	rotate_z(point, -45.264);
-	rotate_x(point, -35);
-}
-
-void	shift_x(t_map dim, t_3d_point *coords, double offset)
-{
-	int	i;
-	int	max;
-
-	i = 0;
-	max = dim.width * dim.length;
-	while (i < max)
-	{
-		coords[i].x += offset;
-		i++;
-	}
-}
-
-void	shift_y(t_map dim, t_3d_point *coords, double offset)
-{
-	int	i;
-	int	max;
-
-	i = 0;
-	max = dim.width * dim.length;
-	while (i < max)
-	{
-		coords[i].y += offset;
-		i++;
-	}
-}
-
-void	make_positive(t_map *dim)
-{
-	t_3d_point	*coords;
-	double		smallest_x;
-	double		smallest_y;
-	int			i;
-	int			max;
-
-	i = 0;
-	coords = (t_3d_point *)dim->coords_3d;
-	max = dim->width * dim->length;
-	smallest_x = (double)coords[0].x;
-	smallest_y = (double)coords[0].y;
-	while (i < max)
-	{
-		if (smallest_x > coords[i].x)
-			smallest_x = coords[i].x;
-		if (smallest_y > coords[i].y)
-			smallest_y = coords[i].y;
-		i++;
-	}
-	if (smallest_x < 0)
-		shift_x(*dim, coords, -smallest_x);
-	if (smallest_y < 0)
-		shift_y(*dim, coords, -smallest_y);
 }
 
 t_list	*get_file_lines(int fd)
@@ -245,19 +95,11 @@ t_list	*get_file_lines(int fd)
 
 // TODO: add to utils
 // should check for adr?
-void ft_free(void **adr)
-{
-	if (*adr)
-	{
-		free(*adr);
-		*adr = 0;
-	}
-}
 t_map	*alloc_data_space(t_map *dim)
 {
 	t_3d_point	*coords_3d;
 	t_2d_point	*coords_display;
-	int	max;
+	int			max;
 
 	max = dim->length * dim->width;
 	coords_3d = ft_calloc(max, sizeof(t_3d_point));
@@ -384,96 +226,7 @@ t_map	get_data_from_fd(int fd)
 		exit(1);
 	}
 	fill_with_data(dim, file_lines);
-//	display_coords_testing(dim);
 	set_max_min_z(&dim);
 	ft_lstclear(&tmp, delete_content);
 	return (dim);
-}
-
-//TODO: work on ext coef
-
-double	get_ext_coef(t_map dim)
-{
-	double	a;
-	double	b;
-	double	c;
-
-// screen width, 
-	a = WIDTH / (((double)dim.width + (double)dim.length) );
-	b = HEIGHT / (((double)dim.width + (double)dim.length) );
-	if (dim.max_z - dim.min_z != 0)
-		c = HEIGHT / (fabs((double)dim.max_z - (double)dim.min_z));
-	else
-		c = HEIGHT;
-//	printf("z val %e\n", 10/((double)dim.max_z - (double)dim.min_z));
-// TODO: clean up
-/*	double ext_coef = fmin(fmin(a, b), c);
-	if (ext_coef == a)
-		printf("width based smallest %e\n", ext_coef);
-	if (ext_coef == b)
-		printf("length based smallest %e\n", ext_coef);
-	if (ext_coef == c)
-		printf("z based smallest %e\n", ext_coef);
-*/
-	return (fmin(fmin(a, b), c));
-}
-
-void	process_data(t_map *dim)
-{
-	t_3d_point	*coords;
-	int			x;
-	double			ext_coef;
-	int			max;
-
-	max = dim->length * dim->width;
-	x = 0;
-	ext_coef = get_ext_coef(*dim);
-//	ext_coef = 3;
-	coords = (t_3d_point *)dim->coords_3d;
-	while (x < max)
-	{
-		extend_lines(&coords[x], ext_coef);
-		translate_angles(&coords[x]);
-		x++;
-	}
-	make_positive(dim);
-}
-
-t_2d_point	point_3dto2d(t_3d_point point_3d )
-{
-	t_2d_point point_2d;
-
-	point_2d.x = round(point_3d.x);
-	point_2d.y = round(point_3d.y);
-	point_2d.color = point_3d.color;
-	return (point_2d);
-}
-// assuming that the correct math has already been performed
-void	convert_3dto2d(t_map *dim)
-{
-	t_3d_point	*coords;
-	t_2d_point	*new_coords;
-	int			i;
-	int			max;
-
-	max = dim->width * dim->length;
-	i = 0;
-	coords = (t_3d_point *)dim->coords_3d;
-	new_coords = dim->coords_display;
-	while (i < max)
-	{
-		new_coords[i] = point_3dto2d(coords[i]);
-		i++;
-	}
-	
-	dim->coords_display = (void *)new_coords;
-}
-
-void	display_data(t_map dim, mlx_image_t *image)
-{
-	ft_printf("before convert\n");
-	convert_3dto2d(&dim);
-	ft_printf("after convert\n");
-	put_lines(image, dim);
-	ft_printf("after put lines\n");
 }

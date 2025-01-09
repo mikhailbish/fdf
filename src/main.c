@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/08 19:19:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/09 21:35:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@
 //#define WIDTH 1366 
 //#define HEIGHT 768 
 
-
-int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}
-
-void	ft_hook(void* param)
-{
-//	mlx_t* mlx = param;
-	t_fdf	*fdf = (t_fdf *)param;
 //TODO: free up everything used
+void	ft_hook(void *param)
+{
+	t_fdf	*fdf;
+
+	fdf = (t_fdf *)param;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(fdf->mlx);
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
@@ -50,139 +45,6 @@ void	ft_hook(void* param)
 		fdf->image->instances[0].x += 5;
 }
 
-// -----------------------------------------------------------------------------
-
-int	ft_abs(int num)
-{
-	if (num < 0)
-		return (-num);
-	return (num);
-}
-
-int32_t	get_red(int32_t color)
-{
-	return ((color >> 16) & 0xFF);
-}
-
-int32_t	get_green(int32_t color)
-{
-	return ((color >> 8) & 0xFF);
-}
-
-int32_t	get_blue(int32_t color)
-{
-	return ((color) & 0xFF);
-}
-
-
-int	get_color(int start_color, int end_color, int i, int length)
-{
-	int	red_change;
-	int	green_change;
-	int	blue_change;
-	int	final_red;
-	int	final_green;
-	int	final_blue;
-
-	if (i == 0 || (start_color == end_color))
-		return (start_color);
-	if (i == length)
-		return (end_color);
-	red_change = get_red(end_color) - get_red(start_color);
-	green_change = get_green(end_color) - get_green(start_color);
-	blue_change = get_blue(end_color) - get_blue(start_color);
-	final_red = get_red(start_color) + (i * (red_change)) / length;
-	final_green = get_green(start_color) + (i * (green_change)) / length;
-	final_blue = get_blue(start_color) + (i * (blue_change)) / length;
-	return (final_red << 16 | final_green << 8 | final_blue);
-}
-
-void	put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image)
-{
-	int	dx;
-	int	dy;
-	int	step_y;
-	int	d;
-	int	color;
-
-	dx = end.x - start.x;
-	dy = end.y - start.y;
-	step_y = 1;
-	if (dy < 0)
-	{
-		step_y = -1;
-		dy = -dy;
-	}
-	d = (2 * dy) - dx;
-	while (start.x <= end.x)
-	{
-		// TODO: modify color handling here
-		// add get color and put pixel function
-		color = get_color(start.color, end.color, start.x - (end.x - dx), dx);
-//		color = 0xFFFFFF;
-		mlx_put_pixel(image, start.x, start.y, (color << 8) + 0xFF);
-		if (d > 0)	
-		{
-			start.y += step_y;
-			d += 2 * (dy - dx);
-		}
-		else
-			d += 2 * dy;
-		start.x++;
-	}
-}
-
-void	put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image)
-{
-	int	dx;
-	int	dy;
-	int	d;
-	int	step_x;
-	int	color;
-
-	dx = end.x - start.x;
-	dy = end.y - start.y;
-	step_x = 1;
-	if (dx < 0)
-	{
-		step_x = -1;
-		dx = -dx;
-	}
-	d = (2 * dx) - dy;
-	while (start.y <= end.y)
-	{
-		// TODO: modify color handling here
-		color = get_color(start.color, end.color, start.y - (end.y - dy), dy);
-//		color = 0xFFFFFF;
-		mlx_put_pixel(image, start.x, start.y, (color << 8) + 0xFF);
-		if (d > 0)	
-		{
-			start.x += step_x;
-			d += 2 * (dx - dy);
-		}
-		else
-			d += 2 * dx;
-		start.y++;
-	}
-}
-
-void	put_line(t_2d_point start, t_2d_point end, mlx_image_t *image)
-{
-	if (ft_abs(end.y - start.y) < ft_abs(end.x - start.x))
-	{
-		if (start.x > end.x)
-			put_line_low(end, start, image);
-		else
-			put_line_low(start, end, image);
-	}
-	else
-	{
-		if (start.y > end.y)
-			put_line_high(end, start, image);
-		else
-			put_line_high(start, end, image);
-	}
-}
 
 void	put_lines(mlx_image_t *image, t_map dim)
 {
@@ -267,12 +129,6 @@ void	display_coords_testing(t_map dim)
 	}
 }
 
-#include <stdio.h>
-#include <sys/time.h>
-float timedifference_msec(struct timeval t0, struct timeval t1)
-{
-    return (t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) / 1000.0f;
-}
 int32_t	main(int argc, char **argv)
 {
 	int		fd;
@@ -295,14 +151,7 @@ int32_t	main(int argc, char **argv)
 
 	//TODO: close in the middle if error
 	close(fd);
-	struct timeval t0;
-	struct timeval t1;
-	float elapsed;
-	gettimeofday(&t0, 0);
 	process_data(&dim);
-	gettimeofday(&t1, 0);
-	elapsed = timedifference_msec(t0,t1);
-//	printf("p d seconds %f\n", elapsed);
 	ft_printf("done processing, width: %d, length: %d\n", dim.width, dim.length);
 	ft_printf("before mlx init\n");
 	// Gotta error check this stuff
@@ -326,8 +175,9 @@ int32_t	main(int argc, char **argv)
 		return(EXIT_FAILURE);
 	}
 	//ft_bzero(image->pixels, image->height * image->width);
-	
-	ft_memset(image->pixels, 0, image->height * image->width * sizeof(int32_t));
+	//TODO: make it black
+	//ft_memset(image->pixels, 0, image->height * image->width * sizeof(int32_t));
+
 	some.mlx = mlx;
 	some.image = image;
 	//TODO: remove file name here and in the header

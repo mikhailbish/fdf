@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/09 18:24:50 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/09 21:08:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #define HEIGHT 768 
 //#define WIDTH 2732 
 //#define HEIGHT 1536 
+/*TODO: Create struct inits*/
 typedef struct s_2d_point {
 	int x;
 	int y;
@@ -40,7 +41,6 @@ typedef struct s_3d_point {
 	int32_t color;
 }	t_3d_point;
 
-/*TODO: Create struct inits*/
 typedef struct s_map {
 	void	*coords_3d;
 	void	*coords_display;
@@ -59,6 +59,22 @@ typedef struct s_fdf {
 	t_map	dim;
 }	t_fdf;
 
+/* local structs*/
+typedef struct s_color {
+	int32_t red;
+	int32_t green;
+	int32_t blue;
+}	t_color;
+
+typedef struct s_line {
+	int32_t dx;
+	int32_t dy;
+	int32_t d;
+	int32_t step;
+	int32_t color;
+}	t_line;
+
+
 /*		VALIDATION		*/
 t_map		validate_file(int fd);
 t_map		validate_lines(t_list *lines);
@@ -73,27 +89,28 @@ int		fill_with_data(t_map dim, t_list *lines);
 /*		PROCESSING		*/
 void		process_data(t_map *dim);
 void		translate_angles(t_3d_point *point);
-void		make_positive(t_map *dim);//, t_point **coords);
 void		extend_lines(t_3d_point *point, double num);
+void		convert_3dto2d(t_map *dim);
 
 /*		DISPLAY			*/
 void		display_data(t_map dim, mlx_image_t *image);
 void 		put_lines(mlx_image_t *image, t_map dim);
 void 		display_coords_testing(t_map dim);
-void		put_line_low(t_2d_point start, t_2d_point end, mlx_image_t *image);
-void		put_line_high(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 
-/*		UTILS			*/
+/*		UTILS_MATH			*/
 void		mutate_3d_vector(double vector[3], double matrix[3][3]);
 double		get_radians(double angle);
+/*		UTILS			*/
 int		count_split(char **texts);
 void		free_split(char **args);
 void		delete_content(void *content);
 int32_t 	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t		get_red(int32_t color);
+int		ft_abs(int num);
+void		ft_free(void **adr);
+/*int32_t		get_red(int32_t color);
 int32_t		get_green(int32_t color);
-int32_t		get_blue(int32_t color);
-int		get_color(int start_color, int end_color, int i, int length);
+int32_t		get_blue(int32_t color);*/
+int32_t		get_color(int32_t start_color, int32_t end_color, int32_t i, int32_t length);
 
 #endif

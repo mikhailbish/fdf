@@ -6,11 +6,27 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:52:28 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/09/13 21:39:36 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/09 20:33:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+int	ft_abs(int num)
+{
+	if (num < 0)
+		return (-num);
+	return (num);
+}
+
+void	ft_free(void **adr)
+{
+	if (*adr)
+	{
+		free(*adr);
+		*adr = 0;
+	}
+}
 
 void	free_split(char **args)
 {

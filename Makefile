@@ -13,11 +13,15 @@ LIB_DIR := lib/libft
 INCLUDE := -I$(LIB_DIR) -I./include/ -I./lib/MLX42/include/MLX42/
 WITH_LIBFT := -L$(LIB_DIR) -lft
 SRCS := src/main.c \
-	src/math_ops.c \
 	src/parsing.c \
 	src/utils.c \
+	src/utils_math.c \
 	src/validation.c \
-
+	src/color.c \
+	src/put_line.c \
+	src/math_ops.c \
+	src/processing.c \
+	src/processing_extra.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -46,7 +50,7 @@ clean:
 
 fclean: clean
 	@make fclean -C $(LIB_DIR)
-	@$(RM) $(LIBMLX_DIR)/build
+	@$(RM) $(LIBMLX_DIR)
 	@$(RM) $(NAME)
 
 re:	fclean all
