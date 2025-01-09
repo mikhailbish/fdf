@@ -1,5 +1,6 @@
 *.o
 logs/
-lib/
+lib/MLX42/
 fdf
 *.swp
+*.a

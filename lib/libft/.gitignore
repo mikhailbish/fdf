@@ -1,0 +1,8 @@
+test/
+*.o
+*.a
+*.gch
+*.swp
+*.out
+.bonus
+.cpp

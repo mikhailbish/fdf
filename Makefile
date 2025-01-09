@@ -1,73 +1,54 @@
 NAME := fdf 
 
-GREEN = \033[1;92m
-DEFAULT = \033[1;39m
-
-CC = cc 
+CC := cc 
 CFLAGS := -Wall -Wextra -Werror
-#-Wunreachable-code -Ofast
+# -Wunreachable-code -Ofast
 RM := rm -rf
 
 # MLX library
 LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBMLX_DIR := ./lib/MLX42
 LIBMLX := $(LIBMLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
+LIB_DIR := lib/libft
+INCLUDE := -I$(LIB_DIR) -I./include/ -I./lib/MLX42/include/MLX42/
+WITH_LIBFT := -L$(LIB_DIR) -lft
+SRCS := src/main.c \
+	src/math_ops.c \
+	src/parsing.c \
+	src/utils.c \
+	src/validation.c \
 
-#TODO: add libft versioning and cloning rules
-# Libft library
-LIB_DIR:= lib/libft
-LIB_URL := https://github.com/mikhailbish/libft.git
-LIBFT_A := $(LIB_DIR)/libft.a
-
-HEADERS := -I. -I $(LIBMLX_DIR)/include -I$(LIB_DIR)
-
-# mandatory srcs
-SRCS = main.c utils.c validation.c parsing.c math_ops.c
-#SRCS = test.c
 
 OBJS = $(SRCS:.c=.o)
 
-# TODO: remove logging in the end
-LOG_NAME = $(shell date -Iseconds)
-
-all: clone $(NAME)
-	./$(NAME) test_maps/elem-col.fdf # >> ./logs/$(LOG_NAME)
+#TODO: final look
+all: clone libft $(NAME)
+	./$(NAME) test_maps/elem-col.fdf
 #	valgrind ./$(NAME) ~/Downloads/test_maps/42.fdf
 
-clone: lib/MLX42 lib/libft # .clone_mlx_done .clone_lib_done
+clone: lib/MLX42
 
-# "! -d" means if the directory doesn't exist.
 lib/MLX42:
-	git clone $(LIBMLX_URL) $(LIBMLX_DIR); 
+	git clone $(LIBMLX_URL) $(LIBMLX_DIR)
 	
-lib/libft:
-	git clone $(LIB_URL) $(LIB_DIR); 
-
 $(NAME): $(OBJS)
-	@cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
-	@make -C $(LIB_DIR) bonus
-	@$(CC) $^ $(LIBMLX) $(LIBFT_A) -o $@
-	@echo "$(GREEN)$(NAME) has been generated successfully!$(DEFAULT)"
+	cmake $(LIBMLX_DIR) -B $(LIBMLX_DIR)/build && make -C $(LIBMLX_DIR)/build -j4
+	$(CC) $^ $(LIBMLX) $(WITH_LIBFT) -o $@
+
+libft:
+	make -C $(LIB_DIR) bonus
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) $< -D BUFFER_SIZE=6000 -c -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@
 
-# TODO: add cleaning of mlx
 clean:
 	@$(RM) $(OBJS)
-#	temp block to prevent unnecessary downloading
-#	@rm -rf lib/libft
 
 fclean: clean
 	@make fclean -C $(LIB_DIR)
 	@$(RM) $(LIBMLX_DIR)/build
 	@$(RM) $(NAME)
-	@echo "$(GREEN)$(NAME) executable file has been cleaned.$(DEFAULT)"
-#	temp block to prevent unnecessary downloading
-#	@$(RM) lib
-
-r: clean all
 
 re:	fclean all
 
-.PHONY: all clean fclean re clone
+.PHONY: all clean fclean re clone libft
