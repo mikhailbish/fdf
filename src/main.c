@@ -45,7 +45,6 @@ void	ft_hook(void *param)
 		fdf->image->instances[0].x += 5;
 }
 
-
 void	put_lines(mlx_image_t *image, t_map dim)
 {
 	int		y;
@@ -92,6 +91,7 @@ void	put_lines(mlx_image_t *image, t_map dim)
 		y++;
 	}
 }
+
 void	put_42_v2(void *param)
 {
 	t_map	dim;
@@ -167,6 +167,8 @@ int32_t	main(int argc, char **argv)
 		puts(mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
+	//TODO: restructure
+	//display_data(dim, image);
 	ft_printf("before image to window\n");
 	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
 	{
