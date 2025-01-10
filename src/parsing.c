@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:32:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/09 21:10:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:47:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,13 @@ t_list	*get_file_lines(int fd)
 	while (line)
 	{
 		line = get_next_line(fd);
-// TODO: replace errno - no global variables
-// if gnl == 0 assume there is nothing more to read
-// may be don't use gnl
-		if (!line && errno == ENOMEM)
-		{
-//			free lines
-//			free list
-			//error in gnl
-			ft_printf("gnl error at %d attempt\n", count);
-			exit(1);
-			return (0);
-		}
-		else if (!line)
+		if (!line)
 			break ;
 		tmp = ft_lstnew(line);
 		if (!tmp)
 		{
-//			free lines
-//			free list
-			// error in lst new
 			free(line);
 			ft_lstclear(&head, free);
-			ft_printf("lstnew error at %d attempt\n", count);
-			exit(1);
 			return (0);
 		}
 		ft_lstadd_back(&head, tmp);
