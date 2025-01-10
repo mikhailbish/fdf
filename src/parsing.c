@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:32:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/10 16:47:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:29:25 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,43 +34,38 @@ void	delete_content(void *content)
 	free((char *)content);
 }
 
+t_list *free_line_and_clear_list(char *line, t_list **head)
+{
+	free(line);
+	if (*head)
+		ft_lstclear(head, free);
+	return (0);
+}
+
 t_list	*get_file_lines(int fd)
 {
-	char	*line;
 	t_list	*head;
 	t_list	*tmp;
+	char	*line;
 	int		count;
 
 	count = 0;
-	line = get_next_line(fd);
-	if (!line)
-	{
-		//TODO: handle
-		//error in gnl
-		//malloc or read
-		return (0);
-	}
-	head = ft_lstnew((void *)line);
-	if (!head)
-	{
-//			free lines
-		// error in lst new
-		free(line);
-		return (0);
-	}
+	line = (char *)1;
+	head = 0;
 	while (line)
 	{
 		line = get_next_line(fd);
+		if (!line && !head)
+			return (0);
 		if (!line)
 			break ;
 		tmp = ft_lstnew(line);
 		if (!tmp)
-		{
-			free(line);
-			ft_lstclear(&head, free);
-			return (0);
-		}
-		ft_lstadd_back(&head, tmp);
+			return (free_line_and_clear_list(line, &head));
+		if (head)
+			ft_lstadd_back(&head, tmp);
+		else
+			head = tmp;
 		count++;
 	}
 	return (head);
@@ -78,7 +73,7 @@ t_list	*get_file_lines(int fd)
 
 // TODO: add to utils
 // should check for adr?
-t_map	*alloc_data_space(t_map *dim)
+t_map	*alloc_map_space(t_map *dim)
 {
 	t_3d_point	*coords_3d;
 	t_2d_point	*coords_display;
@@ -91,6 +86,7 @@ t_map	*alloc_data_space(t_map *dim)
 	{
 		ft_free((void **)&coords_3d);
 		ft_free((void **)&coords_display);
+		dim->width = -1;
 		return (0);
 	}
 	dim->coords_3d = coords_3d;
@@ -182,34 +178,43 @@ void	set_max_min_z(t_map *dim)
 }
 
 // TODO: check fd outside?
-t_map	get_data_from_fd(int fd)
+t_map	get_data_from_fd(int fd, t_fdf *fdf)
 {
-	t_map	dim;
 	t_list	*file_lines;
 	t_list	*tmp;
 
 	file_lines = get_file_lines(fd);
+	if (!file_lines)
+	{
+		fdf->dim.width = -1;
+		return (fdf->dim);
+	}
 	// handle malloc
 	// inner stuff from gfl would be already free, prevent further program exec, close fd here??
 	//close(fd); // handle outside
 	tmp = file_lines;
-	dim = validate_lines(file_lines);
-	if (dim.width == -1)
+	fdf->dim = validate_lines(file_lines);
+	if (fdf->dim.width == -1)
 	{
-		//TODO: free file lines, leave
+		ft_lstclear(&file_lines, free);
+		return (fdf->dim);
 	}
-	
-	// handle malloc
-	if (!alloc_data_space(&dim))
+	if (!alloc_map_space(&(fdf->dim)))
 	{
 		//free lines
 		//TODO: handle
-		ft_lstclear(&tmp, delete_content);
+		ft_lstclear(&tmp, free);
 		perror(strerror(errno));
-		exit(1);
+		return (fdf->dim);
 	}
-	fill_with_data(dim, file_lines);
-	set_max_min_z(&dim);
+	fill_with_data(fdf->dim, file_lines);
+	if (fdf->dim.width > 0)
+		ft_putstr_fd("is valid width\n", 1);
+	if (fdf->dim.coords_3d)
+		ft_putstr_fd("is coords3d\n", 1);
+		
+	set_max_min_z(&(fdf->dim));
+	write(1, "yo\n", 3);
 	ft_lstclear(&tmp, delete_content);
-	return (dim);
+	return (fdf->dim);
 }

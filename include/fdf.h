@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/09 21:08:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:10:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_fdf {
 	mlx_t	*mlx;
 	char	*file_name;
 	int	fd;
-	int	painted;
 	mlx_image_t	*image;
 	t_map	dim;
 }	t_fdf;
@@ -80,9 +79,9 @@ t_map		validate_file(int fd);
 t_map		validate_lines(t_list *lines);
 /*		PARSING			*/
 int		check_name(char *name);
-t_map		get_data_from_fd(int fd);
+t_map		get_data_from_fd(int fd, t_fdf *ptr);
 t_list		*get_file_lines(int fd);
-t_map		*alloc_data_space(t_map *dim);
+t_map		*alloc_map_space(t_map *dim);
 t_map		parse_lines(t_map dim, t_list *lines);
 int		fill_with_data(t_map dim, t_list *lines);
 
@@ -112,5 +111,7 @@ void		ft_free(void **adr);
 int32_t		get_green(int32_t color);
 int32_t		get_blue(int32_t color);*/
 int32_t		get_color(int32_t start_color, int32_t end_color, int32_t i, int32_t length);
+t_fdf fdf_init(char *file_name);
+t_fdf fdf_fill(t_fdf fdf);
 
 #endif

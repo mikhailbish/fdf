@@ -22,6 +22,7 @@ SRCS := src/main.c \
 	src/math_ops.c \
 	src/processing.c \
 	src/processing_extra.c \
+	src/utils_fdf.c \
 
 OBJS = $(SRCS:.c=.o)
 

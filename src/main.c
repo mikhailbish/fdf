@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/09 21:35:13 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/10 22:09:34 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,22 +94,16 @@ void	put_lines(mlx_image_t *image, t_map dim)
 
 void	put_42_v2(void *param)
 {
+	t_fdf *fdf = (t_fdf *)param;
 	t_map	dim;
 	//t_map image_size;
 	mlx_image_t	*image;
-	int	painted;
+	image = fdf->image;
+	dim = fdf->dim;
 
-	painted = ((t_fdf *)param)->painted;
-	if (!painted)
-	{
-		dim = ((t_fdf *)param)->dim;
-	//	image_size = ((t_fdf *)param)->image_size;
-		image = ((t_fdf *)param)->image;
-		ft_printf("before display data");
-		//display_coords_testing(dim);
-		display_data(dim, image);
-		((t_fdf *)param)->painted = 1;
-	}
+
+	process_data(&(fdf->dim));
+	display_data(dim, image);
 }
 
 //TODO: remove
@@ -131,67 +125,16 @@ void	display_coords_testing(t_map dim)
 
 int32_t	main(int argc, char **argv)
 {
-	int		fd;
-	mlx_image_t*	image;
-	t_map	dim;
+	t_fdf	fdf;
 	if (argc != 2)
 		return (EXIT_FAILURE);
-	mlx_t*	mlx;
-	t_fdf	some;
-	fd = open(*(++argv), O_RDONLY);
-	if (fd < 0)
-	{
-		ft_printf("File name doesn't exist\n");
-		return(0);
-	}
-	dim = get_data_from_fd(fd);
-	///display_coords_testing(dim);
 
-	ft_printf("done parsing\n");
-
-	//TODO: close in the middle if error
-	close(fd);
-	process_data(&dim);
-	ft_printf("done processing, width: %d, length: %d\n", dim.width, dim.length);
-	ft_printf("before mlx init\n");
-	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	ft_printf("before new image\n");
-	if (!(image = mlx_new_image(mlx, WIDTH, HEIGHT)))
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	//TODO: restructure
-	//display_data(dim, image);
-	ft_printf("before image to window\n");
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	//ft_bzero(image->pixels, image->height * image->width);
-	//TODO: make it black
-	//ft_memset(image->pixels, 0, image->height * image->width * sizeof(int32_t));
-
-	some.mlx = mlx;
-	some.image = image;
-	//TODO: remove file name here and in the header
-	some.file_name = *(argv);
-	some.image = image;
-	some.dim = dim;
-	some.painted = 0;
-	ft_printf("before hook");
-	mlx_loop_hook(mlx, put_42_v2, &some);
-	mlx_loop_hook(mlx, ft_hook, &some);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	fdf = fdf_init(*(argv + 1));
+	fdf = fdf_fill(fdf);
+	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
+	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
+	mlx_loop(fdf.mlx);
+	mlx_terminate(fdf.mlx);
 
 	return (EXIT_SUCCESS);
 }
