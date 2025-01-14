@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 17:37:13 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:26:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 //#define WIDTH 3840 
 //#define HEIGHT 2160 
 // TODO: REthink
-#define WIDTH 1366 
-#define HEIGHT 768 
-//#define WIDTH 2732 
-//#define HEIGHT 1536 
+//#define WIDTH 1366 
+//#define HEIGHT 768 
+#define WIDTH 2732 
+#define HEIGHT 1536 
 /*TODO: Create struct inits*/
 typedef struct s_2d_point {
 	int x;
@@ -108,6 +108,10 @@ void		delete_content(void *content);
 int32_t 	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 int		ft_abs(int num);
 void		ft_free(void **adr);
+
+/*		UTILS FDF			*/
+void free_fdf_parts(t_fdf fdf);
+
 /*int32_t		get_red(int32_t color);
 int32_t		get_green(int32_t color);
 int32_t		get_blue(int32_t color);*/

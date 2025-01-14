@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 17:44:27 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:25:45 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdbool.h>
 */
 #include "fdf.h"
-// normal minilibx problems: 317955 bytes in 3106 blocks
+// normal MLX42 problems: 317955 bytes in 3106 blocks
 //#define WIDTH 512
 //#define HEIGHT 512
 
@@ -34,7 +34,12 @@ void	ft_hook(void *param)
 
 	fdf = (t_fdf *)param;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_ESCAPE))
+	{
 		mlx_close_window(fdf->mlx);
+		ft_printf("before free fdf parts\n");
+		free_fdf_parts(*fdf);
+		exit(0);
+	}
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
 		fdf->image->instances[0].y -= 5;
 	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))

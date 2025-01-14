@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:51:41 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/09 21:03:24 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:32:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ static double	get_ext_coef(t_map dim)
 void	process_data(t_map *dim)
 {
 	t_3d_point	*coords;
+	double		ext_coef;
 	int			x;
-	double			ext_coef;
 	int			max;
 
 	max = dim->length * dim->width;

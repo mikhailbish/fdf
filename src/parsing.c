@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:32:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 17:45:58 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:54:39 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	delete_content(void *content)
 	free((char *)content);
 }
 
-t_list *free_line_and_clear_list(char *line, t_list **head)
+t_list	*free_line_and_clear_list(char *line, t_list **head)
 {
 	free(line);
 	if (*head)
@@ -203,10 +203,13 @@ t_map	get_data_from_fd(int fd, t_fdf *fdf)
 	{
 		//free lines
 		//TODO: handle
+		
 		ft_lstclear(&tmp, free);
 		perror(strerror(errno));
 		return (fdf->dim);
 	}
+// WIP
+// TODO: inside fill_with_data check for split fails and if it does check here and don't go further
 	fill_with_data(fdf->dim, file_lines);
 	//TODO: exit?
 	if (fdf->dim.width > 0)
