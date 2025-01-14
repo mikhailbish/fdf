@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:56:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 18:47:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:54:49 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_fdf	fdf_init(char *file_name)
 	fdf.fd = -1;
 	fdf.image = 0;
 	fdf.dim.width = 0;
+	fdf.dim.length = 0;
 	fdf.dim.coords_3d = 0;
 	fdf.dim.coords_display = 0;
 	fdf.painted = 0;
@@ -36,19 +37,25 @@ int	validate_and_open(char *file_name)
 
 void	free_fdf_parts(t_fdf fdf)
 {
+	ft_printf("before free image\n");
 	if (fdf.image)
 		mlx_delete_image(fdf.mlx, fdf.image);
+	ft_printf("before free mlx\n");
 	if (fdf.mlx)
 		mlx_terminate(fdf.mlx);
+	ft_printf("before free coords3d\n");
 	if (fdf.dim.coords_3d)
 		free(fdf.dim.coords_3d);
+	ft_printf("before free coords_display\n");
 	if (fdf.dim.coords_display)
 		free(fdf.dim.coords_display);
 }
 
-void	free_fdf_parts_and_exit_error(t_fdf fdf)
+void	free_fdf_parts_and_exit_error(t_fdf fdf, char *error)
 {
 	free_fdf_parts(fdf);
+	if (error)
+		ft_putstr_fd(error, 2);
 	exit(1);
 }
 
@@ -56,17 +63,17 @@ t_fdf	fdf_fill(t_fdf fdf)
 {
 	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	if (!fdf.mlx)
-		free_fdf_parts_and_exit_error(fdf);
+		free_fdf_parts_and_exit_error(fdf, "mlx init err\n");
 	fdf.image = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
 	if (!fdf.image)
-		free_fdf_parts_and_exit_error(fdf);
+		free_fdf_parts_and_exit_error(fdf, "new image err\n");;
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
-		free_fdf_parts_and_exit_error(fdf);
+		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
 	fdf.fd = validate_and_open(fdf.file_name);
 	if (fdf.fd == -1)
-		free_fdf_parts_and_exit_error(fdf);
+		free_fdf_parts_and_exit_error(fdf, "validate and open err\n");
 	fdf.dim = get_data_from_fd(fdf.fd, &fdf);
 	if (fdf.dim.width == -1)
-		free_fdf_parts_and_exit_error(fdf);
+		free_fdf_parts_and_exit_error(fdf, "get data from fd err\n");
 	return (fdf);
 }

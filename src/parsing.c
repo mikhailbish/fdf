@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:32:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 18:54:39 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:47:58 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,9 +193,10 @@ t_map	get_data_from_fd(int fd, t_fdf *fdf)
 	// inner stuff from gfl would be already free, prevent further program exec, close fd here??
 	//close(fd); // handle outside
 	tmp = file_lines;
-	fdf->dim = validate_lines(file_lines);
+	fdf->dim = validate_lines(file_lines, fdf->dim);
 	if (fdf->dim.width == -1)
 	{
+		ft_printf("wip in a right place\n");
 		ft_lstclear(&file_lines, free);
 		return (fdf->dim);
 	}
@@ -205,19 +206,17 @@ t_map	get_data_from_fd(int fd, t_fdf *fdf)
 		//TODO: handle
 		
 		ft_lstclear(&tmp, free);
-		perror(strerror(errno));
+		perror("asd");
 		return (fdf->dim);
 	}
-// WIP
-// TODO: inside fill_with_data check for split fails and if it does check here and don't go further
-	fill_with_data(fdf->dim, file_lines);
-	//TODO: exit?
-	if (fdf->dim.width > 0)
-		ft_putstr_fd("is valid width\n", 1);
-	if (fdf->dim.coords_3d)
-		ft_putstr_fd("is coords3d\n", 1);
-		
-	set_max_min_z(&(fdf->dim));
+	if (!fill_with_data(fdf->dim, file_lines))
+	{
+		ft_lstclear(&tmp, delete_content);
+		fdf->dim.width = 0;
+		return (fdf->dim);
+	}
 	ft_lstclear(&tmp, delete_content);
+	//TODO: exit?
+	set_max_min_z(&(fdf->dim));
 	return (fdf->dim);
 }

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 18:26:53 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:42:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_line {
 
 /*		VALIDATION		*/
 t_map		validate_file(int fd);
-t_map		validate_lines(t_list *lines);
+t_map		validate_lines(t_list *lines, t_map dim);
 /*		PARSING			*/
 int		check_name(char *name);
 t_map		get_data_from_fd(int fd, t_fdf *ptr);

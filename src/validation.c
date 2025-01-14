@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 17:43:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:55:02 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,10 @@ static	int	validate_line(char *line)
 }
 
 // TODO: make sure errors are handled
-t_map	validate_lines(t_list *lines)
+t_map	validate_lines(t_list *lines, t_map dim)
 {
 	int	column_count;
 	int	line_count;
-	//char	*line;
-	t_map	dim;
 
 	dim.length = 0;
 	dim.width = 0;
@@ -80,13 +78,11 @@ t_map	validate_lines(t_list *lines)
 		if (!dim.width)
 			dim.width = column_count;
 		if (column_count == -1)
-		{
-			perror("memory error at validation\n");
 			return (dim);
-		}
 		if (dim.width != column_count)
 		{
-//			wrong number of columns in a line
+			dim.width = -1;
+			return (dim);
 		}
 		lines = lines->next;
 	}
