@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:32:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/10 22:29:25 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:45:58 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,13 +208,13 @@ t_map	get_data_from_fd(int fd, t_fdf *fdf)
 		return (fdf->dim);
 	}
 	fill_with_data(fdf->dim, file_lines);
+	//TODO: exit?
 	if (fdf->dim.width > 0)
 		ft_putstr_fd("is valid width\n", 1);
 	if (fdf->dim.coords_3d)
 		ft_putstr_fd("is coords3d\n", 1);
 		
 	set_max_min_z(&(fdf->dim));
-	write(1, "yo\n", 3);
 	ft_lstclear(&tmp, delete_content);
 	return (fdf->dim);
 }

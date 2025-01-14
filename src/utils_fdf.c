@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:56:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/10 22:31:11 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:40:45 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_fdf fdf_init(char *file_name)
 	fdf.dim.width = 0;
 	fdf.dim.coords_3d = 0;
 	fdf.dim.coords_display = 0;
+	fdf.painted = 0;
 	return (fdf);
 }
 

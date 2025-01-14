@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/10 22:09:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:44:27 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,19 @@ void	put_lines(mlx_image_t *image, t_map dim)
 		{
 			if (x == 0 && y < dim.length - 1)
 			{
-	//			ft_printf("case 1\n");
 				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
 				line_count +=1;
-	//			ft_printf("case 1 ended\n");
 			}
 			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
 			{
-	//			ft_printf("case 2\n");
 				put_line(coords[y * dim.width + x], coords[y * dim.width + x + 1], image);
 				line_count +=1;
-	//			ft_printf("case 2 ended\n");
 			}
-			else if ((x == (dim.width - 1)) && (y == (dim.length - 1)))
+			else if (!((x == (dim.width - 1)) && (y == (dim.length - 1))))
 			{
-	//			ft_printf("case 3 ended\n");
-			}
-			else {
-	//			ft_printf("case 4\n");
-	//			if ((y + 1) < (dim.length - 1))
-					put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
-	//			if (x > 0)
-					put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
+				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
+				put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
 				line_count +=2;
-	//			ft_printf("case 4 ended\n");
 			}
 			x--;
 		}
@@ -101,9 +90,12 @@ void	put_42_v2(void *param)
 	image = fdf->image;
 	dim = fdf->dim;
 
-
-	process_data(&(fdf->dim));
-	display_data(dim, image);
+	if (!fdf->painted)
+	{
+		process_data(&(fdf->dim));
+		display_data(dim, image);
+		fdf->painted = 1;
+	}
 }
 
 //TODO: remove
@@ -115,10 +107,10 @@ void	display_coords_testing(t_map dim)
 //	t_2d_point **coords;
 	t_3d_point *coords;
 	coords = (t_3d_point *)dim.coords_3d;
-	printf("display coords testing:\n");
+	ft_printf("display coords testing:\n");
 	while (i < max)
 	{
-		printf("x: %F, y: %F, z: %F, color: %dx\n", coords[i].x, coords[i].y, coords[i].z, coords[i].color);
+		ft_printf("x: %F, y: %F, z: %F, color: %dx\n", coords[i].x, coords[i].y, coords[i].z, coords[i].color);
 		i++;
 	}
 }

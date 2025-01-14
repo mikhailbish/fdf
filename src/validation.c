@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:59:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2024/10/25 19:08:56 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:43:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,21 @@ static	int	validate_line(char *line)
 	int	column_count;
 
 	column_count = 0;
-//	ft_printf("line: %s\n", line);
 	line_split = ft_split(line, ' ');
 	tmp_line_split = line_split;
 	if (!line_split)
 	{
+		//TODO: introduce error messages?
 		//some error handling
 		ft_printf("problems in validate line split\n");
 		return (-1);
 	}
 	while (*tmp_line_split)
 	{
-//		ft_printf("column\n");
-		// add to coordinate matrix
 		if (is_legal_number(*tmp_line_split))
 			column_count++;
 		else
 		{
-//			ft_printf("illegal num: %s\n", *tmp_line_split);
 			ft_printf("illegal number\n");
 			column_count = -1;
 			break;
@@ -65,43 +62,7 @@ static	int	validate_line(char *line)
 	free_split(line_split);
 	return (column_count);
 }
-/*
-t_map validate_file(int fd)
-{
-	int 	column_count;
-	int	line_count;
-	char	*line;
-	t_map dim;
 
-	dim.length = 0;
-	dim.width = 0;
-
-	line_count = 0;
-	column_count = 0;
-	line = get_next_line(fd);
-	while(line)
-	{
-		ft_printf("\nline from file: %s\n", line);
-		column_count = validate_line(line);
-		if (!dim.width)
-			dim.width = column_count;
-		if (column_count == -1)
-		{
-//			alloc fail in validate line
-//			or illegal values
-		}
-		if (dim.width != column_count)
-		{
-//			wrong number of columns in a line
-		}
-		free(line);
-		line = get_next_line(fd);
-		line_count++;
-	}
-	dim.length = line_count;
-	return (dim);
-	
-}*/
 // TODO: make sure errors are handled
 t_map	validate_lines(t_list *lines)
 {
@@ -113,7 +74,6 @@ t_map	validate_lines(t_list *lines)
 	dim.length = 0;
 	dim.width = 0;
 	line_count = ft_lstsize(lines);
-	ft_printf("line count: %d\n", line_count);
 	while(lines)
 	{
 		column_count = validate_line((char *)lines->content);
@@ -123,11 +83,6 @@ t_map	validate_lines(t_list *lines)
 		{
 			perror("memory error at validation\n");
 			return (dim);
-		/*	
-			ft_printf("alloc fail in validate line or illegal values\n");
-			exit(1);*/
-//			alloc fail in validate line
-//			or illegal values
 		}
 		if (dim.width != column_count)
 		{

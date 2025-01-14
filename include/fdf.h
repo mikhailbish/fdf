@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/10 22:10:17 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:37:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_fdf {
 	char	*file_name;
 	int	fd;
 	mlx_image_t	*image;
+	int painted;
 	t_map	dim;
 }	t_fdf;
 
