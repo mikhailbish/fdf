@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 20:51:57 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:30:32 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	put_42_v2(void *param)
 	}
 }
 
-
+//TODO: remove before finish
 void	display_coords_testing(t_map dim)
 {
 	int	i = 0;
@@ -143,6 +143,15 @@ void	display_coords_testing(t_map dim)
 	}
 }
 
+void close_window_cb(void *param)
+{
+	t_fdf *fdf;
+
+	fdf = (t_fdf *)param;
+	free_fdf_parts(*fdf);
+	exit(0);
+}
+
 int32_t	main(int argc, char **argv)
 {
 	t_fdf	fdf;
@@ -154,7 +163,7 @@ int32_t	main(int argc, char **argv)
 	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
 	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
 // TODO: do use this and use it to replace mlx terminate?
-//void mlx_close_hook(mlx_t* mlx, mlx_closefunc func, void* param);
+	mlx_close_hook(fdf.mlx, close_window_cb, &fdf);
 	mlx_loop(fdf.mlx);
 	mlx_terminate(fdf.mlx);
 
