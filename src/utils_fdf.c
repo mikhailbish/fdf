@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:56:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 19:54:49 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 20:17:49 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	validate_and_open(char *file_name)
 
 void	free_fdf_parts(t_fdf fdf)
 {
+	ft_printf("before close fd\n");
+	if (fdf.fd != -1)
+		close(fdf.fd);
 	ft_printf("before free image\n");
 	if (fdf.image)
 		mlx_delete_image(fdf.mlx, fdf.image);
@@ -69,11 +72,5 @@ t_fdf	fdf_fill(t_fdf fdf)
 		free_fdf_parts_and_exit_error(fdf, "new image err\n");;
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
 		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
-	fdf.fd = validate_and_open(fdf.file_name);
-	if (fdf.fd == -1)
-		free_fdf_parts_and_exit_error(fdf, "validate and open err\n");
-	fdf.dim = get_data_from_fd(fdf.fd, &fdf);
-	if (fdf.dim.width == -1)
-		free_fdf_parts_and_exit_error(fdf, "get data from fd err\n");
 	return (fdf);
 }

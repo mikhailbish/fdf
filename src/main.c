@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:24:15 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 18:25:45 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 20:51:57 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,48 @@ void	put_lines(mlx_image_t *image, t_map dim)
 		y++;
 	}
 }
+//TODO: remove
+void fdf_print_status(t_fdf fdf)
+{
+	printf("mlx pointer: %p\n", fdf.mlx);
+	printf("file name: %s\n", fdf.file_name);
+	printf("fd: %d\n", fdf.fd);
+	printf("image pointer: %p\n", fdf.image);
+	printf("image painted: %d\n", fdf.painted);
+	printf("dim length: %d\n", fdf.dim.length);
+	printf("dim width: %d\n", fdf.dim.width);
+	printf("dim coords3d: %p\n", fdf.dim.coords_3d);
+	printf("dim coords display: %p\n", fdf.dim.coords_display);
+	printf("dim max z: %d\n", fdf.dim.max_z);
+	printf("dim min z: %d\n", fdf.dim.min_z);
+}
 
 void	put_42_v2(void *param)
 {
 	t_fdf *fdf = (t_fdf *)param;
-	t_map	dim;
 	//t_map image_size;
 	mlx_image_t	*image;
 	image = fdf->image;
-	dim = fdf->dim;
-
 	if (!fdf->painted)
 	{
+		fdf->fd = validate_and_open(fdf->file_name);
+		if (fdf->fd == -1)
+			free_fdf_parts_and_exit_error(*fdf, "validate and open err\n");
+		fdf->dim = get_data_from_fd(fdf->fd, fdf);
+		printf("--------------------------------fdf status after get_data from fd\n");
+		fdf_print_status(*fdf);
+		if (fdf->dim.width == -1)
+			free_fdf_parts_and_exit_error(*fdf, "get data from fd err\n");
 		process_data(&(fdf->dim));
-		display_data(dim, image);
+		printf("--------------------------------fdf status after pd\n");
+		fdf_print_status(*fdf);
+		display_data(fdf->dim, image);
+		printf("--------------------------------fdf status after dd\n");
+		fdf_print_status(*fdf);
 		fdf->painted = 1;
 	}
 }
 
-//TODO: remove
 
 void	display_coords_testing(t_map dim)
 {
@@ -130,6 +153,8 @@ int32_t	main(int argc, char **argv)
 	fdf = fdf_fill(fdf);
 	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
 	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
+// TODO: do use this and use it to replace mlx terminate?
+//void mlx_close_hook(mlx_t* mlx, mlx_closefunc func, void* param);
 	mlx_loop(fdf.mlx);
 	mlx_terminate(fdf.mlx);
 

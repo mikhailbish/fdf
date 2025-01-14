@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 19:42:44 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/14 20:06:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_line {
 /*		VALIDATION		*/
 t_map		validate_file(int fd);
 t_map		validate_lines(t_list *lines, t_map dim);
+int		validate_and_open(char *file_name);
 /*		PARSING			*/
 int		check_name(char *name);
 t_map		get_data_from_fd(int fd, t_fdf *ptr);
@@ -111,6 +112,7 @@ void		ft_free(void **adr);
 
 /*		UTILS FDF			*/
 void free_fdf_parts(t_fdf fdf);
+void	free_fdf_parts_and_exit_error(t_fdf fdf, char *error);
 
 /*int32_t		get_red(int32_t color);
 int32_t		get_green(int32_t color);
