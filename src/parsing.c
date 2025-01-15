@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:07:07 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:14:51 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ int	check_name(char *name)
 	if (cmp_res == 0)
 		return (1);
 	return (0);
-}
-
-//TODO: rename and move
-void	delete_content(void *content)
-{
-	free((char *)content);
 }
 
 t_list	*free_line_and_clear_list(char *line, t_list **head)
@@ -95,64 +89,68 @@ t_map	*alloc_map_space(t_map *dim)
 }
 
 // TODO: test returns
+t_3d_point	get_3d_point(char *space_separated_val, int x, int y)
+{
+	t_3d_point	point;
+	char		*endptr;
+
+	point.x = (double)x;
+	point.y = (double)y;
+	point.z = (double)ft_strtol(space_separated_val, &endptr, 10);
+	if (*endptr == ',' && *(endptr + 1) != 0)
+	{
+		space_separated_val = endptr + 1;
+		point.color = ft_strtol(space_separated_val, &endptr, 16);
+	}
+	else
+		point.color = 0xFFFFFF;
+	return (point);
+}
+
+int	fill_3d_at_y(int y, t_map dim, t_list *lines)
+{
+	char		**split_res;
+	int			x;
+	int			offset;
+	t_3d_point	*coordinates;
+
+	x = 0;
+	offset = y * dim.width;
+	coordinates = (t_3d_point *)dim.coords_3d;
+	split_res = ft_split((char *)lines->content, ' ');
+	if (!split_res)
+		return (0);
+	while (x < dim.width)
+	{
+		coordinates[offset + x] = get_3d_point(split_res[x], x, y);
+		x++;
+	}
+	free_split(split_res);
+	lines = lines->next;
+	return (1);
+}
+
 int	fill_with_data(t_map dim, t_list *lines)
 {
 	t_3d_point	*coordinates;
-	char		**split_res;
-	char		**comma_split_res;
-	int			x;
+	int			line_fill;
 	int			y;
 
 	coordinates = (t_3d_point *)dim.coords_3d;
-	x = 0;
 	y = 0;
-	split_res = 0;
 	if (y >= dim.length)
 		return (1);
 	while (y < dim.length)
 	{
-		split_res = ft_split((char *)lines->content, ' ');
-		if (!split_res)
+		line_fill = fill_3d_at_y(y, dim, lines);
+		if (!fill_3d_at_y(y, dim, lines))
 			break ;
-		while (x < dim.width)
-		{
-			if (ft_strchr(split_res[x], ',') && ft_strchr(split_res[x], ',') == ft_strrchr(split_res[x], ','))
-			{
-				comma_split_res = ft_split(split_res[x], ',');
-				if (!comma_split_res)
-				{
-					free_split(split_res);
-					return (0);
-				}
-				// TODO: handle 0
-				coordinates[y * dim.width + x].z = ft_atoi(comma_split_res[0]);
-				coordinates[y * dim.width + x].color = (int32_t)ft_strtol(comma_split_res[1], 0, 16);
-				free_split(comma_split_res);
-			}
-			else if (ft_strchr(split_res[x], ','))
-			{
-				//more than one comma - error?
-			}
-			else
-			{
-				coordinates[y * dim.width + x].z = ft_atoi(split_res[x]);
-				coordinates[y * dim.width + x].color = 0xFFFFFF;
-			}
-			coordinates[y * dim.width + x].x = x;
-			coordinates[y * dim.width + x].y = y; // dim.length - y - 1;
-			x++;
-		}
-		free_split(split_res);
-		x = 0;
 		lines = lines->next;
 		y++;
 	}
-	if (!split_res)
-		return (0);
 	return (1);
 }
 
-//TODO: handle no coords?
 void	set_max_min_z(t_map *dim)
 {
 	t_3d_point	*coords;
@@ -177,7 +175,16 @@ void	set_max_min_z(t_map *dim)
 	dim->min_z = min_z;
 }
 
-// TODO: check fd outside?
+int	alloc_map_and_fill_with_data(t_map *dim, t_list *lines)
+{
+	if (!alloc_map_space(dim))
+		return (0);
+	if (!fill_with_data(*dim, lines))
+		return (0);
+	set_max_min_z(dim);
+	return (1);
+}
+
 t_map	get_data_from_fd(int fd, t_fdf *fdf)
 {
 	t_list	*file_lines;
@@ -189,34 +196,15 @@ t_map	get_data_from_fd(int fd, t_fdf *fdf)
 		fdf->dim.width = -1;
 		return (fdf->dim);
 	}
-	// handle malloc
-	// inner stuff from gfl would be already free, prevent further program exec, close fd here??
-	//close(fd); // handle outside
 	tmp = file_lines;
 	fdf->dim = validate_lines(file_lines, fdf->dim);
 	if (fdf->dim.width == -1)
 	{
-		ft_printf("wip in a right place\n");
 		ft_lstclear(&file_lines, free);
 		return (fdf->dim);
 	}
-	if (!alloc_map_space(&(fdf->dim)))
-	{
-		//free lines
-		//TODO: handle
-		
-		ft_lstclear(&tmp, free);
-		perror("asd");
-		return (fdf->dim);
-	}
-	if (!fill_with_data(fdf->dim, file_lines))
-	{
-		ft_lstclear(&tmp, delete_content);
-		fdf->dim.width = 0;
-		return (fdf->dim);
-	}
-	ft_lstclear(&tmp, delete_content);
-	//TODO: exit?
-	set_max_min_z(&(fdf->dim));
+	if (!alloc_map_and_fill_with_data(&(fdf->dim), file_lines))
+		fdf->dim.width = -1;
+	ft_lstclear(&tmp, free);
 	return (fdf->dim);
 }

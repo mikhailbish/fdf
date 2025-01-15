@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:06:48 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:47:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,17 @@ void	put_lines(mlx_image_t *image, t_map dim)
 //TODO: remove
 void fdf_print_status(t_fdf fdf)
 {
-	printf("mlx pointer: %p\n", fdf.mlx);
-	printf("file name: %s\n", fdf.file_name);
-	printf("fd: %d\n", fdf.fd);
-	printf("image pointer: %p\n", fdf.image);
-	printf("image painted: %d\n", fdf.painted);
-	printf("dim length: %d\n", fdf.dim.length);
-	printf("dim width: %d\n", fdf.dim.width);
-	printf("dim coords3d: %p\n", fdf.dim.coords_3d);
-	printf("dim coords display: %p\n", fdf.dim.coords_display);
-	printf("dim max z: %d\n", fdf.dim.max_z);
-	printf("dim min z: %d\n", fdf.dim.min_z);
+	ft_printf("mlx pointer: %p\n", fdf.mlx);
+	ft_printf("file name: %s\n", fdf.file_name);
+	ft_printf("fd: %d\n", fdf.fd);
+	ft_printf("image pointer: %p\n", fdf.image);
+	ft_printf("image painted: %d\n", fdf.painted);
+	ft_printf("dim length: %d\n", fdf.dim.length);
+	ft_printf("dim width: %d\n", fdf.dim.width);
+	ft_printf("dim coords3d: %p\n", fdf.dim.coords_3d);
+	ft_printf("dim coords display: %p\n", fdf.dim.coords_display);
+	ft_printf("dim max z: %d\n", fdf.dim.max_z);
+	ft_printf("dim min z: %d\n", fdf.dim.min_z);
 }
 
 void	put_42_v2(void *param)

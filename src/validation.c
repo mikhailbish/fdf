@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:54 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:07:55 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:43:13 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_map	validate_lines(t_list *lines, t_map dim)
 	dim.length = 0;
 	dim.width = 0;
 	line_count = ft_lstsize(lines);
-	while(lines)
+	while (lines)
 	{
 		column_count = validate_line((char *)lines->content);
 		if (!dim.width)
@@ -88,5 +88,4 @@ t_map	validate_lines(t_list *lines, t_map dim)
 	}
 	dim.length = line_count;
 	return (dim);
-	
 }

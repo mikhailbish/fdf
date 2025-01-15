@@ -40,5 +40,3 @@ Tasks:
 
 -	clipping algorythm
 	necessary for the zoom feature
-
-TODO: update emails in headers

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:37 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:07:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:49:41 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_fdf	fdf_init(char *file_name)
 	fdf.dim.coords_3d = 0;
 	fdf.dim.coords_display = 0;
 	fdf.painted = 0;
+	fdf.dim.max_z = 0;
+	fdf.dim.min_z = 0;
 	return (fdf);
 }
 
@@ -69,7 +71,7 @@ t_fdf	fdf_fill(t_fdf fdf)
 		free_fdf_parts_and_exit_error(fdf, "mlx init err\n");
 	fdf.image = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
 	if (!fdf.image)
-		free_fdf_parts_and_exit_error(fdf, "new image err\n");;
+		free_fdf_parts_and_exit_error(fdf, "new image err\n");
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
 		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
 	return (fdf);
