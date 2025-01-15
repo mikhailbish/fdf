@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:54 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:43:13 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:17:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,25 @@ static	int	is_legal_number(char *num)
 	return (!(result < INT_MIN || result > INT_MAX));
 }
 
-/*
-
-push_swap " " error
-push_swap "" error
-push_swap
-
-*/
-
 static	int	validate_line(char *line)
 {
 	char	**line_split;
 	char	**tmp_line_split;
-	int	column_count;
+	int		column_count;
 
 	column_count = 0;
 	line_split = ft_split(line, ' ');
 	tmp_line_split = line_split;
 	if (!line_split)
-	{
-		//TODO: introduce error messages?
-		//some error handling
-		ft_printf("problems in validate line split\n");
 		return (-1);
-	}
 	while (*tmp_line_split)
 	{
 		if (is_legal_number(*tmp_line_split))
 			column_count++;
 		else
 		{
-			ft_printf("illegal number\n");
 			column_count = -1;
-			break;
+			break ;
 		}
 		tmp_line_split++;
 	}
@@ -63,7 +49,6 @@ static	int	validate_line(char *line)
 	return (column_count);
 }
 
-// TODO: make sure errors are handled
 t_map	validate_lines(t_list *lines, t_map dim)
 {
 	int	column_count;
