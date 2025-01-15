@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processing_extra.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 21:07:13 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 20:20:26 by mbutuzov         ###   ########.fr       */
+/*   Created: 2025/01/15 18:07:20 by mbutuzov          #+#    #+#             */
+/*   Updated: 2025/01/15 18:07:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
