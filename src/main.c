@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/16 17:40:18 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:28:08 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 //#define HEIGHT 768 
 
 //TODO: remove movement?
-void	ft_hook(void *param)
+void	ft_controls_hook(void *param)
 {
 	t_fdf	*fdf;
 
@@ -50,6 +50,42 @@ void	ft_hook(void *param)
 		fdf->image->instances[0].x += 5;
 }
 
+t_2d_point	get_2d_coord(t_map dim, int x, int y)
+{
+	t_2d_point	*coords;
+
+	coords = (t_2d_point *)dim.coords_display;
+	return (coords[y * dim.width + x]);
+}
+
+int	put_line_order(t_map dim, mlx_image_t *image, int x, int y)
+{
+	int			line_count;
+
+	line_count = 0;
+	if (x == 0 && y < dim.length - 1)
+	{
+		put_line(get_2d_coord(dim, x, y),
+			get_2d_coord(dim, x, y + 1), image);
+		line_count += 1;
+	}
+	else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
+	{
+		put_line(get_2d_coord(dim, x, y),
+			get_2d_coord(dim, x + 1, y), image);
+		line_count += 1;
+	}
+	else if (!((x == (dim.width - 1)) && (y == (dim.length - 1))))
+	{
+		put_line(get_2d_coord(dim, x, y),
+			get_2d_coord(dim, x, y + 1), image);
+		put_line(get_2d_coord(dim, x - 1, y),
+			get_2d_coord(dim, x, y), image);
+		line_count += 2;
+	}
+	return (line_count);
+}
+
 void	put_lines(mlx_image_t *image, t_map dim)
 {
 	int			y;
@@ -60,27 +96,12 @@ void	put_lines(mlx_image_t *image, t_map dim)
 	line_count = 0;
 	coords = (t_2d_point *)dim.coords_display;
 	y = 0;
-	while(y < dim.length )
+	while (y < dim.length)
 	{
 		x = dim.width - 1;
-		while(x > - 1)
+		while (x > -1)
 		{
-			if (x == 0 && y < dim.length - 1)
-			{
-				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
-				line_count +=1;
-			}
-			else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
-			{
-				put_line(coords[y * dim.width + x], coords[y * dim.width + x + 1], image);
-				line_count +=1;
-			}
-			else if (!((x == (dim.width - 1)) && (y == (dim.length - 1))))
-			{
-				put_line(coords[y * dim.width + x], coords[(y + 1) * dim.width + x], image);
-				put_line(coords[y * dim.width + x - 1], coords[y * dim.width + x], image);
-				line_count +=2;
-			}
+			line_count += put_line_order(dim, image, x, y);
 			x--;
 		}
 		y++;
@@ -88,7 +109,7 @@ void	put_lines(mlx_image_t *image, t_map dim)
 }
 
 //TODO: remove
-void fdf_print_status(t_fdf fdf)
+void	fdf_print_status(t_fdf fdf)
 {
 	ft_printf("mlx pointer: %p\n", fdf.mlx);
 	ft_printf("file name: %s\n", fdf.file_name);
@@ -105,9 +126,10 @@ void fdf_print_status(t_fdf fdf)
 
 void	put_42_v2(void *param)
 {
-	t_fdf *fdf = (t_fdf *)param;
-	//t_map image_size;
+	t_fdf		*fdf;
 	mlx_image_t	*image;
+
+	fdf = (t_fdf *)param;
 	image = fdf->image;
 	if (!fdf->painted)
 	{
@@ -145,9 +167,9 @@ void	display_coords_testing(t_map dim)
 	}
 }
 
-void close_window_cb(void *param)
+void	close_window_cb(void *param)
 {
-	t_fdf *fdf;
+	t_fdf	*fdf;
 
 	fdf = (t_fdf *)param;
 	free_fdf_parts(*fdf);
@@ -157,16 +179,15 @@ void close_window_cb(void *param)
 int32_t	main(int argc, char **argv)
 {
 	t_fdf	fdf;
+
 	if (argc != 2)
 		return (EXIT_FAILURE);
-
 	fdf = fdf_init(*(argv + 1));
 	fdf = fdf_fill(fdf);
 	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
-	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
+	mlx_loop_hook(fdf.mlx, ft_controls_hook, &fdf);
 	mlx_close_hook(fdf.mlx, close_window_cb, &fdf);
 	mlx_loop(fdf.mlx);
 	mlx_terminate(fdf.mlx);
-
 	return (EXIT_SUCCESS);
 }
