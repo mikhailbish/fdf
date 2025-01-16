@@ -6,13 +6,12 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 20:14:51 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:27:20 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-//TODO: add directory opening?
 int	check_name(char *name)
 {
 	size_t	length;

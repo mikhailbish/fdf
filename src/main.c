@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:47:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:40:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 //#define WIDTH 1366 
 //#define HEIGHT 768 
 
-//TODO: free up everything used
+//TODO: remove movement?
 void	ft_hook(void *param)
 {
 	t_fdf	*fdf;
@@ -52,13 +52,14 @@ void	ft_hook(void *param)
 
 void	put_lines(mlx_image_t *image, t_map dim)
 {
-	int		y;
-	int		x;
+	int			y;
+	int			x;
 	t_2d_point	*coords;
+	int			line_count;
 
+	line_count = 0;
 	coords = (t_2d_point *)dim.coords_display;
 	y = 0;
-	int	line_count = 0;
 	while(y < dim.length )
 	{
 		x = dim.width - 1;
@@ -85,6 +86,7 @@ void	put_lines(mlx_image_t *image, t_map dim)
 		y++;
 	}
 }
+
 //TODO: remove
 void fdf_print_status(t_fdf fdf)
 {
@@ -162,7 +164,6 @@ int32_t	main(int argc, char **argv)
 	fdf = fdf_fill(fdf);
 	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
 	mlx_loop_hook(fdf.mlx, ft_hook, &fdf);
-// TODO: do use this and use it to replace mlx terminate?
 	mlx_close_hook(fdf.mlx, close_window_cb, &fdf);
 	mlx_loop(fdf.mlx);
 	mlx_terminate(fdf.mlx);

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/14 20:06:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:36:39 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 #define HEIGHT 1536 
 /*TODO: Create struct inits*/
 typedef struct s_2d_point {
-	int x;
-	int y;
+	int32_t x;
+	int32_t y;
 	int32_t color;
 }	t_2d_point;
 
@@ -79,6 +79,7 @@ typedef struct s_line {
 t_map		validate_file(int fd);
 t_map		validate_lines(t_list *lines, t_map dim);
 int		validate_and_open(char *file_name);
+
 /*		PARSING			*/
 int		check_name(char *name);
 t_map		get_data_from_fd(int fd, t_fdf *ptr);
@@ -102,6 +103,7 @@ void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 /*		UTILS_MATH			*/
 void		mutate_3d_vector(double vector[3], double matrix[3][3]);
 double		get_radians(double angle);
+
 /*		UTILS			*/
 int		count_split(char **texts);
 void		free_split(char **args);
@@ -114,9 +116,6 @@ void		ft_free(void **adr);
 void free_fdf_parts(t_fdf fdf);
 void	free_fdf_parts_and_exit_error(t_fdf fdf, char *error);
 
-/*int32_t		get_red(int32_t color);
-int32_t		get_green(int32_t color);
-int32_t		get_blue(int32_t color);*/
 int32_t		get_color(int32_t start_color, int32_t end_color, int32_t i, int32_t length);
 t_fdf fdf_init(char *file_name);
 t_fdf fdf_fill(t_fdf fdf);
