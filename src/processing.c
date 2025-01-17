@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:07:16 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:51:52 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ void	process_data(t_map *dim)
 		translate_angles(&coords[x]);
 		x++;
 	}
+// TODO: center here
 	make_positive(dim);
 }
