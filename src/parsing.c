@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 21:59:51 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 22:50:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ t_map	*alloc_map_space(t_map *dim)
 }
 
 // TODO: test returns
-t_3d_point	get_3d_point(char *space_separated_val, int x, int y, int *color_spec)
+t_3d_point	get_3d_point(char *space_separated_val, int x,
+	int y, int *color_spec)
 {
 	t_3d_point	point;
 	char		*endptr;
