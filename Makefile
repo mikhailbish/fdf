@@ -29,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 
 #TODO: final look
 all: clone libft $(NAME)
-	./$(NAME) test_maps/elem-col.fdf
+	./$(NAME) test_maps/42.fdf
 #	valgrind ./$(NAME) ~/Downloads/test_maps/42.fdf
 
 clone: lib/MLX42

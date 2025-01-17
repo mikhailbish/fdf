@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 20:51:52 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 21:36:58 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	make_positive(t_map *dim)
 }
 
 //TODO: work on ext coef
-static double	get_ext_coef(t_map dim)
+double	get_ext_coef(t_map dim)
 {
 	double	a;
 	double	b;
@@ -105,14 +105,16 @@ void	process_data(t_map *dim)
 	max = dim->length * dim->width;
 	x = 0;
 	ext_coef = get_ext_coef(*dim);
-//	ext_coef = 3;
+//	ext_coef = 30;
 	coords = (t_3d_point *)dim->coords_3d;
+	ft_putstr_fd("before translate\n", 1);
 	while (x < max)
 	{
 		extend_lines(&coords[x], ext_coef);
 		translate_angles(&coords[x]);
 		x++;
 	}
+	ft_putstr_fd("after translate\n", 1);
 // TODO: center here
 	make_positive(dim);
 }
