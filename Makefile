@@ -14,6 +14,7 @@ INCLUDE := -I$(LIB_DIR) -I./include/ -I./lib/MLX42/include/MLX42/
 WITH_LIBFT := -L$(LIB_DIR) -lft
 SRCS := src/main.c \
 	src/parsing.c \
+	src/parsing_extra.c \
 	src/utils.c \
 	src/utils_math.c \
 	src/validation.c \

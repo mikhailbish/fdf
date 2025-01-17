@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/16 18:28:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:26:03 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 //#define HEIGHT 768 
 
 //TODO: remove movement?
+//TODO: make sure int to double conversions are done with some kind of round function
 void	ft_controls_hook(void *param)
 {
 	t_fdf	*fdf;
@@ -90,11 +91,9 @@ void	put_lines(mlx_image_t *image, t_map dim)
 {
 	int			y;
 	int			x;
-	t_2d_point	*coords;
 	int			line_count;
 
 	line_count = 0;
-	coords = (t_2d_point *)dim.coords_display;
 	y = 0;
 	while (y < dim.length)
 	{
