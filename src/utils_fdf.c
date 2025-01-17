@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:37 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:49:41 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 21:57:41 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_fdf	fdf_init(char *file_name)
 	fdf.painted = 0;
 	fdf.dim.max_z = 0;
 	fdf.dim.min_z = 0;
+	fdf.dim.colors_specified = 0;
 	return (fdf);
 }
 

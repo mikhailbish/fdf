@@ -6,13 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 20:12:18 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 20:25:24 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 22:18:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	fill_3d_at_y(int y, t_map dim, t_list *lines)
+static int	fill_3d_at_y(int y, t_map *dim, t_list *lines)
 {
 	char		**split_res;
 	int			x;
@@ -20,14 +20,15 @@ static int	fill_3d_at_y(int y, t_map dim, t_list *lines)
 	t_3d_point	*coordinates;
 
 	x = 0;
-	offset = y * dim.width;
-	coordinates = (t_3d_point *)dim.coords_3d;
+	offset = y * dim->width;
+	coordinates = (t_3d_point *)dim->coords_3d;
 	split_res = ft_split((char *)lines->content, ' ');
 	if (!split_res)
 		return (0);
-	while (x < dim.width)
+	while (x < dim->width)
 	{
-		coordinates[offset + x] = get_3d_point(split_res[x], x, y);
+		coordinates[offset + x] = get_3d_point(split_res[x], x,
+				y, &(dim->colors_specified));
 		x++;
 	}
 	free_split(split_res);
@@ -35,14 +36,14 @@ static int	fill_3d_at_y(int y, t_map dim, t_list *lines)
 	return (1);
 }
 
-int	fill_with_data(t_map dim, t_list *lines)
+int	fill_with_data(t_map *dim, t_list *lines)
 {
 	int			y;
 
 	y = 0;
-	if (y >= dim.length)
+	if (y >= dim->length)
 		return (1);
-	while (y < dim.length)
+	while (y < dim->length)
 	{
 		if (!fill_3d_at_y(y, dim, lines))
 			break ;
@@ -80,9 +81,11 @@ int	alloc_map_and_fill_with_data(t_map *dim, t_list *lines)
 {
 	if (!alloc_map_space(dim))
 		return (0);
-	if (!fill_with_data(*dim, lines))
+	if (!fill_with_data(dim, lines))
 		return (0);
 	set_max_min_z(dim);
+	if (!dim->colors_specified)
+		set_basic_colors(dim);
 	return (1);
 }
 

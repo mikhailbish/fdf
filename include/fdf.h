@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 20:22:05 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/17 22:19:29 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_map {
 //TODO: replace with int32_t ?
 	int		max_z;
 	int		min_z;
+	int		colors_specified;
 }	t_map;
 
 typedef struct s_fdf {
@@ -86,14 +87,15 @@ t_map		get_data_from_fd(int fd, t_fdf *ptr);
 t_list		*get_file_lines(int fd);
 t_map		*alloc_map_space(t_map *dim);
 t_map		parse_lines(t_map dim, t_list *lines);
-int			fill_with_data(t_map dim, t_list *lines);
-t_3d_point	get_3d_point(char *space_separated_val, int x, int y);
+int			fill_with_data(t_map *dim, t_list *lines);
+t_3d_point	get_3d_point(char *space_separated_val, int x, int y, int *color_spec);
 
 /*		PROCESSING		*/
 void		process_data(t_map *dim);
 void		translate_angles(t_3d_point *point);
 void		extend_lines(t_3d_point *point, double num);
 void		convert_3dto2d(t_map *dim);
+void		set_basic_colors(t_map *dim);
 
 /*		DISPLAY			*/
 void		display_data(t_map dim, mlx_image_t *image);
