@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 22:19:29 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/18 22:42:34 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,13 @@
 //# define WIDTH 1366 
 //# define HEIGHT 768 
 # define WIDTH 2732 
-# define HEIGHT 1536 
+# define HEIGHT 1536
+# ifndef COLOR_LOW
+# define COLOR_LOW 0x4c9106
+# endif
+# ifndef COLOR_HIGH
+# define COLOR_HIGH 0xf23607
+# endif
 /*TODO: Create struct inits*/
 typedef struct s_2d_point {
 	int32_t	x;
@@ -49,6 +55,11 @@ typedef struct s_map {
 //TODO: replace with int32_t ?
 	int		max_z;
 	int		min_z;
+	int32_t		max_x;
+	int32_t		min_x;
+	int32_t		max_y;
+	int32_t		min_y;
+	
 	int		colors_specified;
 }	t_map;
 

@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 21:18:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/18 23:39:40 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ void	ft_controls_hook(void *param)
 		free_fdf_parts(*fdf);
 		exit(0);
 	}
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
-		fdf->image->instances[0].y -= 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
-		fdf->image->instances[0].y += 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
-		fdf->image->instances[0].x -= 5;
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
-		fdf->image->instances[0].x += 5;
 }
 
 t_2d_point	get_2d_coord(t_map dim, int x, int y)
@@ -174,6 +166,8 @@ void	close_window_cb(void *param)
 	free_fdf_parts(*fdf);
 	exit(0);
 }
+
+//TODO: add on resize logic (resize image, rerender coords)
 
 int32_t	main(int argc, char **argv)
 {

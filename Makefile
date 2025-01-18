@@ -23,6 +23,7 @@ SRCS := src/main.c \
 	src/math_ops.c \
 	src/processing.c \
 	src/processing_extra.c \
+	src/processing_extra_2d.c \
 	src/utils_fdf.c \
 
 OBJS = $(SRCS:.c=.o)
@@ -30,7 +31,6 @@ OBJS = $(SRCS:.c=.o)
 #TODO: final look
 all: clone libft $(NAME)
 	./$(NAME) test_maps/42.fdf
-#	valgrind ./$(NAME) ~/Downloads/test_maps/42.fdf
 
 clone: lib/MLX42
 
@@ -45,7 +45,7 @@ libft:
 	make -C $(LIB_DIR) bonus
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@
+	$(CC) $(CFLAGS) -D COLOR_HIGH=0xFFFFFF $(INCLUDE) $< -c -o $@
 
 clean:
 	@$(RM) $(OBJS)
