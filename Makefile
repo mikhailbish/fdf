@@ -45,7 +45,7 @@ libft:
 	make -C $(LIB_DIR) bonus
 
 %.o: %.c
-	$(CC) $(CFLAGS) -D COLOR_HIGH=0xFFFFFF $(INCLUDE) $< -c -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@
 
 clean:
 	@$(RM) $(OBJS)

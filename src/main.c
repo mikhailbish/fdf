@@ -81,9 +81,9 @@ int	put_line_order(t_map dim, mlx_image_t *image, int x, int y)
 
 void	put_lines(mlx_image_t *image, t_map dim)
 {
-	int			y;
-	int			x;
-	int			line_count;
+	int	y;
+	int	x;
+	int	line_count;
 
 	line_count = 0;
 	y = 0;

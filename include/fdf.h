@@ -25,8 +25,14 @@
 // TODO: REthink
 //# define WIDTH 1366 
 //# define HEIGHT 768 
-# define WIDTH 2732 
-# define HEIGHT 1536
+//# define WIDTH 2732 
+//# define HEIGHT 1536
+# ifndef WIDTH
+# define WIDTH 1366 
+# endif
+# ifndef HEIGHT
+# define HEIGHT 768 
+# endif
 # ifndef COLOR_LOW
 # define COLOR_LOW 0x4c9106
 # endif
@@ -59,7 +65,6 @@ typedef struct s_map {
 	int32_t		min_x;
 	int32_t		max_y;
 	int32_t		min_y;
-	
 	int		colors_specified;
 }	t_map;
 
