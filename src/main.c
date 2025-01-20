@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 22:55:16 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 23:09:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ void	close_window_cb(void *param)
 
 //TODO: add on resize logic (resize image, rerender coords)
 // TODO: think thought why size params are not unsigned
+// TODO: can i do it on "resize end"?
 void mlx_resize_cb(int32_t width, int32_t height, void *param)
 {
 	t_fdf	*fdf;
