@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:37 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 20:50:47 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 22:24:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_fdf	fdf_init(char *file_name)
 	fdf.file_name = file_name;
 	fdf.fd = -1;
 	fdf.image = 0;
+	fdf.aquarium = 0;
 	fdf.dim.width = 0;
 	fdf.dim.length = 0;
 	fdf.dim.coords_3d = 0;
@@ -45,6 +46,8 @@ void	free_fdf_parts(t_fdf fdf)
 	if (fdf.fd != -1)
 		close(fdf.fd);
 	ft_printf("before free image\n");
+	if (fdf.aquarium)
+		mlx_delete_image(fdf.mlx, fdf.image);
 	if (fdf.image)
 		mlx_delete_image(fdf.mlx, fdf.image);
 	ft_printf("before free mlx\n");
@@ -81,7 +84,7 @@ void paint_black_square(t_fdf fdf)
 	i = 0;
 //	x = 0;
 //	y = 0;
-	ptr = (int32_t *)fdf.image->pixels;
+	ptr = (int32_t *)fdf.aquarium->pixels;
 //	offset = 
 	while (i < max)
 		ptr[i++] = 0xFF000000;
@@ -89,8 +92,6 @@ void paint_black_square(t_fdf fdf)
 
 t_fdf	fdf_fill(t_fdf fdf)
 {
-//	int32_t		*ptr;
-//	unsigned int	i;
 	int32_t	monitor_width;
 	int32_t	monitor_height;
 
@@ -98,18 +99,18 @@ t_fdf	fdf_fill(t_fdf fdf)
 	if (!fdf.mlx)
 		free_fdf_parts_and_exit_error(fdf, "mlx init err\n");
 	mlx_get_monitor_size(0, &monitor_width, &monitor_height);
+	fdf.aquarium = mlx_new_image(fdf.mlx, (uint32_t)monitor_width, (uint32_t) monitor_height);
+	if (mlx_image_to_window(fdf.mlx, fdf.aquarium, 0, 0) == -1)
+		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
+	if (!fdf.aquarium)
+		free_fdf_parts_and_exit_error(fdf, "new image err\n");
+	
 	fdf.image = mlx_new_image(fdf.mlx, (uint32_t)monitor_width, (uint32_t) monitor_height);
 	if (!fdf.image)
 		free_fdf_parts_and_exit_error(fdf, "new image err\n");
-/*	i = 0;
-	ptr = (int32_t *)fdf.image->pixels;
-	while (i < fdf.image->width * fdf.image->height)
-	{
-		ptr[i] = 0xFF000000;
-		i++;
-	}
-*/
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
 		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
+	mlx_set_instance_depth(fdf.aquarium->instances, -1);
+	paint_black_square(fdf);
 	return (fdf);
 }

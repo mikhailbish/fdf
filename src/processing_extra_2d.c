@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:56:44 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 20:01:45 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 22:16:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	display_data(t_fdf *fdf)//, t_map dim, mlx_image_t *image)
 	int32_t	offset_y;
 // TODO; convert bg to black here?
 
-	paint_black_square(*fdf);
+	//paint_black_square(*fdf);
 	convert_3dto2d(&(fdf->dim));
 	get_max_min_x_display(&(fdf->dim));
 	get_max_min_y_display(&(fdf->dim));

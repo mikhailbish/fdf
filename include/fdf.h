@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 20:02:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 22:46:32 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_fdf {
 	mlx_t		*mlx;
 	char		*file_name;
 	int			fd;
+	mlx_image_t	*aquarium;
 	mlx_image_t	*image;
 	int			painted;
 	t_map		dim;
@@ -117,6 +118,7 @@ void		set_basic_colors(t_map *dim);
 /*		DISPLAY			*/
 void		display_data(t_fdf *fdf);//, t_map dim, mlx_image_t *image);
 void		put_lines(mlx_image_t *image, t_map dim);
+void	put_line_color(t_2d_point start, t_2d_point end, mlx_image_t *image, int32_t *color);
 void		display_coords_testing(t_map dim);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		paint_black_square(t_fdf fdf);

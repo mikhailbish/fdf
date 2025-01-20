@@ -20,6 +20,7 @@ SRCS := src/main.c \
 	src/validation.c \
 	src/color.c \
 	src/put_line.c \
+	src/put_line_color.c \
 	src/math_ops.c \
 	src/processing.c \
 	src/processing_extra.c \
