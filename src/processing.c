@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 18:01:05 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:02:54 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,13 @@ void	process_data(t_fdf *fdf)
 	ft_memcpy(coords, dim->coords_original, max * sizeof (t_3d_point));
 	x = 0;
 	ext_coef = get_ext_coef(*dim, (double)fdf->mlx->width, (double)fdf->mlx->height);
-	ft_putstr_fd("before translate\n", 1);
+//	ft_putstr_fd("before translate\n", 1);
 	while (x < max)
 	{
 		extend_lines(&coords[x], ext_coef);
 		translate_angles(&coords[x]);
 		x++;
 	}
-	ft_putstr_fd("after translate\n", 1);
+//	ft_putstr_fd("after translate\n", 1);
 	make_positive(dim);
 }

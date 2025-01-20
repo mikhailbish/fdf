@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 19:49:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:00:53 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,21 +124,13 @@ void	put_42_v2(void *param)
 	image = fdf->image;
 	if (!fdf->painted && fdf->image)
 	{
-		fdf->fd = validate_and_open(fdf->file_name);
-		if (fdf->fd == -1)
-			free_fdf_parts_and_exit_error(*fdf, "validate and open err\n");
-		fdf->dim = get_data_from_fd(fdf->fd, fdf);
-		printf("--------------------------------fdf status after get_data from fd\n");
-		fdf_print_status(*fdf);
-		if (fdf->dim.width == -1)
-			free_fdf_parts_and_exit_error(*fdf, "get data from fd err\n");
 		//process_data(&(fdf->dim));
 		process_data(fdf);
-		printf("--------------------------------fdf status after pd\n");
-		fdf_print_status(*fdf);
+	//	printf("--------------------------------fdf status after pd\n");
+	//	fdf_print_status(*fdf);
 		display_data(fdf);//, image);
-		printf("--------------------------------fdf status after dd\n");
-		fdf_print_status(*fdf);
+	//	printf("--------------------------------fdf status after dd\n");
+	//	fdf_print_status(*fdf);
 		fdf->painted = 1;
 	}
 }
@@ -205,6 +197,14 @@ int32_t	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	fdf = fdf_init(*(argv + 1));
 	fdf = fdf_fill(fdf);
+	fdf.fd = validate_and_open(fdf.file_name);
+	if (fdf.fd == -1)
+		free_fdf_parts_and_exit_error(fdf, "validate and open err\n");
+	fdf.dim = get_data_from_fd(fdf.fd, &fdf);
+	printf("--------------------------------fdf status after get_data from fd\n");
+	if (fdf.dim.width == -1)
+		free_fdf_parts_and_exit_error(fdf, "get data from fd err\n");
+	fdf_print_status(fdf);
 	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
 	mlx_loop_hook(fdf.mlx, ft_controls_hook, &fdf);
 	mlx_close_hook(fdf.mlx, close_window_cb, &fdf);
