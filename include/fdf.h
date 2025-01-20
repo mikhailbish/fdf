@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/18 22:42:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:02:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,18 @@ int			fill_with_data(t_map *dim, t_list *lines);
 t_3d_point	get_3d_point(char *space_separated_val, int x, int y, int *color_spec);
 
 /*		PROCESSING		*/
-void		process_data(t_map *dim);
+void		process_data(t_fdf *fdf);
 void		translate_angles(t_3d_point *point);
 void		extend_lines(t_3d_point *point, double num);
 void		convert_3dto2d(t_map *dim);
 void		set_basic_colors(t_map *dim);
 
 /*		DISPLAY			*/
-void		display_data(t_map dim, mlx_image_t *image);
+void		display_data(t_fdf *fdf);//, t_map dim, mlx_image_t *image);
 void		put_lines(mlx_image_t *image, t_map dim);
 void		display_coords_testing(t_map dim);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
+void		paint_black_square(t_fdf fdf);
 
 /*		UTILS_MATH			*/
 void		mutate_3d_vector(double vector[3], double matrix[3][3]);

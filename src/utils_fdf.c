@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:37 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 23:06:22 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:01:38 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,44 @@ void	free_fdf_parts_and_exit_error(t_fdf fdf, char *error)
 	exit(1);
 }
 
+void paint_black_square(t_fdf fdf)
+{
+	int32_t		*ptr;
+	unsigned int	i;
+	unsigned int	max;
+//	unsigned int	offset;
+//	unsigned int	x;
+//	unsigned int	y;
+
+	max = fdf.image->width * fdf.image->height;
+	i = 0;
+//	x = 0;
+//	y = 0;
+	ptr = (int32_t *)fdf.image->pixels;
+//	offset = 
+	while (i < max)
+		ptr[i++] = 0xFF000000;
+}
+
 t_fdf	fdf_fill(t_fdf fdf)
 {
+//	int32_t		*ptr;
+//	unsigned int	i;
+
 	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	if (!fdf.mlx)
 		free_fdf_parts_and_exit_error(fdf, "mlx init err\n");
 	fdf.image = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
 	if (!fdf.image)
 		free_fdf_parts_and_exit_error(fdf, "new image err\n");
-	/* rgba */
-	/* r = g = b = 0 */
-// TODO: norm and think of the implications of ALPHA being at the start of pixels
-	int32_t *ptr = (int32_t *)fdf.image->pixels;
-	unsigned int i = 0;
+/*	i = 0;
+	ptr = (int32_t *)fdf.image->pixels;
 	while (i < fdf.image->width * fdf.image->height)
 	{
 		ptr[i] = 0xFF000000;
 		i++;
 	}
-//		ft_memset(fdf.image->pixels, 0, fdf.image->width * fdf.image->height * (sizeof(int32_t)));
+*/
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
 		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
 	return (fdf);

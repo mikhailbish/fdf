@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/18 23:39:40 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 19:49:22 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,11 @@ void	put_42_v2(void *param)
 		fdf_print_status(*fdf);
 		if (fdf->dim.width == -1)
 			free_fdf_parts_and_exit_error(*fdf, "get data from fd err\n");
-		process_data(&(fdf->dim));
+		//process_data(&(fdf->dim));
+		process_data(fdf);
 		printf("--------------------------------fdf status after pd\n");
 		fdf_print_status(*fdf);
-		display_data(fdf->dim, image);
+		display_data(fdf);//, image);
 		printf("--------------------------------fdf status after dd\n");
 		fdf_print_status(*fdf);
 		fdf->painted = 1;
@@ -147,7 +148,6 @@ void	display_coords_testing(t_map dim)
 {
 	int	i = 0;
 	int	max = dim.length * dim.width;
-//	t_2d_point **coords;
 	t_3d_point *coords;
 	coords = dim.coords_3d;
 	ft_printf("display coords testing:\n");
@@ -168,6 +168,34 @@ void	close_window_cb(void *param)
 }
 
 //TODO: add on resize logic (resize image, rerender coords)
+// TODO: think thought why size params are not unsigned
+void mlx_resize_cb(int32_t width, int32_t height, void *param)
+{
+	t_fdf	*fdf;
+	uint32_t	uwidth;
+	uint32_t	uheight;
+	mlx_image_t	*image;
+
+	uwidth = (uint32_t)width;
+	uheight = (uint32_t)height;
+	fdf = (t_fdf *)param;
+	
+	if (fdf->image->width < uwidth || fdf->image->height < uheight)
+	{
+		// clear image
+//error checks
+		image = fdf->image;
+		fdf->image = 0;
+		mlx_delete_image(fdf->mlx, image);
+		fdf->image = mlx_new_image(fdf->mlx, uwidth, uheight);
+		mlx_image_to_window(fdf->mlx, fdf->image, 0, 0);
+//		mlx_resize_image(fdf->image, uwidth, uheight);
+		fdf->painted = 0;
+	}
+	else
+		fdf->painted = 0;
+	
+}
 
 int32_t	main(int argc, char **argv)
 {
@@ -180,6 +208,7 @@ int32_t	main(int argc, char **argv)
 	mlx_loop_hook(fdf.mlx, put_42_v2, &fdf);
 	mlx_loop_hook(fdf.mlx, ft_controls_hook, &fdf);
 	mlx_close_hook(fdf.mlx, close_window_cb, &fdf);
+	mlx_resize_hook(fdf.mlx, mlx_resize_cb, &fdf);
 	mlx_loop(fdf.mlx);
 	mlx_terminate(fdf.mlx);
 	return (EXIT_SUCCESS);

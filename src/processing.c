@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 21:36:58 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 18:01:05 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	make_positive(t_map *dim)
 }
 
 //TODO: work on ext coef
-double	get_ext_coef(t_map dim)
+double	get_ext_coef(t_map dim, double window_width, double window_height)
 {
 	double	a;
 	double	b;
@@ -76,38 +76,33 @@ double	get_ext_coef(t_map dim)
 
 // screen width, 
 // TODO: fix
-	a = WIDTH / (((double)dim.width + (double)dim.length));
-	b = HEIGHT / (((double)dim.width + (double)dim.length));
+//	a = WIDTH / (((double)dim.width + (double)dim.length));
+//	b = HEIGHT / (((double)dim.width + (double)dim.length));
+	a = window_width / (((double)dim.width + (double)dim.length));
+	b = window_height / (((double)dim.width + (double)dim.length));
+//TODO: fabs unnecessary ?
 	if (dim.max_z - dim.min_z != 0)
-		c = HEIGHT / (fabs((double)dim.max_z - (double)dim.min_z));
+		c = window_height / (fabs((double)dim.max_z - (double)dim.min_z));
 	else
-		c = HEIGHT;
-//	printf("z val %e\n", 10/((double)dim.max_z - (double)dim.min_z));
-// TODO: clean up
-/*	double ext_coef = fmin(fmin(a, b), c);
-	if (ext_coef == a)
-		printf("width based smallest %e\n", ext_coef);
-	if (ext_coef == b)
-		printf("length based smallest %e\n", ext_coef);
-	if (ext_coef == c)
-		printf("z based smallest %e\n", ext_coef);
-*/
+		c = window_height;
 	return (fmin(fmin(a, b), c));
 }
 
-void	process_data(t_map *dim)
+//void	process_data(t_map *dim)
+void	process_data(t_fdf *fdf)
 {
 	t_3d_point	*coords;
 	double		ext_coef;
 	int			x;
 	int			max;
+	t_map		*dim;
 
+	dim = &(fdf->dim);
 	max = dim->length * dim->width;
 	coords = dim->coords_3d;
 	ft_memcpy(coords, dim->coords_original, max * sizeof (t_3d_point));
 	x = 0;
-	ext_coef = get_ext_coef(*dim);
-//	ext_coef = 30;
+	ext_coef = get_ext_coef(*dim, (double)fdf->mlx->width, (double)fdf->mlx->height);
 	ft_putstr_fd("before translate\n", 1);
 	while (x < max)
 	{
@@ -116,6 +111,5 @@ void	process_data(t_map *dim)
 		x++;
 	}
 	ft_putstr_fd("after translate\n", 1);
-// TODO: center here
 	make_positive(dim);
 }
