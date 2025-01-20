@@ -21,7 +21,7 @@ static int	fill_3d_at_y(int y, t_map *dim, t_list *lines)
 
 	x = 0;
 	offset = y * dim->width;
-	coordinates = (t_3d_point *)dim->coords_3d;
+	coordinates = dim->coords_original;
 	split_res = ft_split((char *)lines->content, ' ');
 	if (!split_res)
 		return (0);
@@ -59,13 +59,15 @@ void	set_max_min_z(t_map *dim)
 	int			i;
 	int			max_z;
 	int			min_z;
+	int			max;
 
-	coords = (t_3d_point *)dim->coords_3d;
+	max = dim->length * dim->width;
+	coords = dim->coords_original;
 	i = 0;
 	max_z = coords[i].z;
 	min_z = coords[i].z;
 	i++;
-	while (i < (dim->length * dim->width))
+	while (i < max)
 	{
 		if (min_z > coords[i].z)
 			min_z = coords[i].z;

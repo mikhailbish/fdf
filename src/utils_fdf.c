@@ -24,6 +24,7 @@ t_fdf	fdf_init(char *file_name)
 	fdf.dim.length = 0;
 	fdf.dim.coords_3d = 0;
 	fdf.dim.coords_display = 0;
+	fdf.dim.coords_original = 0;
 	fdf.painted = 0;
 	fdf.dim.max_z = 0;
 	fdf.dim.min_z = 0;
@@ -55,6 +56,8 @@ void	free_fdf_parts(t_fdf fdf)
 	ft_printf("before free coords_display\n");
 	if (fdf.dim.coords_display)
 		free(fdf.dim.coords_display);
+	if (fdf.dim.coords_original)
+		free(fdf.dim.coords_original);
 }
 
 void	free_fdf_parts_and_exit_error(t_fdf fdf, char *error)

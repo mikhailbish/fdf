@@ -69,21 +69,25 @@ t_list	*get_file_lines(int fd)
 t_map	*alloc_map_space(t_map *dim)
 {
 	t_3d_point	*coords_3d;
+	t_3d_point	*coords_original;
 	t_2d_point	*coords_display;
 	int			max;
 
 	max = dim->length * dim->width;
+	coords_original = ft_calloc(max, sizeof(t_3d_point));
 	coords_3d = ft_calloc(max, sizeof(t_3d_point));
 	coords_display = ft_calloc(max, sizeof(t_2d_point));
-	if (!coords_3d || !coords_display)
+	if (!coords_3d || !coords_display || !coords_original)
 	{
 		ft_free((void **)&coords_3d);
 		ft_free((void **)&coords_display);
+		ft_free((void **)&coords_original);
 		dim->width = -1;
 		return (0);
 	}
 	dim->coords_3d = coords_3d;
 	dim->coords_display = coords_display;
+	dim->coords_original = coords_original;
 	return (dim);
 }
 

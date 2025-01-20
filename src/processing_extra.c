@@ -33,7 +33,7 @@ void	convert_3dto2d(t_map *dim)
 
 	max = dim->width * dim->length;
 	i = 0;
-	coords = (t_3d_point *)dim->coords_3d;
+	coords = dim->coords_3d;
 	new_coords = dim->coords_display;
 	while (i < max)
 	{
@@ -53,7 +53,7 @@ void	set_basic_colors(t_map *dim)
 	i = 0;
 	max = dim->length * dim->width;
 	z_diff = dim->max_z - dim->min_z;
-	coords = (t_3d_point *)dim->coords_3d;
+	coords = dim->coords_original;
 	while (i < max)
 	{
 		coords[i].color = get_color(COLOR_LOW, COLOR_HIGH,

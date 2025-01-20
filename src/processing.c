@@ -49,10 +49,10 @@ static void	make_positive(t_map *dim)
 	int			max;
 
 	i = 0;
-	coords = (t_3d_point *)dim->coords_3d;
+	coords = dim->coords_3d;
 	max = dim->width * dim->length;
-	smallest_x = (double)coords[0].x;
-	smallest_y = (double)coords[0].y;
+	smallest_x = coords[0].x;
+	smallest_y = coords[0].y;
 	while (i < max)
 	{
 		if (smallest_x > coords[i].x)
@@ -76,8 +76,8 @@ double	get_ext_coef(t_map dim)
 
 // screen width, 
 // TODO: fix
-	a = WIDTH / (((double)dim.width + (double)dim.length) );
-	b = HEIGHT / (((double)dim.width + (double)dim.length) );
+	a = WIDTH / (((double)dim.width + (double)dim.length));
+	b = HEIGHT / (((double)dim.width + (double)dim.length));
 	if (dim.max_z - dim.min_z != 0)
 		c = HEIGHT / (fabs((double)dim.max_z - (double)dim.min_z));
 	else
@@ -103,10 +103,11 @@ void	process_data(t_map *dim)
 	int			max;
 
 	max = dim->length * dim->width;
+	coords = dim->coords_3d;
+	ft_memcpy(coords, dim->coords_original, max * sizeof (t_3d_point));
 	x = 0;
 	ext_coef = get_ext_coef(*dim);
 //	ext_coef = 30;
-	coords = (t_3d_point *)dim->coords_3d;
 	ft_putstr_fd("before translate\n", 1);
 	while (x < max)
 	{

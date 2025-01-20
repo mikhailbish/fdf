@@ -122,7 +122,7 @@ void	put_42_v2(void *param)
 
 	fdf = (t_fdf *)param;
 	image = fdf->image;
-	if (!fdf->painted)
+	if (!fdf->painted && fdf->image)
 	{
 		fdf->fd = validate_and_open(fdf->file_name);
 		if (fdf->fd == -1)
@@ -149,7 +149,7 @@ void	display_coords_testing(t_map dim)
 	int	max = dim.length * dim.width;
 //	t_2d_point **coords;
 	t_3d_point *coords;
-	coords = (t_3d_point *)dim.coords_3d;
+	coords = dim.coords_3d;
 	ft_printf("display coords testing:\n");
 	while (i < max)
 	{

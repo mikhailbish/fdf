@@ -28,10 +28,10 @@
 //# define WIDTH 2732 
 //# define HEIGHT 1536
 # ifndef WIDTH
-# define WIDTH 1366 
+# define WIDTH 800 
 # endif
 # ifndef HEIGHT
-# define HEIGHT 768 
+# define HEIGHT 600 
 # endif
 # ifndef COLOR_LOW
 # define COLOR_LOW 0x4c9106
@@ -54,8 +54,9 @@ typedef struct s_3d_point {
 }	t_3d_point;
 
 typedef struct s_map {
-	void	*coords_3d;
-	void	*coords_display;
+	t_3d_point	*coords_original;
+	t_3d_point	*coords_3d;
+	t_2d_point	*coords_display;
 	int		length;
 	int		width;
 //TODO: replace with int32_t ?
