@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:37 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 20:01:38 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:50:47 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,14 @@ t_fdf	fdf_fill(t_fdf fdf)
 {
 //	int32_t		*ptr;
 //	unsigned int	i;
+	int32_t	monitor_width;
+	int32_t	monitor_height;
 
 	fdf.mlx = mlx_init(WIDTH, HEIGHT, "FDF", true);
 	if (!fdf.mlx)
 		free_fdf_parts_and_exit_error(fdf, "mlx init err\n");
-	fdf.image = mlx_new_image(fdf.mlx, WIDTH, HEIGHT);
+	mlx_get_monitor_size(0, &monitor_width, &monitor_height);
+	fdf.image = mlx_new_image(fdf.mlx, (uint32_t)monitor_width, (uint32_t) monitor_height);
 	if (!fdf.image)
 		free_fdf_parts_and_exit_error(fdf, "new image err\n");
 /*	i = 0;
