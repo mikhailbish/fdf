@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:54 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 11:02:56 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:21:57 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,7 @@ void	rotate_z(t_3d_point *point, double angle)
 void	translate_angles(t_3d_point *point)
 {
 	rotate_z(point, get_radians(-45));
-	rotate_x(point, get_radians(-35.264));
+//	rotate_x(point, get_radians(-35.264));
+//	rotate_x(point, -atan(1 / sqrt(2)));
+	rotate_x(point, -atanh(1 / sqrt(2)));
 }
