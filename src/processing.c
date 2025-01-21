@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 21:02:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:40:59 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,43 @@ static void	make_positive(t_map *dim)
 double	get_ext_coef(t_map dim, double window_width, double window_height)
 {
 	double	a;
+//	double	b;
 	double	b;
-	double	c;
+	t_3d_point edge_points[4];
+	int i = 0;
+	int max  = dim.width * dim.length;
+	int max_y = dim.coords_3d[0].y;
+	int min_y = dim.coords_3d[0].y;
 
-	a = window_width / (((double)dim.width + (double)dim.length));
-	b = window_height / (((double)dim.width + (double)dim.length));
-	if (dim.max_z - dim.min_z != 0)
-		c = window_height / fabs((double)dim.max_z - (double)dim.min_z);
+	edge_points[0] = dim.coords_original[0];  //leftmost
+	edge_points[1] = dim.coords_original[dim.width * dim.length - 1]; // rightmost
+	edge_points[2] = dim.coords_original[dim.width - 1]; // top
+	edge_points[3] = dim.coords_original[dim.width * (dim.length - 1)]; // bottom
+	translate_angles(&edge_points[0]);
+	translate_angles(&edge_points[1]);
+	translate_angles(&edge_points[2]);
+	translate_angles(&edge_points[3]);
+
+	while (i < max)
+	{
+		if (max_y < dim.coords_3d[i].y)
+			max_y = dim.coords_3d[i].y;
+		if (min_y > dim.coords_3d[i].y)
+			min_y = dim.coords_3d[i].y;
+		i++;
+	}
+	a = window_width / (edge_points[1].x - edge_points[0].x) / 2;
+//	b = window_height / (edge_points[3].y - edge_points[2].y) / 2;
+	if (max_y - min_y)
+		b = window_height / (max_y - min_y)/2;
 	else
-		c = window_height;
-	return (fmin(fmin(a, b), c));
+		b = window_height;
+/*	if (dim.max_z - dim.min_z != 0)
+		c = window_height / fabs(max_y - min_y) / 2;
+	else
+		c = window_height / 2;
+*/
+	return (fmin(a, b));
 }
 
 void	process_data(t_fdf *fdf)
@@ -96,12 +123,17 @@ void	process_data(t_fdf *fdf)
 	coords = dim->coords_3d;
 	ft_memcpy(coords, dim->coords_original, max * sizeof (t_3d_point));
 	x = 0;
-	ext_coef = get_ext_coef(*dim, fdf->mlx->width, fdf->mlx->height);
 	while (x < max)
 	{
-		extend_lines(&coords[x], ext_coef);
 		translate_angles(&coords[x]);
 		x++;
 	}
+	ext_coef = get_ext_coef(*dim, fdf->mlx->width, fdf->mlx->height);
 	make_positive(dim);
+	x = 0;
+	while (x < max)
+	{
+		extend_lines(&coords[x], ext_coef);
+		x++;
+	}
 }
