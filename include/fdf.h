@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 22:46:32 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:56:04 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 // TODO: REthink
 //# define WIDTH 1366 
 //# define HEIGHT 768 
-//# define WIDTH 2732 
-//# define HEIGHT 1536
+# define WIDTH 2732 
+# define HEIGHT 1536
 # ifndef WIDTH
-# define WIDTH 800 
+# define WIDTH 2732 
 # endif
 # ifndef HEIGHT
-# define HEIGHT 600 
+# define HEIGHT 1536
 # endif
 # ifndef COLOR_LOW
 # define COLOR_LOW 0x4c9106

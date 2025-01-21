@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:20 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/18 22:12:15 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:55:30 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static t_2d_point	point_3dto2d(t_3d_point point_3d )
 	return (point_2d);
 }
 
-//TODO: ceanup comment
-// assuming that the correct math has already been performed
 void	convert_3dto2d(t_map *dim)
 {
 	t_3d_point	*coords;

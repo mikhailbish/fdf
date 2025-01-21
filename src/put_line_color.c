@@ -6,13 +6,26 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:26 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/20 22:47:08 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:53:19 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	put_line_low_color(t_2d_point start, t_2d_point end, mlx_image_t *image, int32_t *color)
+static void	line_step_low(t_2d_point *start, t_line *line)
+{
+	if (line->d > 0)
+	{
+		start->y += line->step;
+		line->d += 2 * (line->dy - line->dx);
+	}
+	else
+		line->d += 2 * line->dy;
+	start->x++;
+}
+
+static void	put_line_low_color(t_2d_point start, t_2d_point end,
+			mlx_image_t *image, int32_t *color)
 {
 	t_line	line;
 
@@ -33,18 +46,24 @@ static void	put_line_low_color(t_2d_point start, t_2d_point end, mlx_image_t *im
 		else
 			line.color = *color;
 		mlx_put_pixel(image, start.x, start.y, (line.color << 8) + 0xFF);
-		if (line.d > 0)
-		{
-			start.y += line.step;
-			line.d += 2 * (line.dy - line.dx);
-		}
-		else
-			line.d += 2 * line.dy;
-		start.x++;
+		line_step_low(&start, &line);
 	}
 }
 
-static void	put_line_high_color(t_2d_point start, t_2d_point end, mlx_image_t *image, int32_t *color)
+static void	line_step_high(t_2d_point *start, t_line *line)
+{
+	if (line->d > 0)
+	{
+		start->x += line->step;
+		line->d += 2 * (line->dx - line->dy);
+	}
+	else
+		line->d += 2 * line->dx;
+	start->y++;
+}
+
+static void	put_line_high_color(t_2d_point start, t_2d_point end,
+			mlx_image_t *image, int32_t *color)
 {
 	t_line	line;
 
@@ -65,18 +84,12 @@ static void	put_line_high_color(t_2d_point start, t_2d_point end, mlx_image_t *i
 		else
 			line.color = *color;
 		mlx_put_pixel(image, start.x, start.y, (line.color << 8) + 0xFF);
-		if (line.d > 0)
-		{
-			start.x += line.step;
-			line.d += 2 * (line.dx - line.dy);
-		}
-		else
-			line.d += 2 * line.dx;
-		start.y++;
+		line_step_high(&start, &line);
 	}
 }
 
-void	put_line_color(t_2d_point start, t_2d_point end, mlx_image_t *image, int32_t *color)
+void	put_line_color(t_2d_point start, t_2d_point end,
+				mlx_image_t *image, int32_t *color)
 {
 	if (ft_abs(end.y - start.y) < ft_abs(end.x - start.x))
 	{
