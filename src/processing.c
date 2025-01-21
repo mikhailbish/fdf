@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 17:40:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:19:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,8 @@ static void	make_positive(t_map *dim)
 double	get_ext_coef(t_map dim, double window_width, double window_height)
 {
 	double	a;
-//	double	b;
 	double	b;
-	t_3d_point edge_points[4];
+	t_3d_point	edge_points[2];
 	int i = 0;
 	int max  = dim.width * dim.length;
 	int max_y = dim.coords_3d[0].y;
@@ -81,13 +80,8 @@ double	get_ext_coef(t_map dim, double window_width, double window_height)
 
 	edge_points[0] = dim.coords_original[0];  //leftmost
 	edge_points[1] = dim.coords_original[dim.width * dim.length - 1]; // rightmost
-	edge_points[2] = dim.coords_original[dim.width - 1]; // top
-	edge_points[3] = dim.coords_original[dim.width * (dim.length - 1)]; // bottom
 	translate_angles(&edge_points[0]);
 	translate_angles(&edge_points[1]);
-	translate_angles(&edge_points[2]);
-	translate_angles(&edge_points[3]);
-
 	while (i < max)
 	{
 		if (max_y < dim.coords_3d[i].y)
@@ -97,16 +91,10 @@ double	get_ext_coef(t_map dim, double window_width, double window_height)
 		i++;
 	}
 	a = window_width / (edge_points[1].x - edge_points[0].x) / 2;
-//	b = window_height / (edge_points[3].y - edge_points[2].y) / 2;
 	if (max_y - min_y)
 		b = window_height / (max_y - min_y)/2;
 	else
 		b = window_height;
-/*	if (dim.max_z - dim.min_z != 0)
-		c = window_height / fabs(max_y - min_y) / 2;
-	else
-		c = window_height / 2;
-*/
 	return (fmin(a, b));
 }
 
@@ -128,8 +116,8 @@ void	process_data(t_fdf *fdf)
 		translate_angles(&coords[x]);
 		x++;
 	}
-	ext_coef = get_ext_coef(*dim, fdf->mlx->width, fdf->mlx->height);
 	make_positive(dim);
+	ext_coef = get_ext_coef(*dim, fdf->mlx->width, fdf->mlx->height);
 	x = 0;
 	while (x < max)
 	{
