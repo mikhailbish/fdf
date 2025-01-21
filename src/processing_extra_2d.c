@@ -96,11 +96,19 @@ void	display_data(t_fdf *fdf)
 	int32_t	offset_y;
 
 	convert_3dto2d(&(fdf->dim));
+	ft_printf("here 1\n");
 	get_max_min_x_display(&(fdf->dim));
+	ft_printf("here 2\n");
 	get_max_min_y_display(&(fdf->dim));
+	ft_printf("here 3\n");
 	offset_x = fdf->mlx->width / 2 - fdf->dim.max_x / 2;
+	ft_printf("here 4\n");
 	offset_y = fdf->mlx->height / 2 - fdf->dim.max_y / 2;
+	ft_printf("here 5\n");
 	shift_x_2d(fdf->dim, fdf->dim.coords_display, offset_x);
+	ft_printf("here 6\n");
 	shift_y_2d(fdf->dim, fdf->dim.coords_display, offset_y);
+	ft_printf("here 7\n");
 	put_lines(fdf->image, fdf->dim);
+	ft_printf("here 8\n");
 }

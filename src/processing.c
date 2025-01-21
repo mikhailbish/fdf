@@ -77,7 +77,7 @@ double	get_ext_coef(t_map dim, double window_width, double window_height)
 	a = window_width / (((double)dim.width + (double)dim.length));
 	b = window_height / (((double)dim.width + (double)dim.length));
 	if (dim.max_z - dim.min_z != 0)
-		c = window_height / ((double)dim.max_z - (double)dim.min_z);
+		c = window_height / fabs((double)dim.max_z - (double)dim.min_z);
 	else
 		c = window_height;
 	return (fmin(fmin(a, b), c));

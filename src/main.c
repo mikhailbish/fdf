@@ -58,24 +58,29 @@ int	put_line_order(t_map dim, mlx_image_t *image, int x, int y)
 	line_count = 0;
 	if (x == 0 && y < dim.length - 1)
 	{
+		ft_printf("pl case 1\n");
 		put_line(get_2d_coord(dim, x, y),
 			get_2d_coord(dim, x, y + 1), image);
 		line_count += 1;
 	}
 	else if ((x < (dim.width - 1)) && (y == (dim.length - 1)))
 	{
+		ft_printf("pl case 2\n");
 		put_line(get_2d_coord(dim, x, y),
 			get_2d_coord(dim, x + 1, y), image);
 		line_count += 1;
 	}
 	else if (!((x == (dim.width - 1)) && (y == (dim.length - 1))))
 	{
+		ft_printf("pl case 3\n");
 		put_line(get_2d_coord(dim, x, y),
 			get_2d_coord(dim, x, y + 1), image);
+		ft_printf("pl case 4\n");
 		put_line(get_2d_coord(dim, x - 1, y),
 			get_2d_coord(dim, x, y), image);
 		line_count += 2;
 	}
+	ft_printf("in pl order x:%d, y:%d\n", x, y);
 	return (line_count);
 }
 
@@ -124,6 +129,7 @@ void	put_lines(mlx_image_t *image, t_map dim)
 			x--;
 		}
 		y++;
+		write(1, "in loop pl\n", 11);
 	}
 }
 
@@ -174,11 +180,11 @@ void	put_42_v2(void *param)
 	{
 		//process_data(&(fdf->dim));
 		process_data(fdf);
-	//	printf("--------------------------------fdf status after pd\n");
-	//	fdf_print_status(*fdf);
+		printf("--------------------------------fdf status after pd\n");
+		fdf_print_status(*fdf);
 		display_data(fdf);//, image);
-	//	printf("--------------------------------fdf status after dd\n");
-	//	fdf_print_status(*fdf);
+		printf("--------------------------------fdf status after dd\n");
+		fdf_print_status(*fdf);
 		fdf->painted = 1;
 	}
 }
