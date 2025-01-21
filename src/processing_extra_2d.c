@@ -90,13 +90,11 @@ static void	shift_y_2d(t_map dim, t_2d_point *coords, int32_t offset)
 	}
 }
 
-void	display_data(t_fdf *fdf)//, t_map dim, mlx_image_t *image)
+void	display_data(t_fdf *fdf)
 {
 	int32_t	offset_x;
 	int32_t	offset_y;
-// TODO; convert bg to black here?
 
-	//paint_black_square(*fdf);
 	convert_3dto2d(&(fdf->dim));
 	get_max_min_x_display(&(fdf->dim));
 	get_max_min_y_display(&(fdf->dim));

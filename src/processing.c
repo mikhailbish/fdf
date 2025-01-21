@@ -74,21 +74,15 @@ double	get_ext_coef(t_map dim, double window_width, double window_height)
 	double	b;
 	double	c;
 
-// screen width, 
-// TODO: fix
-//	a = WIDTH / (((double)dim.width + (double)dim.length));
-//	b = HEIGHT / (((double)dim.width + (double)dim.length));
 	a = window_width / (((double)dim.width + (double)dim.length));
 	b = window_height / (((double)dim.width + (double)dim.length));
-//TODO: fabs unnecessary ?
 	if (dim.max_z - dim.min_z != 0)
-		c = window_height / (fabs((double)dim.max_z - (double)dim.min_z));
+		c = window_height / ((double)dim.max_z - (double)dim.min_z);
 	else
 		c = window_height;
 	return (fmin(fmin(a, b), c));
 }
 
-//void	process_data(t_map *dim)
 void	process_data(t_fdf *fdf)
 {
 	t_3d_point	*coords;
@@ -102,14 +96,12 @@ void	process_data(t_fdf *fdf)
 	coords = dim->coords_3d;
 	ft_memcpy(coords, dim->coords_original, max * sizeof (t_3d_point));
 	x = 0;
-	ext_coef = get_ext_coef(*dim, (double)fdf->mlx->width, (double)fdf->mlx->height);
-//	ft_putstr_fd("before translate\n", 1);
+	ext_coef = get_ext_coef(*dim, fdf->mlx->width, fdf->mlx->height);
 	while (x < max)
 	{
 		extend_lines(&coords[x], ext_coef);
 		translate_angles(&coords[x]);
 		x++;
 	}
-//	ft_putstr_fd("after translate\n", 1);
 	make_positive(dim);
 }

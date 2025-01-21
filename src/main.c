@@ -166,10 +166,10 @@ void	fdf_print_status(t_fdf fdf)
 void	put_42_v2(void *param)
 {
 	t_fdf		*fdf;
-	mlx_image_t	*image;
+//	mlx_image_t	*image;
 
 	fdf = (t_fdf *)param;
-	image = fdf->image;
+//	image = fdf->image;
 	if (!fdf->painted && fdf->image)
 	{
 		//process_data(&(fdf->dim));

@@ -71,21 +71,15 @@ void	free_fdf_parts_and_exit_error(t_fdf fdf, char *error)
 	exit(1);
 }
 
-void paint_black_square(t_fdf fdf)
+void	paint_black_square(t_fdf fdf)
 {
-	int32_t		*ptr;
 	unsigned int	i;
 	unsigned int	max;
-//	unsigned int	offset;
-//	unsigned int	x;
-//	unsigned int	y;
+	int32_t			*ptr;
 
 	max = fdf.image->width * fdf.image->height;
 	i = 0;
-//	x = 0;
-//	y = 0;
 	ptr = (int32_t *)fdf.aquarium->pixels;
-//	offset = 
 	while (i < max)
 		ptr[i++] = 0xFF000000;
 }
@@ -99,13 +93,12 @@ t_fdf	fdf_fill(t_fdf fdf)
 	if (!fdf.mlx)
 		free_fdf_parts_and_exit_error(fdf, "mlx init err\n");
 	mlx_get_monitor_size(0, &monitor_width, &monitor_height);
-	fdf.aquarium = mlx_new_image(fdf.mlx, (uint32_t)monitor_width, (uint32_t) monitor_height);
+	fdf.aquarium = mlx_new_image(fdf.mlx, monitor_width, monitor_height);
 	if (mlx_image_to_window(fdf.mlx, fdf.aquarium, 0, 0) == -1)
 		free_fdf_parts_and_exit_error(fdf, "image to window err\n");
 	if (!fdf.aquarium)
 		free_fdf_parts_and_exit_error(fdf, "new image err\n");
-	
-	fdf.image = mlx_new_image(fdf.mlx, (uint32_t)monitor_width, (uint32_t) monitor_height);
+	fdf.image = mlx_new_image(fdf.mlx, monitor_width, monitor_height);
 	if (!fdf.image)
 		free_fdf_parts_and_exit_error(fdf, "new image err\n");
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
