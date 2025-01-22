@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:20 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 10:55:30 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/22 20:30:37 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,27 @@ void	set_basic_colors(t_map *dim)
 				round(coords[i].z) - dim->min_z, z_diff);
 		i++;
 	}
+}
+
+void	set_max_min_y_3d(int *max_y_ptr, int *min_y_ptr, t_map dim)
+{
+	int	max_y;
+	int	min_y;
+	int	max;
+	int	i;
+
+	max_y = round(dim.coords_3d[0].y);
+	min_y = round(dim.coords_3d[0].y);
+	i = 0;
+	max = dim.width * dim.length;
+	while (i < max)
+	{
+		if (max_y < dim.coords_3d[i].y)
+			max_y = ceil(dim.coords_3d[i].y);
+		if (min_y > dim.coords_3d[i].y)
+			min_y = floor(dim.coords_3d[i].y);
+		i++;
+	}
+	*max_y_ptr = max_y;
+	*min_y_ptr = min_y;
 }

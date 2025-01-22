@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 18:19:21 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/22 20:30:17 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,32 +67,20 @@ static void	make_positive(t_map *dim)
 		shift_y(*dim, coords, -smallest_y);
 }
 
-//TODO: work on ext coef
 double	get_ext_coef(t_map dim, double window_width, double window_height)
 {
-	double	a;
-	double	b;
 	t_3d_point	edge_points[2];
-	int i = 0;
-	int max  = dim.width * dim.length;
-	int max_y = dim.coords_3d[0].y;
-	int min_y = dim.coords_3d[0].y;
+	double		a;
+	double		b;
+	int			max_y;
+	int			min_y;
 
-	edge_points[0] = dim.coords_original[0];  //leftmost
-	edge_points[1] = dim.coords_original[dim.width * dim.length - 1]; // rightmost
-	translate_angles(&edge_points[0]);
-	translate_angles(&edge_points[1]);
-	while (i < max)
-	{
-		if (max_y < dim.coords_3d[i].y)
-			max_y = dim.coords_3d[i].y;
-		if (min_y > dim.coords_3d[i].y)
-			min_y = dim.coords_3d[i].y;
-		i++;
-	}
+	edge_points[0] = dim.coords_original[0];
+	edge_points[1] = dim.coords_original[dim.width * dim.length - 1];
+	set_max_min_y_3d(&max_y, &min_y, dim);
 	a = window_width / (edge_points[1].x - edge_points[0].x) / 2;
 	if (max_y - min_y)
-		b = window_height / (max_y - min_y)/2;
+		b = window_height / (max_y - min_y) / 2;
 	else
 		b = window_height;
 	return (fmin(a, b));

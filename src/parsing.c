@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 22:50:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/22 20:49:02 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ t_list	*get_file_lines(int fd)
 	return (head);
 }
 
-// TODO: add to utils
-// should check for adr?
 t_map	*alloc_map_space(t_map *dim)
 {
 	t_3d_point	*coords_3d;

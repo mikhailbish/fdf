@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 10:56:04 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/22 20:52:24 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,19 @@
 # include <errno.h>
 # include <math.h>
 # include <string.h>
-//# define WIDTH 3840 
-//# define HEIGHT 2160 
-// TODO: REthink
-//# define WIDTH 1366 
-//# define HEIGHT 768 
-# define WIDTH 2732 
-# define HEIGHT 1536
 # ifndef WIDTH
-# define WIDTH 2732 
+#  define WIDTH 2732 
 # endif
 # ifndef HEIGHT
-# define HEIGHT 1536
+#  define HEIGHT 1536
 # endif
 # ifndef COLOR_LOW
-# define COLOR_LOW 0x4c9106
+#  define COLOR_LOW 0x4c9106
 # endif
 # ifndef COLOR_HIGH
-# define COLOR_HIGH 0xf23607
+#  define COLOR_HIGH 0xf23607
 # endif
-/*TODO: Create struct inits*/
+
 typedef struct s_2d_point {
 	int32_t	x;
 	int32_t	y;
@@ -57,16 +50,16 @@ typedef struct s_map {
 	t_3d_point	*coords_original;
 	t_3d_point	*coords_3d;
 	t_2d_point	*coords_display;
-	int		length;
-	int		width;
+	int			length;
+	int			width;
 //TODO: replace with int32_t ?
-	int		max_z;
-	int		min_z;
+	int			max_z;
+	int			min_z;
 	int32_t		max_x;
 	int32_t		min_x;
 	int32_t		max_y;
 	int32_t		min_y;
-	int		colors_specified;
+	int			colors_specified;
 }	t_map;
 
 typedef struct s_fdf {
@@ -106,7 +99,8 @@ t_list		*get_file_lines(int fd);
 t_map		*alloc_map_space(t_map *dim);
 t_map		parse_lines(t_map dim, t_list *lines);
 int			fill_with_data(t_map *dim, t_list *lines);
-t_3d_point	get_3d_point(char *space_separated_val, int x, int y, int *color_spec);
+t_3d_point	get_3d_point(char *space_separated_val, int x,
+				int y, int *color_spec);
 
 /*		PROCESSING		*/
 void		process_data(t_fdf *fdf);
@@ -114,11 +108,13 @@ void		translate_angles(t_3d_point *point);
 void		extend_lines(t_3d_point *point, double num);
 void		convert_3dto2d(t_map *dim);
 void		set_basic_colors(t_map *dim);
+void		set_max_min_y_3d(int *max_y_ptr, int *min_y_ptr, t_map dim);
 
 /*		DISPLAY			*/
-void		display_data(t_fdf *fdf);//, t_map dim, mlx_image_t *image);
+void		display_data(t_fdf *fdf);
 void		put_lines(mlx_image_t *image, t_map dim);
-void	put_line_color(t_2d_point start, t_2d_point end, mlx_image_t *image, int32_t *color);
+void		put_line_color(t_2d_point start, t_2d_point end,
+				mlx_image_t *image, int32_t *color);
 void		display_coords_testing(t_map dim);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		paint_black_square(t_fdf fdf);
@@ -139,7 +135,8 @@ void		ft_free(void **adr);
 void		free_fdf_parts(t_fdf fdf);
 void		free_fdf_parts_and_exit_error(t_fdf fdf, char *error);
 
-int32_t		get_color(int32_t start_color, int32_t end_color, int32_t i, int32_t length);
+int32_t		get_color(int32_t start_color, int32_t end_color,
+				int32_t i, int32_t length);
 t_fdf		fdf_init(char *file_name);
 t_fdf		fdf_fill(t_fdf fdf);
 
