@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:54 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 20:17:59 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:01:51 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_map	validate_lines(t_list *lines, t_map dim)
 			dim.width = column_count;
 		if (column_count == -1)
 			return (dim);
-		if (dim.width != column_count)
+		if (dim.width > column_count)
 		{
 			dim.width = -1;
 			return (dim);
