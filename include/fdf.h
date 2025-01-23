@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/23 15:17:23 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:44:00 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@
 typedef struct s_2d_point {
 	int32_t	x;
 	int32_t	y;
-	int32_t	color;
+	uint32_t	color;
 }	t_2d_point;
 
 typedef struct s_3d_point {
 	double	x;
 	double	y;
 	double	z;
-	int32_t	color;
+	uint32_t	color;
 }	t_3d_point;
 
 typedef struct s_map {
@@ -84,7 +84,7 @@ typedef struct s_line {
 	int32_t	dy;
 	int32_t	d;
 	int32_t	step;
-	int32_t	color;
+	uint32_t	color;
 }	t_line;
 
 /*		VALIDATION		*/
@@ -134,7 +134,7 @@ void		ft_free(void **adr);
 void		free_fdf_parts(t_fdf fdf);
 void		free_fdf_parts_and_exit_error(t_fdf fdf, char *error);
 
-int32_t		get_color(int32_t start_color, int32_t end_color,
+uint32_t		get_color(uint32_t start_color, uint32_t end_color,
 				int32_t i, int32_t length);
 t_fdf		fdf_init(char *file_name);
 t_fdf		fdf_fill(t_fdf fdf);
