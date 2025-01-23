@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:20 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/22 20:30:37 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:02:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	convert_3dto2d(t_map *dim)
 void	set_basic_colors(t_map *dim)
 {
 	t_3d_point	*coords;
-	int			z_diff;
+	int32_t		z_diff;
 	int			max;
 	int			i;
 

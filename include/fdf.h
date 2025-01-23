@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/23 16:44:00 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:01:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ typedef struct s_map {
 	t_3d_point	*coords_original;
 	t_3d_point	*coords_3d;
 	t_2d_point	*coords_display;
+//TODO: replace with int32_t ?
 	int			length;
 	int			width;
-//TODO: replace with int32_t ?
-	int			max_z;
-	int			min_z;
+	int32_t			max_z;
+	int32_t			min_z;
 	int32_t		max_x;
 	int32_t		min_x;
 	int32_t		max_y;

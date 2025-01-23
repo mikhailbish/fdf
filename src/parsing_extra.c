@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 20:12:18 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/17 22:18:54 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:02:35 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	set_max_min_z(t_map *dim)
 {
 	t_3d_point	*coords;
 	int			i;
-	int			max_z;
-	int			min_z;
+	int32_t		max_z;
+	int32_t		min_z;
 	int			max;
 
 	max = dim->length * dim->width;
@@ -69,10 +69,10 @@ void	set_max_min_z(t_map *dim)
 	i++;
 	while (i < max)
 	{
-		if (min_z > coords[i].z)
-			min_z = coords[i].z;
-		if (max_z < coords[i].z)
-			max_z = coords[i].z;
+		if (min_z > floor(coords[i].z))
+			min_z = floor(coords[i].z);
+		if (max_z < ceil(coords[i].z))
+			max_z = ceil(coords[i].z);
 		i++;
 	}
 	dim->max_z = max_z;
