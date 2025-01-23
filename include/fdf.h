@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/22 20:52:24 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:17:23 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ void		set_max_min_y_3d(int *max_y_ptr, int *min_y_ptr, t_map dim);
 /*		DISPLAY			*/
 void		display_data(t_fdf *fdf);
 void		put_lines(mlx_image_t *image, t_map dim);
+void		put_lines_color(mlx_image_t *image, t_map dim, int32_t *color);
 void		put_line_color(t_2d_point start, t_2d_point end,
 				mlx_image_t *image, int32_t *color);
-void		display_coords_testing(t_map dim);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		paint_black_square(t_fdf fdf);
 
@@ -126,7 +126,6 @@ double		get_radians(double angle);
 /*		UTILS			*/
 int			count_split(char **texts);
 void		free_split(char **args);
-void		delete_content(void *content);
 int32_t		ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 int			ft_abs(int num);
 void		ft_free(void **adr);
