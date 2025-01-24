@@ -29,11 +29,9 @@ SRCS := src/main.c \
 	src/utils_fdf.c \
 	src/utils_fdf_extra.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJS := $(SRCS:.c=.o)
 
-#TODO: final look
 all: clone libft $(NAME)
-	./$(NAME) test_maps/42.fdf
 
 clone: lib/MLX42
 
@@ -45,7 +43,7 @@ $(NAME): $(OBJS)
 	$(CC) $^ $(LIBMLX) $(WITH_LIBFT) -o $@
 
 libft:
-	make -C $(LIB_DIR) bonus
+	make -C $(LIB_DIR)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@

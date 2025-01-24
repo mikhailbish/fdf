@@ -48,8 +48,7 @@ FUNCTIONS=ft_atoi \
 			ft_isupper \
 			ft_islower \
 			ft_strtol \
-
-BONUS_FUNCTIONS=ft_lstadd_back_bonus \
+			ft_lstadd_back_bonus \
 			ft_lstadd_front_bonus \
 			ft_lstclear_bonus \
 			ft_lstdelone_bonus \
@@ -63,17 +62,9 @@ all: $(NAME)
 
 C_FILES=$(foreach func, $(FUNCTIONS), $(func).c)
 O_FILES=$(foreach func, $(FUNCTIONS), $(func).o)
-BONUS_C_FILES=$(foreach func, $(BONUS_FUNCTIONS), $(func).c)
-BONUS_O_FILES=$(foreach func, $(BONUS_FUNCTIONS), $(func).o)
 
 $(NAME): $(O_FILES)
 	ar rcs $(NAME) $(O_FILES)
-
-bonus: .bonus
-
-.bonus:	$(NAME) $(BONUS_O_FILES) 
-	touch .bonus
-	ar rcs $(NAME) $(BONUS_O_FILES)
 
 re: fclean all
 
@@ -82,9 +73,6 @@ re: fclean all
 
 clean:
 	rm -f $(O_FILES)
-	rm -f libft.h.gch
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f .bonus
-	rm -f $(BONUS_O_FILES)
