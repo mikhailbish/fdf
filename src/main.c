@@ -6,14 +6,12 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/23 15:43:35 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 20:53:37 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-// normal MLX42 problems: 317955 bytes in 3106 blocks
 
-//TODO: make sure int to double conversions are done with some kind of round function
 void	ft_controls_hook(void *param)
 {
 	t_fdf	*fdf;
