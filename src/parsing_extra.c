@@ -6,17 +6,17 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 20:12:18 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/23 17:02:35 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:29:28 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	fill_3d_at_y(int y, t_map *dim, t_list *lines)
+static int	fill_3d_at_y(int32_t y, t_map *dim, t_list *lines)
 {
 	char		**split_res;
-	int			x;
-	int			offset;
+	int32_t		x;
+	int32_t		offset;
 	t_3d_point	*coordinates;
 
 	x = 0;
@@ -38,7 +38,7 @@ static int	fill_3d_at_y(int y, t_map *dim, t_list *lines)
 
 int	fill_with_data(t_map *dim, t_list *lines)
 {
-	int			y;
+	int32_t	y;
 
 	y = 0;
 	if (y >= dim->length)
@@ -56,10 +56,10 @@ int	fill_with_data(t_map *dim, t_list *lines)
 void	set_max_min_z(t_map *dim)
 {
 	t_3d_point	*coords;
-	int			i;
+	int32_t		i;
 	int32_t		max_z;
 	int32_t		min_z;
-	int			max;
+	int32_t		max;
 
 	max = dim->length * dim->width;
 	coords = dim->coords_original;

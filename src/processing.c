@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:14 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/22 20:30:17 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:49:48 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	shift_x(t_map dim, t_3d_point *coords, double offset)
 {
-	int	i;
-	int	max;
+	int32_t	i;
+	int32_t	max;
 
 	i = 0;
 	max = dim.width * dim.length;
@@ -28,8 +28,8 @@ static void	shift_x(t_map dim, t_3d_point *coords, double offset)
 
 static void	shift_y(t_map dim, t_3d_point *coords, double offset)
 {
-	int	i;
-	int	max;
+	int32_t	i;
+	int32_t	max;
 
 	i = 0;
 	max = dim.width * dim.length;
@@ -45,8 +45,8 @@ static void	make_positive(t_map *dim)
 	t_3d_point	*coords;
 	double		smallest_x;
 	double		smallest_y;
-	int			i;
-	int			max;
+	int32_t		i;
+	int32_t		max;
 
 	i = 0;
 	coords = dim->coords_3d;
@@ -72,8 +72,8 @@ double	get_ext_coef(t_map dim, double window_width, double window_height)
 	t_3d_point	edge_points[2];
 	double		a;
 	double		b;
-	int			max_y;
-	int			min_y;
+	int32_t		max_y;
+	int32_t		min_y;
 
 	edge_points[0] = dim.coords_original[0];
 	edge_points[1] = dim.coords_original[dim.width * dim.length - 1];
@@ -90,8 +90,8 @@ void	process_data(t_fdf *fdf)
 {
 	t_3d_point	*coords;
 	double		ext_coef;
-	int			x;
-	int			max;
+	int32_t		x;
+	int32_t		max;
 	t_map		*dim;
 
 	dim = &(fdf->dim);

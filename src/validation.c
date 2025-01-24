@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:54 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/22 16:01:51 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:14:47 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static	int	is_legal_number(char *num)
 	return (!(result < INT_MIN || result > INT_MAX));
 }
 
-static	int	validate_line(char *line)
+static	int32_t	validate_line(char *line)
 {
-	char	**line_split;
-	char	**tmp_line_split;
-	int		column_count;
+	char		**line_split;
+	char		**tmp_line_split;
+	int32_t		column_count;
 
 	column_count = 0;
 	line_split = ft_split(line, ' ');
@@ -51,8 +51,8 @@ static	int	validate_line(char *line)
 
 t_map	validate_lines(t_list *lines, t_map dim)
 {
-	int	column_count;
-	int	line_count;
+	int32_t	column_count;
+	int32_t	line_count;
 
 	dim.length = 0;
 	dim.width = 0;

@@ -8,7 +8,7 @@ RM := rm -rf
 # MLX library
 LIBMLX_URL := https://github.com/codam-coding-college/MLX42.git
 LIBMLX_DIR := ./lib/MLX42
-LIBMLX := $(LIBMLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
+LIBMLX := -L$(LIBMLX_DIR)/build/ -lmlx42 -ldl -lglfw -pthread -lm
 LIB_DIR := lib/libft
 INCLUDE := -I$(LIB_DIR) -I./include/ -I./lib/MLX42/include/MLX42/
 WITH_LIBFT := -L$(LIB_DIR) -lft

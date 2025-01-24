@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/22 20:49:02 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:28:09 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ t_list	*get_file_lines(int fd)
 	t_list	*head;
 	t_list	*tmp;
 	char	*line;
-	int		count;
 
-	count = 0;
 	line = (char *)1;
 	head = 0;
 	while (line)
@@ -59,7 +57,6 @@ t_list	*get_file_lines(int fd)
 			ft_lstadd_back(&head, tmp);
 		else
 			head = tmp;
-		count++;
 	}
 	return (head);
 }
@@ -69,7 +66,7 @@ t_map	*alloc_map_space(t_map *dim)
 	t_3d_point	*coords_3d;
 	t_3d_point	*coords_original;
 	t_2d_point	*coords_display;
-	int			max;
+	int32_t		max;
 
 	max = dim->length * dim->width;
 	coords_original = ft_calloc(max, sizeof(t_3d_point));

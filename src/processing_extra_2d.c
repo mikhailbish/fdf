@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:56:44 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 16:58:05 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:21:00 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	get_max_min_x_display(t_map *dim)
 	t_2d_point	*coords;
 	int32_t		max_x;
 	int32_t		min_x;
-	int			i;
-	int			max;
+	int32_t		i;
+	int32_t		max;
 
 	max = dim->width * dim->length;
 	i = 0;
@@ -42,8 +42,8 @@ void	get_max_min_y_display(t_map *dim)
 	t_2d_point	*coords;
 	int32_t		max_y;
 	int32_t		min_y;
-	int			i;
-	int			max;
+	int32_t		i;
+	int32_t		max;
 
 	max = dim->width * dim->length;
 	i = 0;
@@ -64,8 +64,8 @@ void	get_max_min_y_display(t_map *dim)
 
 static void	shift_x_2d(t_map dim, t_2d_point *coords, int32_t offset)
 {
-	int	i;
-	int	max;
+	int32_t	i;
+	int32_t	max;
 
 	i = 0;
 	max = dim.width * dim.length;
@@ -78,8 +78,8 @@ static void	shift_x_2d(t_map dim, t_2d_point *coords, int32_t offset)
 
 static void	shift_y_2d(t_map dim, t_2d_point *coords, int32_t offset)
 {
-	int	i;
-	int	max;
+	int32_t	i;
+	int32_t	max;
 
 	i = 0;
 	max = dim.width * dim.length;

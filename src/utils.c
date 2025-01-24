@@ -6,13 +6,13 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:33 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/15 18:07:34 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:22:21 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_abs(int num)
+int32_t	ft_abs(int32_t num)
 {
 	if (num < 0)
 		return (-num);

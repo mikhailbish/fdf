@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:20 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/23 17:02:18 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:51:44 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	convert_3dto2d(t_map *dim)
 {
 	t_3d_point	*coords;
 	t_2d_point	*new_coords;
-	int			i;
-	int			max;
+	int32_t		i;
+	int32_t		max;
 
 	max = dim->width * dim->length;
 	i = 0;
@@ -45,8 +45,8 @@ void	set_basic_colors(t_map *dim)
 {
 	t_3d_point	*coords;
 	int32_t		z_diff;
-	int			max;
-	int			i;
+	int32_t		max;
+	int32_t		i;
 
 	i = 0;
 	max = dim->length * dim->width;
@@ -60,15 +60,15 @@ void	set_basic_colors(t_map *dim)
 	}
 }
 
-void	set_max_min_y_3d(int *max_y_ptr, int *min_y_ptr, t_map dim)
+void	set_max_min_y_3d(int32_t *max_y_ptr, int32_t *min_y_ptr, t_map dim)
 {
-	int	max_y;
-	int	min_y;
-	int	max;
-	int	i;
+	int32_t	max_y;
+	int32_t	min_y;
+	int32_t	max;
+	int32_t	i;
 
-	max_y = round(dim.coords_3d[0].y);
-	min_y = round(dim.coords_3d[0].y);
+	max_y = ceil(dim.coords_3d[0].y);
+	min_y = floor(dim.coords_3d[0].y);
 	i = 0;
 	max = dim.width * dim.length;
 	while (i < max)
