@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:26 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/21 10:53:19 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:22:36 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	line_step_low(t_2d_point *start, t_line *line)
 }
 
 static void	put_line_low_color(t_2d_point start, t_2d_point end,
-			mlx_image_t *image, int32_t *color)
+			mlx_image_t *image, uint32_t *color)
 {
 	t_line	line;
 
@@ -63,7 +63,7 @@ static void	line_step_high(t_2d_point *start, t_line *line)
 }
 
 static void	put_line_high_color(t_2d_point start, t_2d_point end,
-			mlx_image_t *image, int32_t *color)
+			mlx_image_t *image, uint32_t *color)
 {
 	t_line	line;
 
@@ -89,7 +89,7 @@ static void	put_line_high_color(t_2d_point start, t_2d_point end,
 }
 
 void	put_line_color(t_2d_point start, t_2d_point end,
-				mlx_image_t *image, int32_t *color)
+				mlx_image_t *image, uint32_t *color)
 {
 	if (ft_abs(end.y - start.y) < ft_abs(end.x - start.x))
 	{

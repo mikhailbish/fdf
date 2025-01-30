@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:34:55 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/24 19:26:57 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:09:32 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	paint_black_square(t_fdf fdf)
 	uint32_t	max;
 	int32_t		*ptr;
 
-	max = fdf.image->width * fdf.image->height;
+	if (!fdf.aquarium)
+		return ;
+	max = fdf.aquarium->width * fdf.aquarium->height;
 	i = 0;
 	ptr = (int32_t *)fdf.aquarium->pixels;
 	while (i < max)

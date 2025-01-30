@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:06:45 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/29 22:02:05 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:28:06 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ void	close_window_cb(void *param)
 	exit(0);
 }
 
-
-//TODO: check 
 void	mlx_resize_cb(int32_t width, int32_t height, void *param)
 {
 	t_fdf		*fdf;
 	uint32_t	uwidth;
 	uint32_t	uheight;
 	mlx_image_t	*image;
-	mlx_image_t	*aquarium;;
-	int32_t		color;
+	uint32_t	color;
 
 	uwidth = (uint32_t)width;
 	uheight = (uint32_t)height;
@@ -73,17 +70,9 @@ void	mlx_resize_cb(int32_t width, int32_t height, void *param)
 			free_fdf_parts_and_exit_error(*fdf, "Can't realoc new image\n");
 		if (mlx_image_to_window(fdf->mlx, fdf->image, 0, 0) == -1)
 			free_fdf_parts_and_exit_error(*fdf, "Image to window fail\n");
-		aquarium = fdf->aquarium;
-		fdf->aquarium = 0;
-		mlx_delete_image(fdf->mlx, aquarium);
-		if (!fdf->aquarium)
-			free_fdf_parts_and_exit_error(*fdf, "Can't realoc new image\n");
-		if (mlx_image_to_window(fdf->mlx, fdf->aquarium, 0, 0) == -1)
-			free_fdf_parts_and_exit_error(*fdf, "Image to window fail\n");
-		fdf->painted = 0;
+		reset_background_image(uwidth, uheight, fdf);
 	}
-	else
-		fdf->painted = 0;
+	fdf->painted = 0;
 }
 
 int32_t	main(int argc, char **argv)

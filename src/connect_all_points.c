@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:02:07 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/24 18:51:20 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:26:50 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	put_line_order(t_map dim, mlx_image_t *image, int x, int y)
 }
 
 int	put_line_order_color(t_map dim, mlx_image_t *image,
-		int coord[2], int32_t *color)
+		int coord[2], uint32_t *color)
 {
 	int			line_count;
 
@@ -97,7 +97,7 @@ void	put_lines(mlx_image_t *image, t_map dim)
 	}
 }
 
-void	put_lines_color(mlx_image_t *image, t_map dim, int32_t *color)
+void	put_lines_color(mlx_image_t *image, t_map dim, uint32_t *color)
 {
 	int32_t	coord[2];
 	int		line_count;

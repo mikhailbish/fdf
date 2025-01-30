@@ -15,6 +15,7 @@ WITH_LIBFT := -L$(LIB_DIR) -lft
 SRCS := src/main.c \
 	src/parsing.c \
 	src/parsing_extra.c \
+	src/parsing_extra2.c \
 	src/utils.c \
 	src/utils_math.c \
 	src/validation.c \

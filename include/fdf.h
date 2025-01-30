@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:39:49 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/24 20:55:31 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:25:18 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_map		parse_lines(t_map dim, t_list *lines);
 int			fill_with_data(t_map *dim, t_list *lines);
 t_3d_point	get_3d_point(char *space_separated_val, int x,
 				int y, int *color_spec);
+void		remove_new_line(char *content);
 
 /*		PROCESSING		*/
 void		process_data(t_fdf *fdf);
@@ -112,9 +113,9 @@ void		set_max_min_y_3d(int *max_y_ptr, int *min_y_ptr, t_map dim);
 /*		DISPLAY			*/
 void		display_data(t_fdf *fdf);
 void		put_lines(mlx_image_t *image, t_map dim);
-void		put_lines_color(mlx_image_t *image, t_map dim, int32_t *color);
+void		put_lines_color(mlx_image_t *image, t_map dim, uint32_t *color);
 void		put_line_color(t_2d_point start, t_2d_point end,
-				mlx_image_t *image, int32_t *color);
+				mlx_image_t *image, uint32_t *color);
 void		put_line(t_2d_point start, t_2d_point end, mlx_image_t *image);
 void		paint_black_square(t_fdf fdf);
 
@@ -137,5 +138,6 @@ uint32_t	get_color(uint32_t start_color, uint32_t end_color,
 				int32_t i, int32_t length);
 t_fdf		fdf_init(char *file_name);
 t_fdf		fdf_fill(t_fdf fdf);
+void		reset_background_image(uint32_t uwidth, uint32_t uheight, t_fdf *fdf);
 
 #endif

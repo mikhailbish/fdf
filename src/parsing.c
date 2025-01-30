@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:05 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/24 19:28:09 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:15:02 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_list	*get_file_lines(int fd)
 			return (0);
 		if (!line)
 			break ;
+		remove_new_line(line);
 		tmp = ft_lstnew(line);
 		if (!tmp)
 			return (free_line_and_clear_list(line, &head));
@@ -86,7 +87,6 @@ t_map	*alloc_map_space(t_map *dim)
 	return (dim);
 }
 
-// TODO: test returns
 t_3d_point	get_3d_point(char *space_separated_val, int x,
 	int y, int *color_spec)
 {

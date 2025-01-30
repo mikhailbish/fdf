@@ -6,7 +6,7 @@
 /*   By: mbutuzov <mbutuzov@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:07:37 by mbutuzov          #+#    #+#             */
-/*   Updated: 2025/01/23 15:47:46 by mbutuzov         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:29:31 by mbutuzov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,11 @@ t_fdf	fdf_fill(t_fdf fdf)
 	if (!fdf.mlx)
 		free_fdf_parts_and_exit_error(fdf, "Mlx init error\n");
 	mlx_get_monitor_size(0, &monitor_width, &monitor_height);
-	fdf.aquarium = mlx_new_image(fdf.mlx, monitor_width, monitor_height);
-	if (!fdf.aquarium)
-		free_fdf_parts_and_exit_error(fdf, "New image error\n");
-	if (mlx_image_to_window(fdf.mlx, fdf.aquarium, 0, 0) == -1)
-		free_fdf_parts_and_exit_error(fdf, "Image to window error\n");
 	fdf.image = mlx_new_image(fdf.mlx, monitor_width, monitor_height);
 	if (!fdf.image)
 		free_fdf_parts_and_exit_error(fdf, "New image error\n");
 	if (mlx_image_to_window(fdf.mlx, fdf.image, 0, 0) == -1)
 		free_fdf_parts_and_exit_error(fdf, "image to window error\n");
-	mlx_set_instance_depth(fdf.aquarium->instances, -1);
-	paint_black_square(fdf);
+	reset_background_image(monitor_width, monitor_height, &fdf);
 	return (fdf);
 }
